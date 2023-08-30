@@ -2,8 +2,12 @@ const mongoose = require("mongoose");
 const validator = require("validator");
 // to fix new update error below line is helpful
 
+mongoose.set("strictQuery", true);
 mongoose
-  .connect("mongodb://127.0.0.1:27017/myapp")
+  .connect("mongodb://127.0.0.1:27017/myapp", {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
   .then(() => console.log("mongoose connected successfully..."))
   .catch((error) => console.log(error));
 
