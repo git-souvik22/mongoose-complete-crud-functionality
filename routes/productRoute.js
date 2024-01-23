@@ -1,17 +1,30 @@
 const router = require("express").Router();
 const Product = require("../models/product.js");
+const path = require("path");
+require("dotenv").config({ path: path.resolve(__dirname, "../src/.env") });
+
+const secretKey = process.env.SECRET_KEY;
 
 router.get("/product", async (req, res) => {
-  const getAllProducts = await Product.find();
-  if (getAllProducts) {
-    res.status(200).json({
-      success: true,
-      products: getAllProducts,
-    });
-  } else {
+  try {
+    if (req.headers.authorization === `Bearer ${secretKey}`) {
+      const getAllProducts = await Product.find();
+      if (getAllProducts) {
+        res.status(200).json({
+          success: true,
+          products: getAllProducts,
+        });
+      } else {
+        res.status(500).json({
+          success: false,
+          message: "cannot get product details",
+        });
+      }
+    } else {
+    }
+  } catch (err) {
     res.status(500).json({
-      success: false,
-      message: "cannot get product details",
+      message: "Cannot fetch products data",
     });
   }
 });
