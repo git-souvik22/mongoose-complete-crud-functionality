@@ -1,9 +1,12 @@
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
+const productRouter = require("../routes/productRoute.js");
 const path = require("path");
 require("dotenv").config({ path: path.resolve(__dirname, ".env") });
-const productRouter = require("../routes/productRoute.js");
+const cors = require("cors");
+app.use(cors());
+app.options("*", cors());
 
 const apiURL = process.env.API;
 // middlewares
