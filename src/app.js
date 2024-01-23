@@ -7,6 +7,8 @@ const apiURL = process.env.API;
 // middlewares
 app.use(express.json()); // makes JSON data readable for backend if data is sent from frontend to backend
 
+// mongodb+srv://souvikr915:VAHDmArvOTrgnJU0@cdshop.w7csmkc.mongodb.net/
+
 app.get(`${apiURL}/product`, (req, res) => {
   const productObj = {
     name: "T-Shirt",
