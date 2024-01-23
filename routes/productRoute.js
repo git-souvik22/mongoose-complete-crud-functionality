@@ -40,4 +40,25 @@ router.post(`/create-product`, async (req, res) => {
   }
 });
 
+router.put("/product/:id", async (req, res) => {
+  const productUpdate = await Product.findByIdAndUpdate(
+    req.params.id,
+    {
+      $set: req.body,
+    },
+    { new: true }
+  );
+  if (productUpdate) {
+    res.status(201).json({
+      success: true,
+      updatedProduct: productUpdate,
+    });
+  } else {
+    res.status(500).json({
+      success: false,
+      message: "Product cannot be updated",
+    });
+  }
+});
+
 module.exports = router;
