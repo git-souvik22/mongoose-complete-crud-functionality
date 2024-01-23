@@ -5,7 +5,8 @@ require("dotenv").config({ path: path.resolve(__dirname, ".env") });
 
 const apiURL = process.env.API;
 // middlewares
-app.use(express.json()); // makes JSON data readable for backend if data is sent from frontend to backend
+// makes JSON data readable for backend if data is sent from frontend to backend
+app.use(express.json());
 
 // mongodb+srv://souvikr915:VAHDmArvOTrgnJU0@cdshop.w7csmkc.mongodb.net/
 
