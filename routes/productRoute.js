@@ -10,12 +10,9 @@ router.get("/product", async (req, res) => {
     { $group: { _id: "$category", details: { $push: "$$ROOT" } } },
   ]);
   try {
-    // if (req.headers.authorization === `Bearer ${secretKey}`) {
-    // Check the 'Referer' header
-    // const referer = req.get("Referer");
-    // Alternatively, check the 'Origin' header
-    const origin = req.get("Origin");
-    console.log("Frontend BaseURL:", origin);
+    // const origin = req.get("Origin");
+    // console.log("Frontend BaseURL:", origin);
+    // if (origin === secretKey) {
     const getAllProducts = await Product.find();
     if (getAllProducts) {
       res.status(200).json({
