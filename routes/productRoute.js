@@ -21,6 +21,10 @@ router.get("/product", async (req, res) => {
         });
       }
     } else {
+      res.status(401).json({
+        success: false,
+        message: "Unauthorized request attemption",
+      });
     }
   } catch (err) {
     res.status(500).json({
