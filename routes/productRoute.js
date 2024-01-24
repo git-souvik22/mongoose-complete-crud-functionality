@@ -6,6 +6,9 @@ require("dotenv").config({ path: path.resolve(__dirname, "../src/.env") });
 const secretKey = process.env.SECRET_KEY;
 
 router.get("/product", async (req, res) => {
+  const databyCat = await Product.aggregate([
+    { $group: { _id: "$category", details: { $push: "$$ROOT" } } },
+  ]);
   try {
     if (req.headers.authorization === `Bearer ${secretKey}`) {
       const getAllProducts = await Product.find();
@@ -13,6 +16,9 @@ router.get("/product", async (req, res) => {
         res.status(200).json({
           success: true,
           products: getAllProducts,
+          dataCat: databyCat.map((cat) => {
+            return cat;
+          }),
         });
       } else {
         res.status(500).json({
