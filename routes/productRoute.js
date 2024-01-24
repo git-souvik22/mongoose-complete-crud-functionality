@@ -1,39 +1,40 @@
 const router = require("express").Router();
 const Product = require("../models/product.js");
-// const path = require("path");
-// require("dotenv").config({ path: path.resolve(__dirname, "../src/.env") });
+const path = require("path");
+require("dotenv").config({ path: path.resolve(__dirname, "../src/.env") });
 
-// const secretKey = process.env.SECRET_KEY;
+const secretKey = process.env.SECRET_KEY;
+const secretMethod = process.env.METHOD;
 
 router.get("/product", async (req, res) => {
   const databyCat = await Product.aggregate([
     { $group: { _id: "$category", details: { $push: "$$ROOT" } } },
   ]);
   try {
-    // const origin = req.get("Origin");
-    // console.log("Frontend BaseURL:", origin);
-    // if (origin === secretKey) {
-    const getAllProducts = await Product.find();
-    if (getAllProducts) {
-      res.status(200).json({
-        success: true,
-        products: getAllProducts,
-        dataCat: databyCat.map((cat) => {
-          return cat;
-        }),
-      });
+    const sshkey = req.get(secretMethod);
+    console.log("Frontend BaseURL: " + sshkey);
+    if (sshkey === secretKey) {
+      const getAllProducts = await Product.find();
+      if (getAllProducts) {
+        res.status(200).json({
+          success: true,
+          products: getAllProducts,
+          dataCat: databyCat.map((cat) => {
+            return cat;
+          }),
+        });
+      } else {
+        res.status(500).json({
+          success: false,
+          message: "cannot get product details",
+        });
+      }
     } else {
-      res.status(500).json({
+      res.status(401).json({
         success: false,
-        message: "cannot get product details",
+        message: "Unauthorized request attemption",
       });
     }
-    // } else {
-    //   res.status(401).json({
-    //     success: false,
-    //     message: "Unauthorized request attemption",
-    //   });
-    // }
   } catch (err) {
     res.status(500).json({
       message: "Cannot fetch products data",
