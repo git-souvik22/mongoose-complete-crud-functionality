@@ -1,37 +1,42 @@
 const router = require("express").Router();
 const Product = require("../models/product.js");
-const path = require("path");
-require("dotenv").config({ path: path.resolve(__dirname, "../src/.env") });
+// const path = require("path");
+// require("dotenv").config({ path: path.resolve(__dirname, "../src/.env") });
 
-const secretKey = process.env.SECRET_KEY;
+// const secretKey = process.env.SECRET_KEY;
 
 router.get("/product", async (req, res) => {
   const databyCat = await Product.aggregate([
     { $group: { _id: "$category", details: { $push: "$$ROOT" } } },
   ]);
   try {
-    if (req.headers.authorization === `Bearer ${secretKey}`) {
-      const getAllProducts = await Product.find();
-      if (getAllProducts) {
-        res.status(200).json({
-          success: true,
-          products: getAllProducts,
-          dataCat: databyCat.map((cat) => {
-            return cat;
-          }),
-        });
-      } else {
-        res.status(500).json({
-          success: false,
-          message: "cannot get product details",
-        });
-      }
+    // if (req.headers.authorization === `Bearer ${secretKey}`) {
+    // Check the 'Referer' header
+    // const referer = req.get("Referer");
+    // Alternatively, check the 'Origin' header
+    const origin = req.get("Origin");
+    console.log("Frontend BaseURL:", origin);
+    const getAllProducts = await Product.find();
+    if (getAllProducts) {
+      res.status(200).json({
+        success: true,
+        products: getAllProducts,
+        dataCat: databyCat.map((cat) => {
+          return cat;
+        }),
+      });
     } else {
-      res.status(401).json({
+      res.status(500).json({
         success: false,
-        message: "Unauthorized request attemption",
+        message: "cannot get product details",
       });
     }
+    // } else {
+    //   res.status(401).json({
+    //     success: false,
+    //     message: "Unauthorized request attemption",
+    //   });
+    // }
   } catch (err) {
     res.status(500).json({
       message: "Cannot fetch products data",

@@ -14,6 +14,19 @@ const apiURL = process.env.API;
 app.use(express.json());
 app.use(`${apiURL}`, productRouter);
 
+// app.use((req, res, next) => {
+//   // Check the 'Referer' header
+//   const referer = req.get("Referer");
+
+//   // Alternatively, check the 'Origin' header
+//   // const origin = req.get('Origin');
+
+//   console.log("Frontend BaseURL:", referer);
+
+//   // Continue with the request handling
+//   next();
+// });
+
 // db connection
 mongoose
   .connect(process.env.DB_URL)
