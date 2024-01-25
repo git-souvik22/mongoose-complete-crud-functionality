@@ -1,5 +1,8 @@
 const router = require("express").Router();
 const User = require("../models/user.js");
+const { hashPassword, matchPassword } = require("../Utils/authPass.js");
+const jwt = require("jsonwebtoken");
+const { requireLogin, adminAccess } = require("../middlewares/userAuth.js");
 
 //for admin
 router.get("/user", async (req, res) => {
@@ -25,14 +28,16 @@ router.get("/user", async (req, res) => {
   }
 });
 
+// user register
 router.post("/create-user", async (req, res) => {
   try {
+    const hashedPswd = await hashPassword(req.body.password);
     if (req.body.password === req.body.cpassword) {
       const createUser = new User({
         fullname: req.body.fullname,
         email: req.body.email,
         phone: req.body.phone,
-        password: req.body.password,
+        password: hashedPswd,
         state: req.body.state,
         cityvill: req.body.cityvill,
         pin: req.body.pin,
@@ -55,6 +60,38 @@ router.post("/create-user", async (req, res) => {
     res.status(500).send({
       success: false,
       message: `Something went wrong: ${err}`,
+    });
+  }
+});
+
+//user login
+router.post("/login", async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    const userCheck = await User.findOne({ email });
+    const passCheck = await matchPassword(password, userCheck.password);
+    if (userCheck && passCheck) {
+      // generating token
+      const token = jwt.sign({ id: userCheck._id }, process.env.JWT_KEY, {
+        expiresIn: "5d",
+      });
+
+      res.status(200).send({
+        success: true,
+        message: "Successfully Loggen In !",
+        result: userCheck,
+        token,
+      });
+    } else {
+      res.status(400).send({
+        success: false,
+        message: "Login was Unsuccessful!",
+      });
+    }
+  } catch (err) {
+    res.status(400).send({
+      success: false,
+      message: "CANNOT MAKE LOG IN " + err,
     });
   }
 });
@@ -84,6 +121,42 @@ router.put("/user/:id", async (req, res) => {
     res.status(500).send({
       success: false,
       message: `Something went wrong ${err}`,
+    });
+  }
+});
+
+router.get("/profile", requireLogin, async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id);
+    if (user) {
+      res.status(200).send({
+        success: true,
+        message: "ACCESS IS GRANTED 100%",
+        loggedUSER: user,
+      });
+    }
+  } catch (err) {
+    res.status(500).send({
+      success: false,
+      message: "ACCESS TO THIS ROUTE IS DISALLOWED!",
+    });
+  }
+});
+
+router.get("/admin", requireLogin, adminAccess, async (req, res) => {
+  try {
+    const admin = await User.findById(req.user.id);
+    if (admin) {
+      res.status(200).send({
+        success: true,
+        message: "ACCESS IS GRANTED 100%",
+        loggedADMIN: admin,
+      });
+    }
+  } catch (err) {
+    res.status(500).send({
+      success: false,
+      message: "ACCESS TO THIS ROUTE IS DISALLOWED!",
     });
   }
 });
