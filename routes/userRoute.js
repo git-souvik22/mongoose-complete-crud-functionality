@@ -1,7 +1,7 @@
 const router = require("express").Router();
 const User = require("../models/user.js");
 
-router.get("/users", async (req, res) => {
+router.get("/user", async (req, res) => {
   try {
     const getUsers = await User.find().sort({ date: -1 });
     if (getUsers) {
@@ -56,5 +56,7 @@ router.post("/create-user", async (req, res) => {
     });
   }
 });
+
+router.put("/users");
 
 module.exports = router;
