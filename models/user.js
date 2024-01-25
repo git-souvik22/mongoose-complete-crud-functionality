@@ -41,6 +41,10 @@ const userSchema = new mongoose.Schema({
     type: String,
     default: null,
   },
+  isAdmin: {
+    type: Number,
+    default: 0,
+  },
   date: {
     type: Date,
     default: Date.now(),

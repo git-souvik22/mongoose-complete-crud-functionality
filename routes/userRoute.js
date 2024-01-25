@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const User = require("../models/user.js");
 
+//for admin
 router.get("/user", async (req, res) => {
   try {
     const getUsers = await User.find().sort({ date: -1 });
@@ -36,6 +37,7 @@ router.post("/create-user", async (req, res) => {
         cityvill: req.body.cityvill,
         pin: req.body.pin,
         nearloc: req.body.nearloc,
+        isAdmin: req.body.isAdmin,
       });
       const newUser = await createUser.save();
       res.status(201).send({
@@ -57,6 +59,33 @@ router.post("/create-user", async (req, res) => {
   }
 });
 
-router.put("/users");
+router.put("/user/:id", async (req, res) => {
+  try {
+    const updateUser = await User.findByIdAndUpdate(
+      req.params.id,
+      {
+        $set: req.body,
+      },
+      { new: true }
+    );
+    if (updateUser) {
+      res.status(201).send({
+        success: true,
+        message: "User successfully updated",
+        result: updateUser,
+      });
+    } else {
+      res.status(500).send({
+        success: false,
+        message: "User cannot be updated",
+      });
+    }
+  } catch (err) {
+    res.status(500).send({
+      success: false,
+      message: `Something went wrong ${err}`,
+    });
+  }
+});
 
 module.exports = router;
