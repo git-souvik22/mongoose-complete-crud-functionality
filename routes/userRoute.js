@@ -96,10 +96,11 @@ router.post("/login", async (req, res) => {
   }
 });
 
-router.put("/user/:id", async (req, res) => {
+//update profile
+router.put("/update-profile", requireLogin, async (req, res) => {
   try {
     const updateUser = await User.findByIdAndUpdate(
-      req.params.id,
+      req.user.id,
       {
         $set: req.body,
       },
