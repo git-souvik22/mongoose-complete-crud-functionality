@@ -113,6 +113,12 @@ router.post("/login", async (req, res) => {
   }
 });
 
+// mern user
+// eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1YjM1Y2VmZGQyZjhmMTA5Zjg4MTgyOSIsImlhdCI6MTcwNjI1Mzc0NSwiZXhwIjoxNzA2Njg1NzQ1fQ.2JkrqUasW7l9cf_SGI10O18EDjzDHkgc5gdKx50OYWM
+
+// souvik roy
+// eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1YjM1NDA1ZmQ3MTI0NzgzYzU5MThkNCIsImlhdCI6MTcwNjI1Mzg3NiwiZXhwIjoxNzA2Njg1ODc2fQ.ba9MgKYGRGpUKjdVP7xXtflG-bvw0UDLsacvHIeTjx4
+
 //update profile
 router.put("/update-profile", requireLogin, async (req, res) => {
   try {
@@ -185,6 +191,11 @@ router.get("/profile", requireLogin, async (req, res) => {
         success: true,
         message: "ACCESS IS GRANTED 100%",
         loggedUSER: user,
+      });
+    } else {
+      res.status(401).send({
+        success: false,
+        message: "WARNING SPAM DETECTED!",
       });
     }
   } catch (err) {
