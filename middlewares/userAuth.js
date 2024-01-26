@@ -9,7 +9,7 @@ const requireLogin = async (req, res, next) => {
   } catch (err) {
     res.status(500).send({
       success: false,
-      message: "ERROR DETECTED:" + err,
+      message: "ERROR DETECTED!",
     });
   }
 };

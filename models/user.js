@@ -45,6 +45,10 @@ const userSchema = new mongoose.Schema({
     type: Number,
     default: 0,
   },
+  logState: {
+    type: String,
+    default: "out",
+  },
   date: {
     type: Date,
     default: Date.now(),

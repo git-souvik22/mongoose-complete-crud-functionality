@@ -70,22 +70,39 @@ router.post("/login", async (req, res) => {
     const { email, password } = req.body;
     const userCheck = await User.findOne({ email });
     const passCheck = await matchPassword(password, userCheck.password);
-    if (userCheck && passCheck) {
-      // generating token
-      const token = jwt.sign({ id: userCheck._id }, process.env.JWT_KEY, {
-        expiresIn: "5d",
-      });
+    if (userCheck.logState !== process.env.LoG) {
+      if (passCheck) {
+        // generating token
+        const token = jwt.sign({ id: userCheck._id }, process.env.JWT_KEY, {
+          expiresIn: "5d",
+        });
 
-      res.status(200).send({
-        success: true,
-        message: "Successfully Loggen In !",
-        result: userCheck,
-        token,
-      });
+        const userState = await User.findOneAndUpdate(
+          { email: userCheck.email },
+          {
+            logState: process.env.LoG,
+          },
+          {
+            new: true,
+          }
+        );
+
+        res.status(200).send({
+          success: true,
+          message: "Successfully Loggen In !",
+          result: userState,
+          token,
+        });
+      } else {
+        res.status(400).send({
+          success: false,
+          message: "Login was Unsuccessful!",
+        });
+      }
     } else {
-      res.status(400).send({
+      res.status(401).send({
         success: false,
-        message: "Login was Unsuccessful!",
+        message: "Already Loggedin to some other Device",
       });
     }
   } catch (err) {
@@ -145,6 +162,11 @@ router.put("/update-password", requireLogin, async (req, res) => {
         success: true,
         message: "PASSWORD UPDATED SUCCESSFULLY!",
         updatePass,
+      });
+    } else {
+      res.status(500).send({
+        success: false,
+        message: "PASSWORD DOESN'T MATCH!",
       });
     }
   } catch (err) {
