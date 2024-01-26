@@ -126,6 +126,35 @@ router.put("/update-profile", requireLogin, async (req, res) => {
   }
 });
 
+// update password
+router.put("/update-password", requireLogin, async (req, res) => {
+  try {
+    const { newPassword, newCpassword } = req.body;
+    if (newPassword === newCpassword) {
+      const updatedPassword = await hashPassword(newPassword);
+      const updatePass = await User.findByIdAndUpdate(
+        req.user.id,
+        {
+          password: updatedPassword,
+        },
+        {
+          new: true,
+        }
+      );
+      res.status(201).send({
+        success: true,
+        message: "PASSWORD UPDATED SUCCESSFULLY!",
+        updatePass,
+      });
+    }
+  } catch (err) {
+    res.status(500).send({
+      success: false,
+      message: "SOMETHING WENT WRONG!",
+    });
+  }
+});
+
 router.get("/profile", requireLogin, async (req, res) => {
   try {
     const user = await User.findById(req.user.id);
