@@ -43,6 +43,7 @@ router.post("/create-user", async (req, res) => {
         pin: req.body.pin,
         nearloc: req.body.nearloc,
         isAdmin: req.body.isAdmin,
+        logState,
       });
       const newUser = await createUser.save();
       res.status(201).send({
@@ -148,7 +149,6 @@ router.put("/update-profile", requireLogin, async (req, res) => {
     });
   }
 });
-
 // update password
 router.put("/update-password", requireLogin, async (req, res) => {
   try {
@@ -182,7 +182,7 @@ router.put("/update-password", requireLogin, async (req, res) => {
     });
   }
 });
-
+// loggedin User Access
 router.get("/profile", requireLogin, async (req, res) => {
   try {
     const user = await User.findById(req.user.id);
@@ -206,6 +206,7 @@ router.get("/profile", requireLogin, async (req, res) => {
   }
 });
 
+// Loggedin Admin Access
 router.get("/admin", requireLogin, adminAccess, async (req, res) => {
   try {
     const admin = await User.findById(req.user.id);
@@ -220,6 +221,37 @@ router.get("/admin", requireLogin, adminAccess, async (req, res) => {
     res.status(500).send({
       success: false,
       message: "ACCESS TO THIS ROUTE IS DISALLOWED!",
+    });
+  }
+});
+
+// Logout any User
+router.post("/logout", requireLogin, async (req, res) => {
+  try {
+    const loggedOutUser = await User.findByIdAndUpdate(
+      req.user.id,
+      {
+        logState: "out",
+      },
+      {
+        new: true,
+      }
+    );
+    if (loggedOutUser.logState === "out") {
+      res.status(200).send({
+        success: true,
+        message: "Successfully Logged Out. Now delete the LocalStorage",
+      });
+    } else {
+      res.status(500).send({
+        success: false,
+        message: "Logout Unsuccessful",
+      });
+    }
+  } catch (err) {
+    res.status(500).send({
+      success: false,
+      message: "Something Went Wrong. Please try after 5 minutes",
     });
   }
 });
