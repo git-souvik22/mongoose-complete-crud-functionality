@@ -12,9 +12,7 @@ router.get("/product", auth, async (req, res) => {
       res.status(200).json({
         success: true,
         products: getAllProducts,
-        dataCat: databyCat.map((cat) => {
-          return cat;
-        }),
+        databyCat,
       });
     } else {
       res.status(500).json({

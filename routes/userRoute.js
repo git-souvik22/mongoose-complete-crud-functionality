@@ -122,7 +122,7 @@ router.post("/login", async (req, res) => {
 // eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1YjM1NDA1ZmQ3MTI0NzgzYzU5MThkNCIsImlhdCI6MTcwNjI1Mzg3NiwiZXhwIjoxNzA2Njg1ODc2fQ.ba9MgKYGRGpUKjdVP7xXtflG-bvw0UDLsacvHIeTjx4
 
 //update profile
-router.put("/update-profile", requireLogin, auth, async (req, res) => {
+router.put("/update-profile", requireLogin, async (req, res) => {
   try {
     const updateUser = await User.findByIdAndUpdate(
       req.user.id,
@@ -151,7 +151,7 @@ router.put("/update-profile", requireLogin, auth, async (req, res) => {
   }
 });
 // update password
-router.put("/update-password", requireLogin, auth, async (req, res) => {
+router.put("/update-password", requireLogin, async (req, res) => {
   try {
     const { newPassword, newCpassword } = req.body;
     if (newPassword === newCpassword) {
@@ -184,7 +184,7 @@ router.put("/update-password", requireLogin, auth, async (req, res) => {
   }
 });
 // loggedin User Access
-router.get("/profile", requireLogin, auth, async (req, res) => {
+router.get("/profile", requireLogin, async (req, res) => {
   try {
     const user = await User.findById(req.user.id);
     if (user) {
@@ -227,7 +227,7 @@ router.get("/admin", requireLogin, adminAccess, async (req, res) => {
 });
 
 // Logout any User
-router.post("/logout", requireLogin, auth, async (req, res) => {
+router.post("/logout", requireLogin, async (req, res) => {
   try {
     const loggedOutUser = await User.findByIdAndUpdate(
       req.user.id,
