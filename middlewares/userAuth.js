@@ -6,7 +6,7 @@ const requireLogin = async (req, res, next) => {
     const decode = jwt.verify(req.headers.authorization, process.env.JWT_KEY);
     req.user = decode;
     const checkLogin = await User.findById({ _id: req.user.id });
-    if (checkLogin.logState === "in") {
+    if (checkLogin.logState === process.env.LoG) {
       next();
     } else {
       res.status(500).send({
