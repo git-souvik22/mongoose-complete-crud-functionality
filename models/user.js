@@ -16,6 +16,16 @@ const userSchema = new mongoose.Schema({
     min: 10,
     required: true,
   },
+  otp: {
+    type: String,
+    required: true,
+  },
+  otpExp: {
+    type: Date,
+    default: Date.now(),
+    get: (otpExp) => otpExp.getTime(),
+    set: (otpExp) => new Date(otpExp),
+  },
   state: {
     type: String,
     default: null,

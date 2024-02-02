@@ -29,6 +29,41 @@ router.get("/user", requireLogin, adminAccess, async (req, res) => {
   }
 });
 
+router.post("/send-otp", async (req, res) => {
+  try {
+    const accountSid = "ACc79392247afd5dab4592bcaa7d74eafa";
+    const authToken = "a70781fa4c6818c269a861675f8eaca5";
+    const verifySid = "VAc78b62645877a8015026c5ddea993688";
+    const client = require("twilio")(accountSid, authToken);
+
+    client.verify.v2
+      .services(verifySid)
+      .verifications.create({ to: "+917365926202", channel: "sms" })
+      .then((verification) => console.log(verification.status))
+      .then(() => {
+        const readline = require("readline").createInterface({
+          input: process.stdin,
+          output: process.stdout,
+        });
+
+        readline.question("Please enter the OTP:", (otpCode) => {
+          client.verify.v2
+            .services(verifySid)
+            .verificationChecks.create({ to: "+917365926202", code: otpCode })
+            .then((verification_check) =>
+              console.log(verification_check.status)
+            )
+            .then(() => readline.close());
+        });
+      });
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      message: err,
+    });
+  }
+});
+
 // user register
 router.post("/create-user", async (req, res) => {
   try {
