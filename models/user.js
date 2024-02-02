@@ -21,10 +21,6 @@ const userSchema = new mongoose.Schema({
     min: 8,
     required: true,
   },
-  cpassword: {
-    type: String,
-    min: 8,
-  },
   state: {
     type: String,
     default: null,
