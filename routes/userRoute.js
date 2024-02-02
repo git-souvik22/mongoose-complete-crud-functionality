@@ -32,32 +32,23 @@ router.get("/user", requireLogin, adminAccess, async (req, res) => {
 // user register
 router.post("/create-user", async (req, res) => {
   try {
-    const hashedPswd = await hashPassword(req.body.password);
-    if (req.body.password === req.body.cpassword) {
-      const createUser = new User({
-        fullname: req.body.fullname,
-        email: req.body.email,
-        phone: req.body.phone,
-        password: hashedPswd,
-        state: req.body.state,
-        cityvill: req.body.cityvill,
-        pin: req.body.pin,
-        nearloc: req.body.nearloc,
-        isAdmin: req.body.isAdmin,
-        logState,
-      });
-      const newUser = await createUser.save();
-      res.status(201).send({
-        success: true,
-        message: "User Successfully created",
-        result: newUser,
-      });
-    } else {
-      res.status(401).send({
-        success: false,
-        message: "Password field doesn't match",
-      });
-    }
+    const createUser = new User({
+      fullname: req.body.fullname,
+      email: req.body.email,
+      phone: req.body.phone,
+      state: req.body.state,
+      cityvill: req.body.cityvill,
+      pin: req.body.pin,
+      nearloc: req.body.nearloc,
+      isAdmin: req.body.isAdmin,
+      logState,
+    });
+    const newUser = await createUser.save();
+    res.status(201).send({
+      success: true,
+      message: "User Successfully created",
+      result: newUser,
+    });
   } catch (err) {
     res.status(500).send({
       success: false,
@@ -67,59 +58,53 @@ router.post("/create-user", async (req, res) => {
 });
 
 //user login
-router.post("/login", async (req, res) => {
-  try {
-    const { email, password } = req.body;
-    const userCheck = await User.findOne({ email });
-    const passCheck = await matchPassword(password, userCheck.password);
-    if (userCheck.logState !== process.env.LoG) {
-      if (passCheck) {
-        // generating token
-        const token = jwt.sign({ id: userCheck._id }, process.env.JWT_KEY, {
-          expiresIn: "5d",
-        });
+// router.post("/login", async (req, res) => {
+//   try {
+//     const { email, password } = req.body;
+//     const userCheck = await User.findOne({ email });
+//     const passCheck = await matchPassword(password, userCheck.password);
+//     if (userCheck.logState !== process.env.LoG) {
+//       if (passCheck) {
+//         // generating token
+//         const token = jwt.sign({ id: userCheck._id }, process.env.JWT_KEY, {
+//           expiresIn: "5d",
+//         });
 
-        const userState = await User.findOneAndUpdate(
-          { email: userCheck.email },
-          {
-            logState: process.env.LoG,
-          },
-          {
-            new: true,
-          }
-        );
+//         const userState = await User.findOneAndUpdate(
+//           { email: userCheck.email },
+//           {
+//             logState: process.env.LoG,
+//           },
+//           {
+//             new: true,
+//           }
+//         );
 
-        res.status(200).send({
-          success: true,
-          message: "Successfully Loggen In !",
-          result: userState,
-          token,
-        });
-      } else {
-        res.status(400).send({
-          success: false,
-          message: "Login was Unsuccessful!",
-        });
-      }
-    } else {
-      res.status(401).send({
-        success: false,
-        message: "Already Loggedin to some other Device",
-      });
-    }
-  } catch (err) {
-    res.status(400).send({
-      success: false,
-      message: "CANNOT MAKE LOG IN " + err,
-    });
-  }
-});
-
-// mern user
-// eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1YjM1Y2VmZGQyZjhmMTA5Zjg4MTgyOSIsImlhdCI6MTcwNjI1Mzc0NSwiZXhwIjoxNzA2Njg1NzQ1fQ.2JkrqUasW7l9cf_SGI10O18EDjzDHkgc5gdKx50OYWM
-
-// souvik roy
-// eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1YjM1NDA1ZmQ3MTI0NzgzYzU5MThkNCIsImlhdCI6MTcwNjI1Mzg3NiwiZXhwIjoxNzA2Njg1ODc2fQ.ba9MgKYGRGpUKjdVP7xXtflG-bvw0UDLsacvHIeTjx4
+//         res.status(200).send({
+//           success: true,
+//           message: "Successfully Loggen In !",
+//           result: userState,
+//           token,
+//         });
+//       } else {
+//         res.status(400).send({
+//           success: false,
+//           message: "Login was Unsuccessful!",
+//         });
+//       }
+//     } else {
+//       res.status(401).send({
+//         success: false,
+//         message: "Already Loggedin to some other Device",
+//       });
+//     }
+//   } catch (err) {
+//     res.status(400).send({
+//       success: false,
+//       message: "CANNOT MAKE LOG IN " + err,
+//     });
+//   }
+// });
 
 //update profile
 router.put("/update-profile", requireLogin, async (req, res) => {
