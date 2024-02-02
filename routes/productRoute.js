@@ -33,7 +33,7 @@ router.get("/product/:id", async (req, res) => {
     if (getOneProduct) {
       res.status(200).json({
         success: true,
-        result: getOneProduct,
+        result: [getOneProduct],
       });
     } else {
       res.status(500).json({
