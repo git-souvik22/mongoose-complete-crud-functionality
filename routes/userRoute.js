@@ -1,9 +1,9 @@
 const router = require("express").Router();
 const User = require("../models/user.js");
 const auth = require("../auth/authRoutes.js");
-const { hashPassword, matchPassword } = require("../Utils/authPass.js");
-const jwt = require("jsonwebtoken");
 const { requireLogin, adminAccess } = require("../middlewares/userAuth.js");
+const twilio = require("twilio");
+const otpGenerator = require("otp-generator");
 
 //for admin
 router.get("/user", requireLogin, adminAccess, async (req, res) => {
@@ -31,31 +31,39 @@ router.get("/user", requireLogin, adminAccess, async (req, res) => {
 
 router.post("/send-otp", async (req, res) => {
   try {
-    const accountSid = "ACc79392247afd5dab4592bcaa7d74eafa";
-    const authToken = "a70781fa4c6818c269a861675f8eaca5";
-    const verifySid = "VAc78b62645877a8015026c5ddea993688";
-    const client = require("twilio")(accountSid, authToken);
+    const accountSid = process.env.TWILIO_ACC_SID;
+    const authToken = process.env.TWILIO_AUTH_TOKEN;
+    const VirtualMob = process.env.TWILIO_VMOB;
+    const twilioClient = new twilio(accountSid, authToken);
 
-    client.verify.v2
-      .services(verifySid)
-      .verifications.create({ to: "+917365926202", channel: "sms" })
-      .then((verification) => console.log(verification.status))
-      .then(() => {
-        const readline = require("readline").createInterface({
-          input: process.stdin,
-          output: process.stdout,
-        });
+    const otp = otpGenerator.generate(6, {
+      lowerCaseAlphabets: false,
+      upperCaseAlphabets: false,
+      specialChars: false,
+    });
 
-        readline.question("Please enter the OTP:", (otpCode) => {
-          client.verify.v2
-            .services(verifySid)
-            .verificationChecks.create({ to: "+917365926202", code: otpCode })
-            .then((verification_check) =>
-              console.log(verification_check.status)
-            )
-            .then(() => readline.close());
-        });
-      });
+    const { phone } = req.body;
+    const currTime = new Date();
+
+    await User.findOneAndUpdate(
+      { phone },
+      {
+        otp,
+        otpExp: new Date(currTime.getTime()),
+      },
+      { upsert: true, new: true, setDefaultsOnInsert: true }
+    );
+
+    await twilioClient.messages.create({
+      from: VirtualMob,
+      body: `Your OTP is: ${otp}`,
+      to: phone,
+    });
+
+    return res.status(200).json({
+      success: true,
+      message: `OTP was sent: ${otp}`,
+    });
   } catch (err) {
     res.status(500).json({
       success: false,
@@ -167,39 +175,6 @@ router.put("/update-profile", requireLogin, async (req, res) => {
     res.status(500).send({
       success: false,
       message: `Something went wrong ${err}`,
-    });
-  }
-});
-// update password
-router.put("/update-password", requireLogin, async (req, res) => {
-  try {
-    const { newPassword, newCpassword } = req.body;
-    if (newPassword === newCpassword) {
-      const updatedPassword = await hashPassword(newPassword);
-      const updatePass = await User.findByIdAndUpdate(
-        req.user.id,
-        {
-          password: updatedPassword,
-        },
-        {
-          new: true,
-        }
-      );
-      res.status(201).send({
-        success: true,
-        message: "PASSWORD UPDATED SUCCESSFULLY!",
-        updatePass,
-      });
-    } else {
-      res.status(500).send({
-        success: false,
-        message: "PASSWORD DOESN'T MATCH!",
-      });
-    }
-  } catch (err) {
-    res.status(500).send({
-      success: false,
-      message: "SOMETHING WENT WRONG!",
     });
   }
 });
