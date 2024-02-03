@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const User = require("../models/user.js");
 const auth = require("../auth/authRoutes.js");
+const jwt = require("jsonwebtoken");
 const { requireLogin, adminAccess } = require("../middlewares/userAuth.js");
 const twilio = require("twilio");
 const otpGenerator = require("otp-generator");
@@ -43,12 +44,14 @@ router.post("/send-otp", async (req, res) => {
       specialChars: false,
     });
 
-    const { phone } = req.body;
+    const { fullname, email, phone } = req.body;
     const currTime = new Date();
 
     const otpSent = await User.findOneAndUpdate(
       { phone },
       {
+        fullname,
+        email,
         otp,
         otpExp: new Date(currTime.getTime()),
       },
@@ -76,25 +79,52 @@ router.post("/send-otp", async (req, res) => {
 });
 
 router.post("/otp-verify", async (req, res) => {
-  const { phone, otp } = req.body;
-  const findOTP = await User.findOne({ phone: phone, otp: otp });
-  if (!findOTP) {
-    res.status(404).json({
-      success: false,
-      message: "You entered a wrong OTP",
-    });
-  }
-  const otpExpired = await otpVerification(findOTP.otpExp);
-  if (otpExpired) {
+  try {
+    const { phone, otp } = req.body;
+    const findOTP = await User.findOne({ phone: phone, otp: otp });
+    if (!findOTP) {
+      res.status(404).json({
+        success: false,
+        message: "You entered a wrong OTP",
+      });
+    }
+    const otpExpired = await otpVerification(findOTP.otpExp);
+    if (otpExpired) {
+      res.status(500).json({
+        success: false,
+        message: "Your OTP has expired",
+      });
+    }
+    if (!otpExpired && findOTP.logState !== process.env.LoG) {
+      const token = jwt.sign({ id: findOTP._id }, process.env.JWT_KEY, {
+        expiresIn: "5d",
+      });
+
+      const userState = await User.findOneAndUpdate(
+        { email: findOTP.email },
+        {
+          logState: process.env.LoG,
+        },
+        {
+          new: true,
+        }
+      );
+      res.status(200).send({
+        success: true,
+        message: "Successfully Registered!",
+        result: userState,
+        token,
+      });
+    } else {
+      res.status(500).json({
+        success: false,
+        message: "Can't Register You",
+      });
+    }
+  } catch (err) {
     res.status(500).json({
       success: false,
-      message: "Your OTP has expired",
-    });
-  }
-  if (!otpExpired) {
-    res.status(200).json({
-      success: true,
-      message: "OTP Verified successfully",
+      message: "something went wrong: " + err,
     });
   }
 });
