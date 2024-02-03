@@ -6,7 +6,7 @@ const otpVerification = async (otpTime) => {
   const differenceInMinutes = Math.round(
     differenceInMilliseconds / (1000 * 60)
   );
-  if (differenceInMinutes > 10) {
+  if (differenceInMinutes > 5) {
     return true;
   }
   return false;
