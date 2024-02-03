@@ -23,8 +23,6 @@ const userSchema = new mongoose.Schema({
   otpExp: {
     type: Date,
     default: Date.now(),
-    get: (otpExp) => otpExp.getTime(),
-    set: (otpExp) => new Date(otpExp),
   },
   state: {
     type: String,

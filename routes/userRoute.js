@@ -4,6 +4,7 @@ const auth = require("../auth/authRoutes.js");
 const { requireLogin, adminAccess } = require("../middlewares/userAuth.js");
 const twilio = require("twilio");
 const otpGenerator = require("otp-generator");
+const { otpVerification } = require("../middlewares/otpValidate.js");
 
 //for admin
 router.get("/user", requireLogin, adminAccess, async (req, res) => {
@@ -45,7 +46,7 @@ router.post("/send-otp", async (req, res) => {
     const { phone } = req.body;
     const currTime = new Date();
 
-    await User.findOneAndUpdate(
+    const otpSent = await User.findOneAndUpdate(
       { phone },
       {
         otp,
@@ -60,14 +61,40 @@ router.post("/send-otp", async (req, res) => {
       to: phone,
     });
 
-    return res.status(200).json({
-      success: true,
-      message: `OTP was sent: ${otp}`,
-    });
+    if (otpSent) {
+      res.status(200).json({
+        success: true,
+        message: `OTP was sent: ${otp}`,
+      });
+    }
   } catch (err) {
     res.status(500).json({
       success: false,
       message: err,
+    });
+  }
+});
+
+router.post("/otp-verify", async (req, res) => {
+  const { phone, otp } = req.body;
+  const findOTP = await User.findOne({ phone: phone, otp: otp });
+  if (!findOTP) {
+    res.status(404).json({
+      success: false,
+      message: "You entered a wrong OTP",
+    });
+  }
+  const otpExpired = await otpVerification(findOTP.otpExp);
+  if (otpExpired) {
+    res.status(500).json({
+      success: false,
+      message: "Your OTP has expired",
+    });
+  }
+  if (!otpExpired) {
+    res.status(200).json({
+      success: true,
+      message: "OTP Verified successfully",
     });
   }
 });
