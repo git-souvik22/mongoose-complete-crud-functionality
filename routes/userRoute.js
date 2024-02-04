@@ -95,7 +95,7 @@ router.post("/otp-verify", async (req, res) => {
         message: "Your OTP has expired",
       });
     }
-    if (!otpExpired && findOTP.logState !== process.env.LoG) {
+    if (!otpExpired) {
       const token = jwt.sign({ id: findOTP._id }, process.env.JWT_KEY, {
         expiresIn: "5d",
       });

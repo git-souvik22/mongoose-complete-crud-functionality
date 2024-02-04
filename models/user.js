@@ -33,7 +33,7 @@ const userSchema = new mongoose.Schema({
     default: null,
   },
   pin: {
-    type: Number,
+    type: String,
     default: null,
   },
   nearloc: {
