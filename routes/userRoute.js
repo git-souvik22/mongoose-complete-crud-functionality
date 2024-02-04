@@ -30,8 +30,8 @@ router.get("/user", requireLogin, adminAccess, async (req, res) => {
     });
   }
 });
-
-router.post("/send-otp", async (req, res) => {
+// regitration otp
+router.post("/register-otp", async (req, res) => {
   try {
     const accountSid = process.env.TWILIO_ACC_SID;
     const authToken = process.env.TWILIO_AUTH_TOKEN;
@@ -47,33 +47,104 @@ router.post("/send-otp", async (req, res) => {
     const { fullname, email, phone } = req.body;
     const currTime = new Date();
 
-    const otpSent = await User.findOneAndUpdate(
-      { phone },
-      {
-        fullname,
-        email,
-        otp,
+    const userExists = await User.findOne({ phone: phone, email: email });
+
+    // registration time
+    if (!userExists) {
+      const registerUser = new User({
+        fullname: fullname,
+        email: email,
+        phone: phone,
+        otp: otp,
         otpExp: new Date(currTime.getTime()),
-      },
-      { upsert: true, new: true, setDefaultsOnInsert: true }
-    );
-
-    await twilioClient.messages.create({
-      from: VirtualMob,
-      body: `Your OTP is: ${otp}`,
-      to: phone,
-    });
-
-    if (otpSent) {
-      res.status(200).json({
-        success: true,
-        message: `OTP was sent: ${otp}`,
+      });
+      const registerOtp = await registerUser.save();
+      await twilioClient.messages.create({
+        from: VirtualMob,
+        body: `Your Registration OTP is: ${otp}`,
+        to: phone,
+      });
+      if (registerOtp) {
+        res.status(200).json({
+          success: true,
+          message: `Registration OTP was sent: ${otp}`,
+        });
+      } else {
+        res.status(500).json({
+          success: false,
+          message: "Registration OTP couldn't be sent",
+        });
+      }
+    } else {
+      res.status(500).json({
+        success: false,
+        message: "already registered",
       });
     }
   } catch (err) {
     res.status(500).json({
       success: false,
-      message: err,
+      message: "something went wrong",
+      err,
+    });
+  }
+});
+
+// Login otp
+router.post("/login-otp", async (req, res) => {
+  try {
+    const accountSid = process.env.TWILIO_ACC_SID;
+    const authToken = process.env.TWILIO_AUTH_TOKEN;
+    const VirtualMob = process.env.TWILIO_VMOB;
+    const twilioClient = new twilio(accountSid, authToken);
+
+    const otp = otpGenerator.generate(6, {
+      lowerCaseAlphabets: false,
+      upperCaseAlphabets: false,
+      specialChars: false,
+    });
+
+    const { phone } = req.body;
+    const currTime = new Date();
+
+    const userExists = await User.findOne({ phone: phone });
+
+    if (userExists && userExists.logState === "in") {
+      const loginOtp = await User.findOneAndUpdate(
+        { phone: userExists.phone },
+        {
+          otp: otp,
+          otpExp: new Date(currTime.getTime()),
+        },
+        { new: true }
+      );
+      await twilioClient.messages.create({
+        from: VirtualMob,
+        body: `Your Login OTP is: ${otp}`,
+        to: phone,
+      });
+      if (loginOtp) {
+        res.status(200).json({
+          success: true,
+          message: `Login OTP was sent: ${otp}`,
+        });
+      } else {
+        res.status(500).json({
+          success: false,
+          message: `Login OTP couldn't be sent`,
+        });
+      }
+    } else {
+      res.status(500).json({
+        success: false,
+        message: "please register first",
+      });
+    }
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      message: "something went wrong",
+      err,
     });
   }
 });
@@ -81,18 +152,19 @@ router.post("/send-otp", async (req, res) => {
 router.post("/otp-verify", async (req, res) => {
   try {
     const { phone, otp } = req.body;
+
     const findOTP = await User.findOne({ phone: phone, otp: otp });
     if (!findOTP) {
       res.status(404).json({
         success: false,
-        message: "You entered a wrong OTP",
+        message: "wrong otp",
       });
     }
     const otpExpired = await otpVerification(findOTP.otpExp);
     if (otpExpired) {
       res.status(500).json({
         success: false,
-        message: "Your OTP has expired",
+        message: "otp expired",
       });
     }
     if (!otpExpired) {
@@ -103,7 +175,7 @@ router.post("/otp-verify", async (req, res) => {
       const userState = await User.findOneAndUpdate(
         { email: findOTP.email },
         {
-          logState: process.env.LoG,
+          logState: "in",
         },
         {
           new: true,
@@ -111,48 +183,21 @@ router.post("/otp-verify", async (req, res) => {
       );
       res.status(200).send({
         success: true,
-        message: "Successfully Registered!",
+        message: "otp verified",
         result: userState,
         token,
       });
     } else {
       res.status(500).json({
         success: false,
-        message: "Can't Register You",
+        message: "can't register",
       });
     }
   } catch (err) {
     res.status(500).json({
       success: false,
-      message: "something went wrong: " + err,
-    });
-  }
-});
-
-// user register
-router.post("/create-user", async (req, res) => {
-  try {
-    const createUser = new User({
-      fullname: req.body.fullname,
-      email: req.body.email,
-      phone: req.body.phone,
-      state: req.body.state,
-      cityvill: req.body.cityvill,
-      pin: req.body.pin,
-      nearloc: req.body.nearloc,
-      isAdmin: req.body.isAdmin,
-      logState,
-    });
-    const newUser = await createUser.save();
-    res.status(201).send({
-      success: true,
-      message: "User Successfully created",
-      result: newUser,
-    });
-  } catch (err) {
-    res.status(500).send({
-      success: false,
-      message: `Something went wrong: ${err}`,
+      message: "something went wrong",
+      err,
     });
   }
 });

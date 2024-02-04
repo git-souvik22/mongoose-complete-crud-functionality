@@ -40,7 +40,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     default: null,
   },
-  isAdmin: {
+  accountState: {
     type: Number,
     default: 0,
   },
