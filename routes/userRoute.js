@@ -30,7 +30,8 @@ router.get("/user", requireLogin, adminAccess, async (req, res) => {
     });
   }
 });
-// regitration otp
+
+// // regitration otp
 router.post("/register-otp", async (req, res) => {
   try {
     const accountSid = process.env.TWILIO_ACC_SID;
@@ -109,7 +110,7 @@ router.post("/login-otp", async (req, res) => {
 
     const userExists = await User.findOne({ phone: phone });
 
-    if (userExists && userExists.logState === "in") {
+    if (userExists && userExists.logState === "out") {
       const loginOtp = await User.findOneAndUpdate(
         { phone: userExists.phone },
         {
@@ -202,55 +203,6 @@ router.post("/otp-verify", async (req, res) => {
   }
 });
 
-//user login
-// router.post("/login", async (req, res) => {
-//   try {
-//     const { email, password } = req.body;
-//     const userCheck = await User.findOne({ email });
-//     const passCheck = await matchPassword(password, userCheck.password);
-//     if (userCheck.logState !== process.env.LoG) {
-//       if (passCheck) {
-//         // generating token
-//         const token = jwt.sign({ id: userCheck._id }, process.env.JWT_KEY, {
-//           expiresIn: "5d",
-//         });
-
-//         const userState = await User.findOneAndUpdate(
-//           { email: userCheck.email },
-//           {
-//             logState: process.env.LoG,
-//           },
-//           {
-//             new: true,
-//           }
-//         );
-
-//         res.status(200).send({
-//           success: true,
-//           message: "Successfully Loggen In !",
-//           result: userState,
-//           token,
-//         });
-//       } else {
-//         res.status(400).send({
-//           success: false,
-//           message: "Login was Unsuccessful!",
-//         });
-//       }
-//     } else {
-//       res.status(401).send({
-//         success: false,
-//         message: "Already Loggedin to some other Device",
-//       });
-//     }
-//   } catch (err) {
-//     res.status(400).send({
-//       success: false,
-//       message: "CANNOT MAKE LOG IN " + err,
-//     });
-//   }
-// });
-
 //update profile
 router.put("/update-profile", requireLogin, async (req, res) => {
   try {
@@ -338,7 +290,7 @@ router.post("/logout", requireLogin, async (req, res) => {
     if (loggedOutUser.logState === "out") {
       res.status(200).send({
         success: true,
-        message: "Successfully Logged Out. Now delete the LocalStorage",
+        message: "successfully Logged Out !",
       });
     } else {
       res.status(500).send({
