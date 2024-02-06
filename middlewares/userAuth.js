@@ -22,6 +22,12 @@ const requireLogin = async (req, res, next) => {
   }
 };
 
+// const refreshAccess = async (req, res, next) => {
+//   const reVerification = jwt.verify(
+//     req.headers.authorization.slice(0, req.headers.authorization.length - 10)
+//   );
+// };
+
 const adminAccess = async (req, res, next) => {
   const findUser = await User.findById(req.user.id);
   if (findUser.isAdmin === 1) {
