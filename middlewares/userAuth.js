@@ -22,22 +22,6 @@ const requireLogin = async (req, res, next) => {
   }
 };
 
-const returnAccessment = async (req, res, next) => {
-  if (req.body.status === "true") {
-    const reVerification = jwt.verify(
-      req.body.rtcd.slice(0, req.body.rtcd.length - 10),
-      req.body.rtcd.slice(req.body.rtcd.length - 10, req.body.rtcd.length)
-    );
-    req.element = reVerification;
-    next();
-  } else {
-    return res.status(500).json({
-      success: false,
-      message: "Not Logged in",
-    });
-  }
-};
-
 const adminAccess = async (req, res, next) => {
   const findUser = await User.findById(req.user.id);
   if (findUser.isAdmin === 1) {
@@ -50,4 +34,4 @@ const adminAccess = async (req, res, next) => {
   }
 };
 
-module.exports = { requireLogin, returnAccessment, adminAccess };
+module.exports = { requireLogin, adminAccess };

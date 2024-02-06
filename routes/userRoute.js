@@ -2,11 +2,7 @@ const router = require("express").Router();
 const User = require("../models/user.js");
 const auth = require("../auth/authRoutes.js");
 const jwt = require("jsonwebtoken");
-const {
-  requireLogin,
-  returnAccessment,
-  adminAccess,
-} = require("../middlewares/userAuth.js");
+const { requireLogin, adminAccess } = require("../middlewares/userAuth.js");
 const twilio = require("twilio");
 const otpGenerator = require("otp-generator");
 const { otpVerification } = require("../middlewares/otpValidate.js");
@@ -176,10 +172,7 @@ router.post("/otp-verify", async (req, res) => {
       const token = jwt.sign({ id: findOTP._id }, process.env.JWT_KEY, {
         expiresIn: "5d",
       });
-      const sscode = otpGenerator.generate(10, { upperCaseAlphabets: false });
-      const orfile = jwt.sign({ input: findOTP._id }, sscode, {
-        expiresIn: "1h",
-      });
+
       const userState = await User.findOneAndUpdate(
         { email: findOTP.email },
         {
@@ -194,7 +187,6 @@ router.post("/otp-verify", async (req, res) => {
         message: "otp verified",
         result: userState,
         token,
-        RTCD: orfile + sscode,
       });
     } else {
       res.status(500).json({
@@ -241,12 +233,11 @@ router.put("/update-profile", requireLogin, async (req, res) => {
   }
 });
 // loggedin User Access
-router.post("/profile", requireLogin, returnAccessment, async (req, res) => {
+router.get("/profile", requireLogin, async (req, res) => {
   try {
     const user = await User.findById(req.user.id);
-    const userInput = await User.findById(req.element.input);
     // console.log(req.element.input);
-    if (user.phone === userInput.phone) {
+    if (user) {
       res.status(200).send({
         success: true,
         message: "ACCESS IS GRANTED 100%",
