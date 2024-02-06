@@ -234,18 +234,12 @@ router.put("/update-profile", requireLogin, async (req, res) => {
 // loggedin User Access
 router.get("/profile", requireLogin, async (req, res) => {
   try {
-    // generate new TOKEN (JWT) => REFRESH_ID (Func>>) jwt.sign({uid: req.user.id}, SECRET_ID, {
-    //   expiresIn: "2h"
-    // }) >>> "jgfct;w,sa454dsfkjhwethbaHFgygdsk.pokojsapgfaeydwiuy.cthY4$WS4dGUokd,kj"
-    // decode TOKEN (JWT) =>
     const user = await User.findById(req.user.id);
     if (user) {
       res.status(200).send({
         success: true,
         message: "ACCESS IS GRANTED 100%",
         loggedUSER: user,
-        // REFRESH_ID
-        // SECRET_ID
       });
     } else {
       res.status(401).send({
