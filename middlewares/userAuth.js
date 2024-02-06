@@ -5,8 +5,15 @@ const requireLogin = async (req, res, next) => {
   try {
     const decode = jwt.verify(req.headers.authorization, process.env.JWT_KEY);
     req.user = decode;
-
-    next();
+    const userState = await User.findById({ _id: req.user.id });
+    if (userState.logState === "in") {
+      next();
+    } else {
+      res.status(500).json({
+        success: false,
+        message: "SPAM",
+      });
+    }
   } catch (err) {
     res.status(500).send({
       success: false,
