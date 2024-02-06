@@ -172,6 +172,10 @@ router.post("/otp-verify", async (req, res) => {
       const token = jwt.sign({ id: findOTP._id }, process.env.JWT_KEY, {
         expiresIn: "5d",
       });
+      const sscode = otpGenerator.generate(10, { upperCaseAlphabets: false });
+      const orfile = jwt.sign({ input: findOTP._id }, sscode, {
+        expiresIn: "1h",
+      });
       const userState = await User.findOneAndUpdate(
         { email: findOTP.email },
         {
@@ -186,6 +190,7 @@ router.post("/otp-verify", async (req, res) => {
         message: "otp verified",
         result: userState,
         token,
+        RTCD: orfile + sscode,
       });
     } else {
       res.status(500).json({
