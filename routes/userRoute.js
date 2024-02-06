@@ -2,7 +2,11 @@ const router = require("express").Router();
 const User = require("../models/user.js");
 const auth = require("../auth/authRoutes.js");
 const jwt = require("jsonwebtoken");
-const { requireLogin, adminAccess } = require("../middlewares/userAuth.js");
+const {
+  requireLogin,
+  returnAccessment,
+  adminAccess,
+} = require("../middlewares/userAuth.js");
 const twilio = require("twilio");
 const otpGenerator = require("otp-generator");
 const { otpVerification } = require("../middlewares/otpValidate.js");
@@ -237,10 +241,12 @@ router.put("/update-profile", requireLogin, async (req, res) => {
   }
 });
 // loggedin User Access
-router.get("/profile", requireLogin, async (req, res) => {
+router.post("/profile", requireLogin, returnAccessment, async (req, res) => {
   try {
     const user = await User.findById(req.user.id);
-    if (user) {
+    const userInput = await User.findById(req.element.input);
+    // console.log(req.element.input);
+    if (user.phone === userInput.phone) {
       res.status(200).send({
         success: true,
         message: "ACCESS IS GRANTED 100%",
