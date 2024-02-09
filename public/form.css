@@ -1,0 +1,352 @@
+/* Import Google font - Poppins */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap");
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+body {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: rgb(238, 238, 239);
+}
+.container {
+  position: relative;
+  max-width: 700px; /* change */
+  width: 100%;
+  background: #fff;
+  padding: 25px;
+  border-radius: 8px;
+  box-shadow: 0 0 15px rgba(54, 51, 88, 0.357);
+}
+.container header {
+  font-size: 1.5rem;
+  color: #333;
+  font-weight: 500;
+  text-align: center;
+}
+.container .form {
+  margin-block: 30px;
+}
+.form .input-box {
+  width: 100%;
+  margin-top: 20px;
+}
+/* .form .input-box:nth-child(1),
+.form .input-box:nth-child(2) {
+  display: none;
+} */
+.input-box label {
+  color: #333;
+}
+.form :where(.input-box input, .select-box) {
+  position: relative;
+  height: 50px;
+  width: 100%;
+  outline: none;
+  font-size: 1rem;
+  color: #707070;
+  margin-top: 8px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 0 15px;
+}
+.input-box input:focus {
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
+}
+.form .column {
+  display: flex;
+  column-gap: 15px;
+}
+.merge-number {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+#countrycode {
+  height: 50px;
+  outline: none;
+  font-size: 1rem;
+  color: #707070;
+  margin-top: 14px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  width: 10%; /* change */
+}
+.form .gender-box {
+  margin-top: 20px;
+}
+.gender-box h3 {
+  color: #333;
+  font-size: 1rem;
+  font-weight: 400;
+  margin-bottom: 8px;
+}
+.form :where(.gender-option, .gender) {
+  display: flex;
+  align-items: center;
+  column-gap: 50px;
+  flex-wrap: wrap;
+}
+.form .gender {
+  column-gap: 5px;
+}
+.gender input {
+  accent-color: rgb(130, 106, 251);
+}
+.form :where(.gender input, .gender label) {
+  cursor: pointer;
+}
+.gender label {
+  color: #707070;
+}
+.address :where(input, .select-box) {
+  margin-top: 15px;
+}
+.select-box select {
+  height: 100%;
+  width: 100%;
+  outline: none;
+  border: none;
+  color: #707070;
+  font-size: 1rem;
+}
+.form button {
+  height: 55px;
+  width: 100%;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 400;
+  margin-top: 30px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background: rgb(9, 9, 9);
+}
+.form button:hover {
+  background: rgb(57, 39, 143);
+}
+
+/* loading css */
+.loader-content {
+  width: 100%;
+  height: 100vh;
+  background-color: #fafafa81;
+  display: none;
+  flex-direction: column;
+  position: fixed;
+  top: 0;
+  left: 0;
+  justify-content: center;
+  align-items: center;
+  z-index: 10000;
+}
+.loading {
+  width: 80px;
+  height: 50px;
+  position: relative;
+}
+.loading p {
+  top: 0;
+  padding: 0;
+  margin: 0;
+  color: #1e4f69;
+  text-shadow: 1px 0px #000;
+  font-family: "Oxygen", sans-serif;
+  animation: text 3.5s ease both infinite;
+  font-size: 20px;
+  letter-spacing: 1px;
+}
+
+@keyframes text {
+  0% {
+    letter-spacing: 1px;
+    transform: translateX(0px);
+  }
+
+  40% {
+    letter-spacing: 2px;
+    transform: translateX(26px);
+  }
+
+  80% {
+    letter-spacing: 1px;
+    transform: translateX(32px);
+  }
+
+  90% {
+    letter-spacing: 2px;
+    transform: translateX(0px);
+  }
+
+  100% {
+    letter-spacing: 1px;
+    transform: translateX(0px);
+  }
+}
+
+.loading span {
+  background-color: #5389a6;
+  border-radius: 50px;
+  display: block;
+  height: 16px;
+  width: 16px;
+  bottom: 0;
+  position: absolute;
+  transform: translateX(64px);
+  animation: loading 3.5s ease both infinite;
+}
+.loading span:before {
+  position: absolute;
+  content: "";
+  width: 100%;
+  height: 100%;
+  background-color: #a6dcee;
+  border-radius: inherit;
+  animation: loading2 3.5s ease both infinite;
+}
+
+@keyframes loading {
+  0% {
+    width: 16px;
+    transform: translateX(0px);
+  }
+
+  40% {
+    width: 100%;
+    transform: translateX(0px);
+  }
+
+  80% {
+    width: 16px;
+    transform: translateX(64px);
+  }
+
+  90% {
+    width: 100%;
+    transform: translateX(0px);
+  }
+
+  100% {
+    width: 16px;
+    transform: translateX(0px);
+  }
+}
+@keyframes loading2 {
+  0% {
+    transform: translateX(0px);
+    width: 16px;
+  }
+
+  40% {
+    transform: translateX(0%);
+    width: 80%;
+  }
+
+  80% {
+    width: 100%;
+    transform: translateX(0px);
+  }
+
+  90% {
+    width: 80%;
+    transform: translateX(15px);
+  }
+  100% {
+    transform: translateX(0px);
+    width: 16px;
+  }
+}
+.cover-bg {
+  width: 100%;
+  height: 100vh;
+  background-color: #fafafa81;
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+}
+.otp-div {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  background-color: #ffffff;
+  border: 3px solid lightseagreen;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1000;
+  width: 40%;
+  height: 400px;
+  text-align: center;
+}
+#otp-number {
+  width: 60%;
+  margin-block: 20px;
+  height: 55px;
+  font-size: 1.5rem;
+}
+.otp-div button {
+  height: 55px;
+  width: 50%;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 400;
+  margin-top: 30px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background: rgb(9, 9, 9);
+}
+.otp-div button:hover {
+  background: rgb(57, 39, 143);
+}
+.loader-content {
+  width: 100%;
+  height: 100vh;
+  background-color: #fafafa81;
+  display: none;
+  flex-direction: column;
+  position: fixed;
+  top: 0;
+  left: 0;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+}
+
+/*Responsive*/
+@media screen and (max-width: 500px) {
+  .form .column {
+    flex-wrap: wrap;
+  }
+  .form :where(.gender-option, .gender) {
+    row-gap: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  #countrycode {
+    width: 25%;
+  }
+  .otp-info {
+    font-size: 10px;
+  }
+  .otp-div {
+    width: 95%;
+    height: fit-content;
+    padding-block: 10px;
+  }
+  .otp-div button {
+    height: 50px;
+  }
+}

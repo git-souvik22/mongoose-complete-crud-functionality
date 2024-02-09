@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Chalk Duster</title>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="images/favicon.jpg" type="image/x-icon" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="author" content="" />
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    <link rel="stylesheet" type="text/css" href="css/normalize.css" />
+    <link rel="stylesheet" type="text/css" href="icomoon/icomoon.css" />
+    <link rel="stylesheet" type="text/css" media="all"
+        href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <!-- icons css -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="css/vendor.css" />
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet" />
+    <!-- script
+    ================================================== -->
+    <script src="js/modernizr.js"></script>
+    <!-- emailjs script initialization -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script type="text/javascript">
+        (function () {
+            emailjs.init("sW010BfXgUaDdbuGq");
+        })();
+    </script>
+</head>
+
+<body>
+    <div class="preloader-wrapper">
+        <div class="preloader"></div>
+    </div>
+    <div class="search-popup">
+        <div class="search-popup-container">
+            <form role="search" method="get" class="search-form" action="">
+                <input type="search" id="search-form" class="search-field" placeholder="Type and press enter" value=""
+                    name="s" />
+                <button type="submit" class="search-submit">
+                    <a href="#"><i class="icon icon-search"></i></a>
+                </button>
+            </form>
+            <h5 class="cat-list-title">Browse Categories</h5>
+            <ul class="cat-list">
+                <li class="cat-list-item">
+                    <a href="shop.html" title="Men Jackets">Men Jackets</a>
+                </li>
+                <li class="cat-list-item">
+                    <a href="shop.html" title="Fashion">Fashion</a>
+                </li>
+                <li class="cat-list-item">
+                    <a href="shop.html" title="Casual Wears">Casual Wears</a>
+                </li>
+                <li class="cat-list-item">
+                    <a href="shop.html" title="Women">Women</a>
+                </li>
+                <li class="cat-list-item">
+                    <a href="shop.html" title="Trending">Trending</a>
+                </li>
+                <li class="cat-list-item">
+                    <a href="shop.html" title="Hoodie">Hoodie</a>
+                </li>
+                <li class="cat-list-item">
+                    <a href="shop.html" title="Kids">Kids</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <header id="header">
+        <div id="header-wrap">
+            <nav class="secondary-nav border-bottom">
+                <div class="nav-container">
+                    <div class="d-flex align-items-center mini-nav">
+                        <div class="col-md-4 user-items">
+                            <ul class="d-flex list-unstyled">
+                                <li>
+                                    <a href="https://www.linkedin.com/" target="_blank">
+                                        <i class="fab fa-linkedin-in"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="https://www.youtube.com/" target="_blank">
+                                        <i class="fab fa-youtube"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="https://www.instagram.com/" target="_blank">
+                                        <i class="fab fa-instagram"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-md-4 shipping-purchase text-center">
+                            <p>Chalkduster - Dress Smart, Learn Smart</p>
+                        </div>
+                        <div class="col-md-4 col-sm-12 user-items">
+                            <ul class="d-flex justify-content-end list-unstyled">
+                                <li>
+                                    <a href="login.html">
+                                        <i class="icon icon-user"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="cart.html">
+                                        <i class="icon icon-shopping-cart"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="wishlist.html">
+                                        <i class="icon icon-heart"></i>
+                                    </a>
+                                </li>
+                                <li class="user-items search-item pe-3">
+                                    <a href="#" class="search-button">
+                                        <i class="icon icon-search"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+            <nav class="primary-nav padding-small">
+                <div class="nav-container">
+                    <div class="d-flex justify-content-between align-items-center nav-height">
+                        <div class="logo-div">
+                            <div class="main-logo">
+                                <a href="index.html">
+                                    <img src="images/chalkduster-icon.jpg" alt="logo" />
+                                </a>
+                            </div>
+                        </div>
+                        <div class="navbar-div">
+                            <div class="navbar">
+                                <div id="main-nav" class="stellarnav d-flex justify-content-end right">
+                                    <ul class="menu-list">
+                                        <li class="menu-item has-sub">
+                                            <a href="index.html" class="item-anchor active" data-effect="Home">Home</a>
+                                        </li>
+                                        <li class="menu-item has-sub">
+                                            <a href="about.html" class="item-anchor" data-effect="About">About</a>
+                                        </li>
+                                        <li class="menu-item has-sub">
+                                            <a href="shop.html" class="item-anchor" data-effect="Shop">Shop</a>
+                                        </li>
+                                        <li class="menu-item has-sub">
+                                            <a href="blog.html" class="item-anchor" data-effect="Blog">Blog</a>
+                                        </li>
+                                        <li class="menu-item has-sub">
+                                            <a href="contact.html" class="item-anchor" data-effect="Contact">Contact</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+    <section id="billboard" class="overflow-hidden">
+        <button class="button-prev">
+            <i class="icon icon-chevron-left"></i>
+        </button>
+        <button class="button-next">
+            <i class="icon icon-chevron-right"></i>
+        </button>
+        <div class="swiper main-swiper">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide" style="
+              background-image: url('gallery/img-2.jpg');
+              background-repeat: no-repeat;
+              background-position: center;
+            ">
+                    <div class="banner-content">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-md-6 col-xs-11">
+                                    <h2 class="banner-title">Summer Collection</h2>
+                                    <p>Everybody respects you when you respect your Uniform</p>
+                                    <!-- <div class="btn-wrap">
+                      <a
+                        href="shop.html"
+                        class="btn btn-light btn-medium d-flex align-items-center"
+                        tabindex="0"
+                        >Shop it now <i class="icon icon-arrow-io"></i>
+                      </a>
+                    </div> -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-slide" style="
+              background-image: url('gallery/img-5.jpg');
+              background-repeat: no-repeat;
+              background-position: center;
+            ">
+                    <div class="banner-content">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-md-6 col-xs-11">
+                                    <h2 class="banner-title">Casual Collection</h2>
+                                    <p>
+                                        Uniformity breeds a culture of respect and inclusivity.
+                                    </p>
+                                    <!-- <div class="btn-wrap">
+                      <a
+                        href="shop.html"
+                        class="btn btn-light btn-light-arrow btn-medium d-flex align-items-center"
+                        tabindex="0"
+                        >Shop it now <i class="icon icon-arrow-io"></i>
+                      </a>
+                    </div> -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- advertisement section starts-->
+    <section id="ad-cards" class="advertise-cards padding-medium margin-small">
+        <h2 class="section-title">OUR FASHION</h2>
+        <div id="nextprev-carousel">
+            <div id="Ad-container" class="ads-collection">
+                <div class="ad-card">
+                    <a href="#" class="adImg-div">
+                        <img src="https://pictures.kartmax.in/live/original/0x0/sites/w0ACRcy407Pb14QWUoSQ/theme/men_btn-5dc8e772-dea9-4f92-83b7-0e2e1005083b.jpg"
+                            alt="1st ad image" />
+                    </a>
+                </div>
+                <div class="ad-card">
+                    <a href="#" class="adImg-div">
+                        <img src="https://pictures.kartmax.in/live/original/0x0/sites/w0ACRcy407Pb14QWUoSQ/theme/women_btn-25392b62-23f0-404f-9a11-37a3ab48022c.jpg"
+                            alt="2nd ad image" />
+                    </a>
+                </div>
+                <div class="ad-card">
+                    <a href="#" class="adImg-div">
+                        <img src="https://pictures.kartmax.in/live/original/0x0/sites/w0ACRcy407Pb14QWUoSQ/theme/fairtrade-13bed16c-2cdb-44ef-ab64-10a745f4c237.jpg"
+                            alt="3rd ad image" />
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+    <script src="ads-carousel.js"></script>
+    <!-- advertisement section ends-->
+    <!-- category section starts -->
+    <section id="cat-cards" class="category-cards padding-medium margin-small">
+        <h2 class="section-title">CATEGORIES</h2>
+        <div class="toggle-category">
+            <div id="menbtn">
+                <p>Men</p>
+            </div>
+            <div id="womenbtn">
+                <p>Women</p>
+            </div>
+        </div>
+        <div id="toggleView">
+            <div id="nextprev-category">
+                <div id="Cat-container" class="men-div cats-collection">
+                    <div class="cat-card">
+                        <a href="#" class="catImg-div">
+                            <img src="https://pictures.kartmax.in/live/original/0x0/sites/w0ACRcy407Pb14QWUoSQ/theme/DKA-web-img3-786cebb6-072c-4f1a-8c64-18397bb8eb46.jpg"
+                                alt="1st cat image" />
+                            <div class="cat-name">SHIRTS</div>
+                        </a>
+                    </div>
+                    <div class="cat-card">
+                        <a href="#" class="catImg-div">
+                            <img src="https://pictures.kartmax.in/live/original/0x0/sites/w0ACRcy407Pb14QWUoSQ/theme/DKA-web-img4-676f05b2-2c2a-4ab3-92be-0370974c266c.jpg"
+                                alt="2nd cat image" />
+                            <div class="cat-name">T-SHIRTS</div>
+                        </a>
+                    </div>
+                    <div class="cat-card">
+                        <a href="#" class="catImg-div">
+                            <img src="https://pictures.kartmax.in/live/original/0x0/sites/w0ACRcy407Pb14QWUoSQ/theme/DKA-web-img5-91773f42-76b5-4c92-9d1d-d9f999922eca.jpg"
+                                alt="3rd cat image" />
+                            <div class="cat-name">SHORTS</div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <!-- women category -->
+            <div id="nextprev-category2">
+                <div id="Cat-container2" class="cats-collection2">
+                    <div class="cat-card2">
+                        <a href="#" class="catImg-div2">
+                            <img src="https://pictures.kartmax.in/live/original/0x0/sites/w0ACRcy407Pb14QWUoSQ/theme/DKA-web-img3-786cebb6-072c-4f1a-8c64-18397bb8eb46.jpg"
+                                alt="1st cat image" />
+                            <div class="cat-name">T-SHIRTS</div>
+                        </a>
+                    </div>
+                    <div class="cat-card2">
+                        <a href="#" class="catImg-div2">
+                            <img src="https://pictures.kartmax.in/live/original/0x0/sites/w0ACRcy407Pb14QWUoSQ/theme/DKA-web-img4-676f05b2-2c2a-4ab3-92be-0370974c266c.jpg"
+                                alt="2nd cat image" />
+                            <div class="cat-name">LEGGINGS</div>
+                        </a>
+                    </div>
+                    <div class="cat-card2">
+                        <a href="#" class="catImg-div2">
+                            <img src="https://pictures.kartmax.in/live/original/0x0/sites/w0ACRcy407Pb14QWUoSQ/theme/DKA-web-img5-91773f42-76b5-4c92-9d1d-d9f999922eca.jpg"
+                                alt="3rd cat image" />
+                            <div class="cat-name">TRACKS</div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <script>
+        const menBtn = document.getElementById("menbtn");
+        const womenBtn = document.getElementById("womenbtn");
+        const toggleView = document.getElementById("toggleView");
+
+        menBtn.addEventListener("click", function () {
+            if (menBtn.innerText === "Men") {
+                // console.log(menBtn.innerText);
+                if (toggleView.scrollLeft > 0) {
+                    toggleView.scrollLeft -=
+                        toggleView.scrollWidth / toggleView.children.length;
+                }
+                menBtn.style =
+                    "background-color: #000; box-shadow: #34495e 0px 5px 4px;";
+                womenBtn.style = "background-color: #34495E; box-shadow: none";
+            }
+        });
+        womenBtn.addEventListener("click", function () {
+            if (womenBtn.innerText === "Women") {
+                // console.log(womenBtn.innerText);
+                if (toggleView.scrollLeft === 0) {
+                    toggleView.scrollLeft +=
+                        toggleView.scrollWidth / toggleView.children.length;
+                }
+                menBtn.style = "background-color: #34495E; box-shadow: none";
+                womenBtn.style =
+                    "background-color: #000; box-shadow: #34495e 0px 5px 4px;";
+            }
+        });
+    </script>
+    <script src="category-carousel.js"></script>
+    <!-- category section ends -->
+    <!-- gallery section starts -->
+    <section id="GallerySection" class="gallery-section padding-medium margin-small">
+        <h2 class="section-title">GALLERY</h2>
+        <div class="gallery-row">
+            <div class="gallery-column">
+                <img src="/gallery/img-1.jpg" data-image-number="1" style="width: 100%; height: auto" />
+                <img src="/gallery/img-2.jpg" data-image-number="2" style="width: 100%; height: auto" />
+                <img src="/gallery/img-3.jpg" data-image-number="3" style="width: 100%; height: auto" />
+            </div>
+            <div class="gallery-column">
+                <img src="/gallery/img-4.jpg" data-image-number="4" style="width: 100%; height: auto" />
+                <img src="/gallery/img-5.jpg" data-image-number="5" style="width: 100%; height: auto" />
+                <img src="/gallery/img-6.jpg" data-image-number="6" style="width: 100%; height: auto" />
+            </div>
+            <div class="gallery-column">
+                <img src="/gallery/img-7.jpg" data-image-number="7" style="width: 100%; height: auto" />
+                <img src="/gallery/img-8.jpg" data-image-number="8" style="width: 100%; height: auto" />
+                <img src="/gallery/img-9.jpg" data-image-number="9" style="width: 100%; height: auto" />
+            </div>
+            <div class="gallery-column">
+                <img src="/gallery/img-10.jpg" data-image-number="10" style="width: 100%; height: auto" />
+                <img src="/gallery/img-11.jpg" data-image-number="11" style="width: 100%; height: auto" />
+                <img src="/gallery/img-12.jpg" data-image-number="12" style="width: 100%; height: auto" />
+            </div>
+        </div>
+    </section>
+    <div id="imageView" class="display-gallery-img">
+        <div id="fit-image"></div>
+    </div>
+    <script>
+        const GalleryRow = document.querySelector(".gallery-row");
+        for (let i = 0; i < GalleryRow.children.length; i++) {
+            const ImagesColumn = GalleryRow.children.item(i).children;
+            for (let j = 0; j < ImagesColumn.length; j++) {
+                // console.log(ImagesColumn.item(j));
+                const imageView = document.getElementById("imageView");
+                const fitImage = document.getElementById("fit-image");
+                ImagesColumn.item(j).addEventListener("click", function () {
+                    console.log(ImagesColumn.item(j));
+                    imageView.style.display = "block";
+                    const clonedImage = ImagesColumn.item(j).cloneNode(true);
+                    clonedImage.style =
+                        "width: 100%; height: 100%; object-fit: contain; border: 2px solid lightblue";
+                    fitImage.appendChild(clonedImage);
+                    imageView.addEventListener("click", function () {
+                        imageView.style.display = "none";
+                        // console.log(fitImage.hasChildNodes(clonedImage));
+                        if (fitImage.hasChildNodes(clonedImage) === true) {
+                            fitImage.removeChild(clonedImage);
+                        }
+                    });
+                });
+            }
+        }
+    </script>
+
+    <section id="subscribe" class="padding-medium">
+        <div class="container">
+            <div class="row">
+                <div class="block-text col-md-6">
+                    <div class="section-header">
+                        <h2 class="section-title">Newsletter Sign-up</h2>
+                    </div>
+                    <p>Subscribe to our newsletter to get latest Updates</p>
+                </div>
+                <div class="subscribe-content col-md-6">
+                    <div id="form" class="d-flex justify-content-between">
+                        <input id="Email_ID" type="email" name="email" placeholder="Enter your email address"
+                            required />
+                        <button id="Subscribe-btn" class="btn btn-dark" onclick="SendOTP()">
+                            Subscribe Now
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div id="otpDiv" class="otp-div">
+        <h5>
+            We have sent an OTP to this email:
+            <a id="otpEmail"></a>
+        </h5>
+        <input type="text" name="otp" id="otp-number" placeholder="Enter OTP here" />
+        <button onclick="VerifySubscribe()">Verify Email</button>
+    </div>
+    <!-- Button Click Loader HTML Starts-->
+    <div class="loader-content">
+        <h3 id="loadMessage"></h3>
+        <div class="loading">
+            <p>loading</p>
+            <span></span>
+        </div>
+    </div>
+    <!-- Button Click Loader HTML Ends-->
+    <script src="newsletter.js"></script>
+    <hr />
+    <section id="latest-blog" class="padding-large bg-light-grey">
+        <div class="container">
+            <div class="section-header d-flex flex-wrap align-items-center justify-content-between">
+                <h2 class="section-title">our Journal</h2>
+                <div class="btn-wrap align-right">
+                    <a href="blog.html" class="d-flex align-items-center">Read All Articles <i
+                            class="icon icon icon-arrow-io"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="row d-flex flex-wrap">
+                <article class="col-md-4 post-item">
+                    <div class="image-holder zoom-effect">
+                        <a href="single-post.html">
+                            <img src="images/post-img1.jpg" alt="post" class="post-image" />
+                        </a>
+                    </div>
+                    <div class="post-content d-flex">
+                        <div class="meta-date">
+                            <div class="meta-day text-primary">22</div>
+                            <div class="meta-month">Aug-2021</div>
+                        </div>
+                        <div class="post-header">
+                            <h3 class="post-title">
+                                <a href="single-post.html">top 10 casual look ideas to dress up your kids</a>
+                            </h3>
+                            <a href="blog.html" class="blog-categories">Fashion</a>
+                        </div>
+                    </div>
+                </article>
+                <article class="col-md-4 post-item">
+                    <div class="image-holder zoom-effect">
+                        <a href="single-post.html">
+                            <img src="images/post-img2.jpg" alt="post" class="post-image" />
+                        </a>
+                    </div>
+                    <div class="post-content d-flex">
+                        <div class="meta-date">
+                            <div class="meta-day text-primary">25</div>
+                            <div class="meta-month">Aug-2021</div>
+                        </div>
+                        <div class="post-header">
+                            <h3 class="post-title">
+                                <a href="single-post.html">Latest trends of wearing street wears supremely</a>
+                            </h3>
+                            <a href="blog.html" class="blog-categories">Trending</a>
+                        </div>
+                    </div>
+                </article>
+                <article class="col-md-4 post-item">
+                    <div class="image-holder zoom-effect">
+                        <a href="single-post.html">
+                            <img src="images/post-img3.jpg" alt="post" class="post-image" />
+                        </a>
+                    </div>
+                    <div class="post-content d-flex">
+                        <div class="meta-date">
+                            <div class="meta-day text-primary">28</div>
+                            <div class="meta-month">Aug-2021</div>
+                        </div>
+                        <div class="post-header">
+                            <h3 class="post-title">
+                                <a href="single-post.html">types of comfortable clothes ideas for women</a>
+                            </h3>
+                            <a href="blog.html" class="blog-categories">Inspiration</a>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <section id="instagram" class="padding-small">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Follow our Instagram</h2>
+            </div>
+            <p>Our official Instagram account</p>
+            <div class="row d-flex flex-wrap justify-content-between">
+                <div class="col-lg-2 col-md-4 col-xs-6">
+                    <figure class="zoom-effect">
+                        <img src="images/insta-image1.jpg" alt="instagram" class="insta-image" />
+                        <i class="icon icon-instagram"></i>
+                    </figure>
+                </div>
+                <div class="col-lg-2 col-md-4 col-xs-6">
+                    <figure class="zoom-effect">
+                        <img src="images/insta-image2.jpg" alt="instagram" class="insta-image" />
+                        <i class="icon icon-instagram"></i>
+                    </figure>
+                </div>
+                <div class="col-lg-2 col-md-4 col-xs-6">
+                    <figure class="zoom-effect">
+                        <img src="images/insta-image3.jpg" alt="instagram" class="insta-image" />
+                        <i class="icon icon-instagram"></i>
+                    </figure>
+                </div>
+                <div class="col-lg-2 col-md-4 col-xs-6">
+                    <figure class="zoom-effect">
+                        <img src="images/insta-image4.jpg" alt="instagram" class="insta-image" />
+                        <i class="icon icon-instagram"></i>
+                    </figure>
+                </div>
+                <div class="col-lg-2 col-md-4 col-xs-6">
+                    <figure class="zoom-effect">
+                        <img src="images/insta-image5.jpg" alt="instagram" class="insta-image" />
+                        <i class="icon icon-instagram"></i>
+                    </figure>
+                </div>
+                <div class="col-lg-2 col-md-4 col-xs-6">
+                    <figure class="zoom-effect">
+                        <img src="images/insta-image6.jpg" alt="instagram" class="insta-image" />
+                        <i class="icon icon-instagram"></i>
+                    </figure>
+                </div>
+            </div>
+        </div>
+    </section>
+    <hr />
+    <section id="shipping-information">
+        <div class="container">
+            <div class="row d-flex flex-wrap align-items-center justify-content-between">
+                <div class="col-md-3 col-sm-6">
+                    <div class="icon-box">
+                        <i class="icon icon-truck"></i>
+                        <h4 class="block-title">
+                            <strong>Free shipping</strong> Over ₹200
+                        </h4>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    <div class="icon-box">
+                        <i class="icon icon-return"></i>
+                        <h4 class="block-title">
+                            <strong>Money back</strong> Return within 7 days
+                        </h4>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    <div class="icon-box">
+                        <i class="icon icon-tags1"></i>
+                        <h4 class="block-title">
+                            <strong>Buy 4 get 5th</strong> 50% off
+                        </h4>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    <div class="icon-box">
+                        <i class="icon icon-help_outline"></i>
+                        <h4 class="block-title">
+                            <strong>Any questions?</strong> experts are ready
+                        </h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr />
+    </section>
+    <footer id="footer">
+        <div class="container">
+            <div class="footer-menu-list">
+                <div class="row d-flex flex-wrap justify-content-between">
+                    <div class="col-lg-3 col-md-6 col-sm-6">
+                        <div class="footer-menu">
+                            <h5 class="widget-title">Our Brand!</h5>
+                            <div class="footer-brand">
+                                <div class="footer-brand-logo">
+                                    <img src="images/chalkduster-icon.jpg" alt="brand logo" />
+                                </div>
+                                <div class="contact-detail">
+                                    <div class="detail-list">
+                                        <ul class="list-unstyled list-icon">
+                                            <li>
+                                                <a href="#"><i class="icon icon-phone"></i>+1650-243-0000</a>
+                                            </li>
+                                            <li>
+                                                <a href="mailto:contact@chalkduster.in"><i
+                                                        class="icon icon-mail"></i>contact@chalkduster.in</a>
+                                            </li>
+                                            <li>
+                                                <a href="#"><i class="icon icon-map-pin"></i>North Melbourne
+                                                    VIC 3051, Australia</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 col-sm-6">
+                        <div class="footer-menu">
+                            <h5 class="widget-title">Useful Links</h5>
+                            <ul class="menu-list list-unstyled">
+                                <li class="menu-item">
+                                    <a href="about.html">About Us</a>
+                                </li>
+                                <li class="menu-item">
+                                    <a href="catalogue.html">Our Catalogue</a>
+                                </li>
+                                <li class="menu-item">
+                                    <a href="brand.html">Logo & Branding</a>
+                                </li>
+                                <li class="menu-item">
+                                    <a href="blog.html">Our Blog</a>
+                                </li>
+                                <li class="menu-item">
+                                    <a href="#">Privacy Policy</a>
+                                </li>
+                                <li class="menu-item">
+                                    <a href="FAQ.html">FAQ</a>
+                                </li>
+                                <li class="menu-item">
+                                    <a href="disclaimer.html">Disclaimer</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 col-sm-6">
+                        <div class="footer-menu">
+                            <h5 class="widget-title">Contact Us</h5>
+                            <p>Do you have any questions or suggestions?</p>
+                            <br />
+                            <a href="emailto:contact@chalkduster.in" class="email">contact@chalkduster.in</a>
+                            <br />
+                            <p>Do you need assistance?</p>
+                            <br />
+                            <p>Give us a call.</p>
+                            <strong>+57 444 11 00 35</strong>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 col-sm-6">
+                        <div class="footer-menu">
+                            <h5 class="widget-title">Forever 2024</h5>
+                            <p>
+                                &#8220; Dressed for success, one uniform at a time. In a sea
+                                of faces, uniforms create a sense of belonging.
+                            </p>
+                            <br />
+                            <p>
+                                In a world of colors, uniforms create a tapestry of
+                                togetherness &#8221;
+                            </p>
+                            <div class="social-links">
+                                <ul class="d-flex list-unstyled">
+                                    <li>
+                                        <a href="#">
+                                            <i class="icon icon-facebook"></i>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <i class="icon icon-twitter"></i>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <i class="icon icon-youtube-play"></i>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <div id="footer-bottom">
+        <div class="container">
+            <div class="d-flex align-items-center flex-wrap justify-content-between">
+                <div class="copyright">
+                    <p>
+                        All the copyright factors are reserved to
+                        <a href="index.html">Chalk Duster&copy;</a>
+                    </p>
+                </div>
+                <div class="payment-method">
+                    <p>Payment options:</p>
+                    <div class="card-wrap">
+                        <img src="images/visa-icon.jpg" alt="visa" />
+                        <img src="images/mastercard.png" alt="mastercard" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="js/jquery-1.11.0.min.js"></script>
+    <script src="js/plugins.js"></script>
+    <script src="js/script.js"></script>
+</body>
+
+</html>
