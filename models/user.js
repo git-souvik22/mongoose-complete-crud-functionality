@@ -44,6 +44,10 @@ const userSchema = new mongoose.Schema({
     type: Number,
     default: 0,
   },
+  isSeller: {
+    type: Number,
+    default: 0,
+  },
   logState: {
     type: String,
     default: "out",

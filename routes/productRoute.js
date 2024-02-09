@@ -7,7 +7,7 @@ const path = require("path");
 // initializing multer for uploading product images
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, "../images");
+    cb(null, "./images");
   },
   filename: function (req, file, cb) {
     cb(
@@ -67,7 +67,7 @@ router.post("/create-product", upload.array("images", 4), async (req, res) => {
   }
 });
 
-router.get("/product", auth, async (req, res) => {
+router.get("/product", async (req, res) => {
   const databyCat = await Product.aggregate([
     { $group: { _id: "$category", details: { $push: "$$ROOT" } } },
   ]);

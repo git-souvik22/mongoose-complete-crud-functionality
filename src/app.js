@@ -18,6 +18,8 @@ app.use(express.urlencoded({ extended: false }));
 app.use(`${apiURL}`, productRouter);
 app.use(`${apiURL2}`, userRouter);
 
+app.use("/images", express.static("./images"));
+
 // db connection
 mongoose
   .connect(process.env.DB_URL)
