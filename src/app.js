@@ -4,7 +4,6 @@ const mongoose = require("mongoose");
 const productRouter = require("../routes/productRoute.js");
 const userRouter = require("../routes/userRoute.js");
 const path = require("path");
-const hbs = require("hbs");
 require("dotenv").config({ path: path.resolve(__dirname, ".env") });
 const cors = require("cors");
 app.use(cors());
