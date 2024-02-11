@@ -47,6 +47,9 @@ app.get("/wishlist", (req, res) => {
 app.get("/shop", (req, res) => {
   res.render("shop");
 });
+app.get("/product", (req, res) => {
+  res.render("single-product");
+});
 
 // db connection
 mongoose
