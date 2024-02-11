@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="shortcut icon" href="./images/favicon.jpg" type="image/x-icon" />
+  <title>Auth By Chalk Duster</title>
+  <link rel="stylesheet" href="form.css" />
+</head>
+
+<body>
+  <section class="container">
+    <header>Registration Form</header>
+    <form class="form">
+      <div class="input-box">
+        <label for="name">Full Name</label>
+        <input id="name" type="text" name="fullname" placeholder="Enter full name" autocomplete="username" required />
+      </div>
+
+      <div class="input-box">
+        <label for="email">Email Address</label>
+        <input id="email" type="email" name="email" placeholder="Enter email address" autocomplete="off" required />
+      </div>
+
+      <div class="input-box address">
+        <label for="mobile">Phone Number</label>
+        <div class="merge-number">
+          <select name="country" id="countrycode" required>
+            <option selected value="+91">+91</option>
+          </select>
+
+          <input id="mobile" type="tel" name="phone" autocomplete="mobile" placeholder="Enter phone number" required />
+        </div>
+      </div>
+      <small class="otp-info" style="color: rgb(13, 92, 148)">*OTP will be sent to this number for verification</small>
+
+      <button type="submit">Submit</button>
+    </form>
+    <small id="changeForm">Already have an account ?
+      <a style="
+            text-decoration: underline;
+            color: rgb(13, 92, 148);
+            cursor: pointer;
+          " onclick="displayLogfrom()">Login Here</a></small>
+  </section>
+  <div id="otpDiv" class="otp-div">
+    <h5>
+      We have sent an OTP to:
+      <a id="otpPhone"></a>
+    </h5>
+    <input type="text" name="otp" id="otp-number" placeholder="Enter OTP here" />
+    <button onclick="VerifyOTP()">Verify OTP</button>
+  </div>
+  <div class="loader-content">
+    <h3 id="loadMessage"></h3>
+    <div class="loading">
+      <p>loading</p>
+      <span></span>
+    </div>
+  </div>
+  <div class="cover-bg"></div>
+  <script>
+    let coverBg = document.querySelector(".cover-bg");
+    let otpDiv = document.getElementById("otpDiv");
+    let phonePlaceholder = document.getElementById("otpPhone");
+    let otpValue = document.getElementById("otp-number");
+    let loaderDiv = document.querySelector(".loader-content");
+    const loadMessage = document.getElementById("loadMessage");
+    const loadingDiv = document.querySelector(".loading");
+    const formDiv = document.querySelector("form");
+    let nameInput = document.getElementById("name");
+    let emailInput = document.getElementById("email");
+
+    formDiv.addEventListener("submit", (event) => {
+      event.preventDefault();
+      const formData = new FormData(formDiv);
+      const data = Object.fromEntries(formData);
+      const phoneNumber = data.country + data.phone.trim();
+      const fullname = data.fullname.trim();
+      const email = data.email.trim();
+      const otpData = {
+        fullname: fullname,
+        email: email,
+        phone: phoneNumber,
+      };
+      const logData = {
+        phone: phoneNumber,
+      };
+      // console.log(otpData);
+      if (document.getElementById("mobile").value.length === 10) {
+        if (nameInput.value !== "" && emailInput.value !== "") {
+          fetch(`http://localhost:5000/api/v2/register-otp`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(otpData),
+          })
+            .then((res) => res.json())
+            .then((data) => {
+              console.log(data); // otp sent
+              if (data.success === false) {
+                alert(data.message);
+                // window.location.reload();
+              }
+              if (data.success === true) {
+                coverBg.style.display = "block";
+                otpDiv.style.display = "flex";
+                phonePlaceholder.innerText = phoneNumber;
+              }
+            })
+            .catch((err) => console.log(err));
+        }
+        if (otpData.fullname === "" && otpData.email === "") {
+          // console.log(data);
+          fetch(`http://localhost:5000/api/v2/login-otp`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(logData),
+          })
+            .then((res) => res.json())
+            .then((logInfo) => {
+              console.log(logInfo);
+              if (logInfo.success === false) {
+                alert(logInfo.message);
+                setTimeout(() => {
+                  window.location.reload();
+                }, 3000);
+              }
+              if (logInfo.success === true) {
+                coverBg.style.display = "block";
+                otpDiv.style.display = "flex";
+                phonePlaceholder.innerText = logData.phone;
+              }
+            })
+            .catch((err) => console.log(err));
+        }
+      } else {
+        alert("Please enter a valid mobile number");
+      }
+    });
+
+    function VerifyOTP() {
+      const verifyData = {
+        phone: phonePlaceholder.innerText,
+        otp: otpValue.value,
+      };
+      fetch(`http://localhost:5000/api/v2/otp-verify`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(verifyData),
+      })
+        .then((res) => res.json())
+        .then((result) => {
+          console.log(result);
+          localStorage.setItem("TCD", result.token);
+          if (result.success === true) {
+            setTimeout(() => {
+              window.location.assign(
+                `${window.location.origin}/profile.html`
+              );
+            }, 2000);
+          }
+        })
+        .catch((err) => console.log(err));
+    }
+    // SWITCH FORM
+    let formContainer = document.querySelector(".container");
+    let inputDiv = document.querySelectorAll(".input-box");
+    let countryInput = document.getElementById("countrycode");
+    let changeForm = document.getElementById("changeForm");
+    let formHeader = document.querySelector("header");
+    function displayRegfrom() {
+      formHeader.innerHTML = "Register Form";
+      nameInput.setAttribute("required", "true");
+      emailInput.setAttribute("required", "true");
+      formContainer.style = "max-width: 700px";
+      inputDiv.forEach((input, number) => {
+        if (number !== 2) {
+          input.style = "display: block";
+        }
+      });
+      countryInput.style = "width: 10%";
+      function onMobile(mob) {
+        if (mob.matches) {
+          countryInput.style = "width: 20%";
+        } else {
+          countryInput.style = "width: 10%";
+        }
+      }
+      let mob = window.matchMedia("(max-width: 480px)");
+      onMobile(mob);
+      mob.addEventListener("change", function () {
+        onMobile(mob);
+      });
+      changeForm.innerHTML = `Already have an account ?
+        <a
+          style="
+            text-decoration: underline;
+            color: rgb(13, 92, 148);
+            cursor: pointer;
+          "
+          onclick="displayLogfrom()"
+          >Login Here</a
+        >`;
+    }
+    function displayLogfrom() {
+      formHeader.innerHTML = "Login Form";
+      nameInput.removeAttribute("required");
+      emailInput.removeAttribute("required");
+      formContainer.style = "max-width: 400px";
+      inputDiv.forEach((input, number) => {
+        if (number !== 2) {
+          input.style = "display: none";
+        }
+      });
+      countryInput.style = "width: 20%";
+      changeForm.innerHTML = `New to Chalk Duster ?
+        <a
+          style="
+            text-decoration: underline;
+            color: rgb(13, 92, 148);
+            cursor: pointer;
+          "
+          onclick="displayRegfrom()"
+          >Register Here</a
+        >`;
+    }
+  </script>
+</body>
+
+</html>

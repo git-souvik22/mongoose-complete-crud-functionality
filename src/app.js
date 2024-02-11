@@ -35,6 +35,18 @@ app.get("/", (req, res) => {
 app.get("/about", (req, res) => {
   res.render("about");
 });
+app.get("/login", (req, res) => {
+  res.render("login");
+});
+app.get("/cart", (req, res) => {
+  res.render("cart");
+});
+app.get("/wishlist", (req, res) => {
+  res.render("wishlist");
+});
+app.get("/shop", (req, res) => {
+  res.render("shop");
+});
 
 // db connection
 mongoose
