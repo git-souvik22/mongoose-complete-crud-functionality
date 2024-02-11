@@ -53,8 +53,14 @@ app.get("/product", (req, res) => {
 app.get("/blog", (req, res) => {
   res.render("blog");
 });
+app.get("/contact", (req, res) => {
+  res.render("contact");
+});
 app.get("/faq", (req, res) => {
   res.render("faq");
+});
+app.get("/disclaimer", (req, res) => {
+  res.render("disclaimer");
 });
 
 // db connection
