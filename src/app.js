@@ -62,6 +62,9 @@ app.get("/faq", (req, res) => {
 app.get("/disclaimer", (req, res) => {
   res.render("disclaimer");
 });
+app.get("/profile", (req, res) => {
+  res.render("profile");
+});
 
 // db connection
 mongoose
