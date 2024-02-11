@@ -40,41 +40,6 @@
     <div class="preloader-wrapper">
         <div class="preloader"></div>
     </div>
-    <div class="search-popup">
-        <div class="search-popup-container">
-            <form role="search" method="get" class="search-form" action="">
-                <input type="search" id="search-form" class="search-field" placeholder="Type and press enter" value=""
-                    name="s" />
-                <button type="submit" class="search-submit">
-                    <a href="#"><i class="icon icon-search"></i></a>
-                </button>
-            </form>
-            <h5 class="cat-list-title">Browse Categories</h5>
-            <ul class="cat-list">
-                <li class="cat-list-item">
-                    <a href="shop.html" title="Men Jackets">Men Jackets</a>
-                </li>
-                <li class="cat-list-item">
-                    <a href="shop.html" title="Fashion">Fashion</a>
-                </li>
-                <li class="cat-list-item">
-                    <a href="shop.html" title="Casual Wears">Casual Wears</a>
-                </li>
-                <li class="cat-list-item">
-                    <a href="shop.html" title="Women">Women</a>
-                </li>
-                <li class="cat-list-item">
-                    <a href="shop.html" title="Trending">Trending</a>
-                </li>
-                <li class="cat-list-item">
-                    <a href="shop.html" title="Hoodie">Hoodie</a>
-                </li>
-                <li class="cat-list-item">
-                    <a href="shop.html" title="Kids">Kids</a>
-                </li>
-            </ul>
-        </div>
-    </div>
     <header id="header">
         <div id="header-wrap">
             <nav class="secondary-nav border-bottom">
@@ -105,23 +70,18 @@
                         <div class="col-md-4 col-sm-12 user-items">
                             <ul class="d-flex justify-content-end list-unstyled">
                                 <li>
-                                    <a href="login.html">
+                                    <a href="/login">
                                         <i class="icon icon-user"></i>
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="cart.html">
+                                    <a href="/cart">
                                         <i class="icon icon-shopping-cart"></i>
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="wishlist.html">
+                                    <a href="/wishlist">
                                         <i class="icon icon-heart"></i>
-                                    </a>
-                                </li>
-                                <li class="user-items search-item pe-3">
-                                    <a href="#" class="search-button">
-                                        <i class="icon icon-search"></i>
                                     </a>
                                 </li>
                             </ul>
@@ -134,7 +94,7 @@
                     <div class="d-flex justify-content-between align-items-center nav-height">
                         <div class="logo-div">
                             <div class="main-logo">
-                                <a href="index.html">
+                                <a href="/">
                                     <img src="images/chalkduster-icon.jpg" alt="logo" />
                                 </a>
                             </div>
@@ -143,21 +103,21 @@
                             <div class="navbar">
                                 <div id="main-nav" class="stellarnav d-flex justify-content-end right">
                                     <ul class="menu-list">
+                                        {{!-- <li class="menu-item has-sub">
+                                            <a href="/" class="item-anchor active" data-effect="Home">Home</a>
+                                        </li> --}}
+                                        {{!-- <li class="menu-item has-sub">
+                                            <a href="/about" class="item-anchor" data-effect="About">About</a>
+                                        </li> --}}
                                         <li class="menu-item has-sub">
-                                            <a href="index.html" class="item-anchor active" data-effect="Home">Home</a>
+                                            <a href="/shop" class="item-anchor" data-effect="Shop">Shop</a>
                                         </li>
                                         <li class="menu-item has-sub">
-                                            <a href="about.html" class="item-anchor" data-effect="About">About</a>
+                                            <a href="/blog" class="item-anchor" data-effect="Blog">Blog</a>
                                         </li>
-                                        <li class="menu-item has-sub">
-                                            <a href="shop.html" class="item-anchor" data-effect="Shop">Shop</a>
-                                        </li>
-                                        <li class="menu-item has-sub">
-                                            <a href="blog.html" class="item-anchor" data-effect="Blog">Blog</a>
-                                        </li>
-                                        <li class="menu-item has-sub">
-                                            <a href="contact.html" class="item-anchor" data-effect="Contact">Contact</a>
-                                        </li>
+                                        {{!-- <li class="menu-item has-sub">
+                                            <a href="/contact" class="item-anchor" data-effect="Contact">Contact</a>
+                                        </li> --}}
                                     </ul>
                                 </div>
                             </div>
@@ -455,7 +415,7 @@
             <div class="section-header d-flex flex-wrap align-items-center justify-content-between">
                 <h2 class="section-title">our Journal</h2>
                 <div class="btn-wrap align-right">
-                    <a href="blog.html" class="d-flex align-items-center">Read All Articles <i
+                    <a href="/blog" class="d-flex align-items-center">Read All Articles <i
                             class="icon icon icon-arrow-io"></i>
                     </a>
                 </div>
@@ -463,7 +423,7 @@
             <div class="row d-flex flex-wrap">
                 <article class="col-md-4 post-item">
                     <div class="image-holder zoom-effect">
-                        <a href="single-post.html">
+                        <a href="/single-post">
                             <img src="images/post-img1.jpg" alt="post" class="post-image" />
                         </a>
                     </div>
@@ -474,7 +434,7 @@
                         </div>
                         <div class="post-header">
                             <h3 class="post-title">
-                                <a href="single-post.html">top 10 casual look ideas to dress up your kids</a>
+                                <a href="/single-post">top 10 casual look ideas to dress up your kids</a>
                             </h3>
                             <a href="blog.html" class="blog-categories">Fashion</a>
                         </div>
@@ -482,7 +442,7 @@
                 </article>
                 <article class="col-md-4 post-item">
                     <div class="image-holder zoom-effect">
-                        <a href="single-post.html">
+                        <a href="/single-post">
                             <img src="images/post-img2.jpg" alt="post" class="post-image" />
                         </a>
                     </div>
@@ -493,7 +453,7 @@
                         </div>
                         <div class="post-header">
                             <h3 class="post-title">
-                                <a href="single-post.html">Latest trends of wearing street wears supremely</a>
+                                <a href="/single-post">Latest trends of wearing street wears supremely</a>
                             </h3>
                             <a href="blog.html" class="blog-categories">Trending</a>
                         </div>
@@ -501,7 +461,7 @@
                 </article>
                 <article class="col-md-4 post-item">
                     <div class="image-holder zoom-effect">
-                        <a href="single-post.html">
+                        <a href="/single-post">
                             <img src="images/post-img3.jpg" alt="post" class="post-image" />
                         </a>
                     </div>
@@ -512,9 +472,9 @@
                         </div>
                         <div class="post-header">
                             <h3 class="post-title">
-                                <a href="single-post.html">types of comfortable clothes ideas for women</a>
+                                <a href="/single-post">types of comfortable clothes ideas for women</a>
                             </h3>
-                            <a href="blog.html" class="blog-categories">Inspiration</a>
+                            <a href="/blog" class="blog-categories">Inspiration</a>
                         </div>
                     </div>
                 </article>
@@ -644,25 +604,25 @@
                             <h5 class="widget-title">Useful Links</h5>
                             <ul class="menu-list list-unstyled">
                                 <li class="menu-item">
-                                    <a href="about.html">About Us</a>
+                                    <a href="/about">About Us</a>
                                 </li>
                                 <li class="menu-item">
-                                    <a href="catalogue.html">Our Catalogue</a>
+                                    <a href="/catalogue">Our Catalogue</a>
                                 </li>
                                 <li class="menu-item">
-                                    <a href="brand.html">Logo & Branding</a>
+                                    <a href="/brand">Logo & Branding</a>
                                 </li>
                                 <li class="menu-item">
-                                    <a href="blog.html">Our Blog</a>
+                                    <a href="/blog">Our Blog</a>
                                 </li>
                                 <li class="menu-item">
                                     <a href="#">Privacy Policy</a>
                                 </li>
                                 <li class="menu-item">
-                                    <a href="FAQ.html">FAQ</a>
+                                    <a href="/faq">FAQ</a>
                                 </li>
                                 <li class="menu-item">
-                                    <a href="disclaimer.html">Disclaimer</a>
+                                    <a href="/disclaimer">Disclaimer</a>
                                 </li>
                             </ul>
                         </div>
@@ -723,7 +683,7 @@
                 <div class="copyright">
                     <p>
                         All the copyright factors are reserved to
-                        <a href="index.html">Chalk Duster&copy;</a>
+                        <a href="/">Chalk Duster&copy;</a>
                     </p>
                 </div>
                 <div class="payment-method">
