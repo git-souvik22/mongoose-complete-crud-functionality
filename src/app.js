@@ -50,6 +50,9 @@ app.get("/shop", (req, res) => {
 app.get("/product", (req, res) => {
   res.render("single-product");
 });
+app.get("/blog", (req, res) => {
+  res.render("blog");
+});
 
 // db connection
 mongoose
