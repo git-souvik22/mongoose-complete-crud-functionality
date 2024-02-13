@@ -118,6 +118,94 @@
         </div>
     </header>
     {{!-- seller account starts from here --}}
+    <section class="user-profile">
+        <div class="profile-sidebar">
+            <ul class="profile-items">
+                <a href="/profile">
+                    <li class="profile-menu profile">
+                        <i class="fas fa-user fa-lg" style="color: #ffffff"></i>
+                        <span class="list-name">User Profile</span>
+                    </li>
+                </a>
+                <a href="/orders">
+                    <li class="profile-menu orders">
+                        <i class="fas fa-shopping-bag fa-lg" style="color: #ffffff"></i>
+                        <span class="list-name">Order History</span>
+                    </li>
+                </a>
+                <a href="/offers">
+                    <li class="profile-menu offer">
+                        <i class="fas fa-tags fa-lg" style="color: #ffffff"></i>
+                        <span class="list-name">New Offer</span>
+                    </li>
+                </a>
+                <a href="/seller-account">
+                    <li class="profile-menu seller menuActive">
+                        <i class="fas fa-store-alt fa-lg" style="color: #ffffff"></i>
+                        <span class="list-name">Seller Account</span>
+                    </li>
+                </a>
+                <a href="/settings">
+                    <li class="profile-menu setting">
+                        <i class="fas fa-cog fa-lg" style="color: #5c8bdb"></i>
+                        <span class="list-name">Settings</span>
+                    </li>
+                </a>
+            </ul>
+        </div>
+        <div class="profile-display">
+            <nav class="logout-nav">
+                {{!-- <button id="logoutBtn">
+                    <i class="fas fa-power-off fa-lg" style="color: #ffffff"></i>
+                </button> --}}
+            </nav>
+            <div class="edit-div">
+                <strong class="user-details">Seller Dashboard</strong>
+                {{!-- <button onclick="editProfile()" id="editProfile">
+                    <i class="far fa-edit fa-lg" style="color: #000000"></i>
+                </button> --}}
+            </div>
+            <form class="userform">
+                <div class="input-box">
+                    <label for="name">Full Name</label>
+                    <input id="name" type="text" name="fullname" placeholder="Enter Full Name" autocomplete="username"
+                        disabled required />
+                </div>
+                <div class="input-box">
+                    <label for="mobile">Phone Number</label>
+                    <input id="mobile" type="tel" name="phone" placeholder="Enter Mobile" autocomplete="mobile" disabled
+                        required />
+                </div>
+                <div class="input-box">
+                    <label for="email">Email Id</label>
+                    <input id="email" type="email" name="email" placeholder="Enter Email" autocomplete="email" disabled
+                        required />
+                </div>
+                <div class="input-box">
+                    <label for="state">State</label>
+                    <input id="state" type="text" name="state" placeholder="Enter State" autocomplete="address-level1"
+                        disabled required />
+                </div>
+                <div class="input-box">
+                    <label for="city">City / Vill</label>
+                    <input id="city" type="text" name="cityvill" placeholder="Enter City" autocomplete="address-level2"
+                        disabled required />
+                </div>
+                <div class="input-box">
+                    <label for="pin">Pin Code</label>
+                    <input id="pin" type="text" name="pin" placeholder="Enter Pin" autocomplete="postal-code" disabled
+                        required />
+                </div>
+                <div class="input-box">
+                    <label for="nearloc">Nearby Landmark</label>
+                    <input id="nearloc" type="text" name="nearloc" placeholder="Enter Landmark"
+                        autocomplete="street-address" disabled required />
+                </div>
+            </form>
+            <button class="update-profile">Send Product</button>
+        </div>
+    </section>
+    <hr>
     <footer id="footer">
         <div class="container">
             <div class="footer-menu-list">
@@ -246,6 +334,31 @@
             </div>
         </div>
     </div>
+    <script>
+        const formDiv = document.querySelector(".userform");
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const tcd = localStorage.getItem("TCD");
+            // console.log(tcd);
+            fetch(`http://localhost:5000/api/v2/profile`, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `${tcd}`,
+                },
+            })
+                .then((res) => res.json())
+                .then((user) => {
+                    // console.log(user);
+                    if (user.success === true && user.loggedUSER.isSeller === 1) {
+                        formDiv.style.display = "flex";
+                    } else {
+                        formDiv.style.display = "none";
+                    }
+                })
+                .catch((err) => console.log(err));
+        });
+    </script>
     <script src="js/jquery-1.11.0.min.js"></script>
     <script src="js/plugins.js"></script>
     <script src="js/script.js"></script>

@@ -30,9 +30,6 @@
 </head>
 
 <body>
-    <div class="preloader-wrapper">
-        <div class="preloader"></div>
-    </div>
     <header id="header">
         <div id="header-wrap">
             <nav class="secondary-nav border-bottom">
@@ -135,27 +132,36 @@
     <section class="user-profile">
         <div class="profile-sidebar">
             <ul class="profile-items">
-                <li class="profile-menu profile menuActive">
-                    <i class="fas fa-user fa-lg" style="color: #ffffff"></i>
-                    <span class="list-name">User Profile</span>
-                </li>
-                <li class="profile-menu orders">
-                    <i class="fas fa-shopping-bag fa-lg" style="color: #ffffff"></i>
-                    <span class="list-name">Order history</span>
-                </li>
-
-                <li class="profile-menu offer">
-                    <i class="fas fa-tags fa-lg" style="color: #ffffff"></i>
-                    <span class="list-name">New Offer</span>
-                </li>
-                <li class="profile-menu seller">
-                    <i class="fas fa-store-alt fa-lg" style="color: #ffffff"></i>
-                    <span class="list-name">Seller Account</span>
-                </li>
-                <li class="profile-menu setting">
-                    <i class="fas fa-cog fa-lg" style="color: #5c8bdb"></i>
-                    <span class="list-name">Settings</span>
-                </li>
+                <a href="/profile">
+                    <li class="profile-menu profile menuActive">
+                        <i class="fas fa-user fa-lg" style="color: #ffffff"></i>
+                        <span class="list-name">User Profile</span>
+                    </li>
+                </a>
+                <a href="/orders">
+                    <li class="profile-menu orders">
+                        <i class="fas fa-shopping-bag fa-lg" style="color: #ffffff"></i>
+                        <span class="list-name">Order History</span>
+                    </li>
+                </a>
+                <a href="/offers">
+                    <li class="profile-menu offer">
+                        <i class="fas fa-tags fa-lg" style="color: #ffffff"></i>
+                        <span class="list-name">New Offer</span>
+                    </li>
+                </a>
+                <a href="/seller-account">
+                    <li class="profile-menu seller">
+                        <i class="fas fa-store-alt fa-lg" style="color: #ffffff"></i>
+                        <span class="list-name">Seller Account</span>
+                    </li>
+                </a>
+                <a href="/settings">
+                    <li class="profile-menu setting">
+                        <i class="fas fa-cog fa-lg" style="color: #5c8bdb"></i>
+                        <span class="list-name">Settings</span>
+                    </li>
+                </a>
             </ul>
         </div>
         <div class="profile-display">
@@ -404,6 +410,7 @@
                 .then((user) => {
                     // console.log(user);
                     if (user.success === true) {
+                        formDiv.style = "display: flex;"
                         fullnameInput.value = user.loggedUSER.fullname;
                         phoneInput.value = user.loggedUSER.phone;
                         emailInput.value = user.loggedUSER.email;
