@@ -399,7 +399,7 @@
         document.addEventListener("DOMContentLoaded", () => {
             const tcd = localStorage.getItem("TCD");
             // console.log(tcd);
-            fetch(`http://localhost:5000/api/v2/profile`, {
+            fetch(`${window.location.origin}/api/v2/profile`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -440,7 +440,7 @@
         function proceed(value) {
             if (value === "LOGOUT") {
                 const tcdID = localStorage.getItem("TCD");
-                fetch(`http://localhost:5000/api/v2/logout`, {
+                fetch(`${window.location.origin}/api/v2/logout`, {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
@@ -452,7 +452,7 @@
                         console.log(logInfo);
                         localStorage.removeItem("TCD");
                         setTimeout(() => {
-                            window.location.assign(`${window.location.origin}/login.html`);
+                            window.location.assign(`${window.location.origin}/login`);
                         }, 2000);
                     });
             } else if (value === "SAVE") {
@@ -479,7 +479,7 @@
                     pin !== "" &&
                     nearloc !== ""
                 ) {
-                    fetch(`http://localhost:5000/api/v2/update-profile`, {
+                    fetch(`${window.location.origin}/api/v2/update-profile`, {
                         method: "PUT",
                         headers: {
                             "Content-Type": "application/json",

@@ -177,22 +177,22 @@
             <div class="register-seller">
                 <form class="userform">
                     <div class="input-box">
-                        <label for="firmName">Firm Name</label>
+                        <label for="firmName">Firm Name *</label>
                         <input id="firmName" type="text" name="firmName" placeholder="Enter Firm Name"
                             autocomplete="off" required />
                     </div>
                     <div class="input-box">
-                        <label for="proprietor">Proprietor</label>
+                        <label for="proprietor">Proprietor *</label>
                         <input id="proprietor" type="text" name="proprietor" placeholder="Enter Proprietor Name"
                             autocomplete="off" required />
                     </div>
                     <div class="input-box">
-                        <label for="business">Business Category</label>
+                        <label for="business">Business Category *</label>
                         <input id="business" type="text" name="businessCat" placeholder="Enter Business Category"
                             autocomplete="off" required />
                     </div>
                     <div class="input-box">
-                        <label for="gst">GST Number</label>
+                        <label for="gst">GST Number (optional)</label>
                         <input id="gst" type="text" name="gst" placeholder="Enter GST Number" autocomplete="off" />
                     </div>
                 </form>
@@ -335,7 +335,7 @@
         document.addEventListener("DOMContentLoaded", () => {
             const tcd = localStorage.getItem("TCD");
             // console.log(tcd);
-            fetch(`http://localhost:5000/api/v2/profile`, {
+            fetch(`${window.location.origin}/api/v2/profile`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -344,15 +344,89 @@
             })
                 .then((res) => res.json())
                 .then((user) => {
-                    // console.log(user);
-                    if (user.success === true && user.loggedUSER.isSeller === 1) {
-                        regSeller.style.display = "none";
-                    } else {
+                    console.log(user.loggedUSER.isSeller);
+                    if (user.success === true && user.loggedUSER.isSeller === 0) {
                         regSeller.style.display = "flex";
+                    } else {
+                        regSeller.style.display = "none";
                     }
                 })
                 .catch((err) => console.log(err));
         });
+
+        const formDiv = document.querySelector(".userform");
+        let modalOverlay = document.querySelector(".custom-modal-overlay");
+        const OKbtn = document.getElementById("btnOk");
+        const CANCELbtn = document.getElementById("btnCancel");
+        const updateProfileBtn = document.querySelector(".update-profile");
+        let allInput = document.querySelectorAll("input");
+
+        allInput.forEach((input) => {
+            input.addEventListener("change", (event) => {
+                // console.log(event.target.value);
+                updateProfileBtn.style = "display: block";
+            });
+        });
+
+        updateProfileBtn.addEventListener("click", function () {
+            modalOverlay.style = "display: block";
+            OKbtn.innerText = "Submit Seller";
+        });
+
+        OKbtn.addEventListener("click", function (event) {
+            proceed(event.target.innerText);
+        });
+        CANCELbtn.addEventListener("click", function (event) {
+            proceed(event.target.innerText);
+        });
+
+        formDiv.addEventListener("submit", (event) => {
+            event.preventDefault();
+        });
+
+        function proceed(value) {
+            if (value === "Submit Seller") {
+                const formData = new FormData(formDiv);
+                const data = Object.fromEntries(formData);
+                const { firmName, proprietor, businessCat, gst } = data;
+                const bodyData = {
+                    firmName: firmName.trim(),
+                    proprietor: proprietor.trim(),
+                    businessCat: businessCat.trim(),
+                    gst: gst.trim(),
+                    isSeller: 1
+                }
+                const tid = localStorage.getItem("TCD");
+                if (firmName !== "" && proprietor !== "" && businessCat !== "") {
+                    fetch(`${window.location.origin}/api/v2/register-seller`, {
+                        method: "PUT",
+                        headers: {
+                            "Content-Type": "application/json",
+                            Authorization: `${tid}`,
+                        },
+                        body: JSON.stringify(bodyData),
+                    })
+                        .then((res) => res.json())
+                        .then((result) => {
+                            console.log(result);
+                            if (result.success === true) {
+                                alert("Dear User your seller account will be activated once it is verified. Usually it takes less than 24hrs to verify you");
+                                window.location.reload();
+                            }
+                            if (result.success === false) {
+                                alert(result.message);
+                            }
+                        })
+                        .catch((err) => {
+                            console.log(err);
+                        });
+                }
+            } else if (value === "CANCEL") {
+                modalOverlay.style = "display: none";
+            }
+        }
+
+
     </script>
     <script src="js/jquery-1.11.0.min.js"></script>
     <script src="js/plugins.js"></script>

@@ -232,6 +232,36 @@ router.put("/update-profile", requireLogin, async (req, res) => {
     });
   }
 });
+
+router.put("/register-seller", requireLogin, async (req, res) => {
+  try {
+    const sellerDetails = await User.findByIdAndUpdate(
+      req.user.id,
+      {
+        $set: req.body,
+      },
+      { new: true }
+    );
+    if (sellerDetails) {
+      res.status(201).send({
+        success: true,
+        message: "Seller details received",
+        result: sellerDetails,
+      });
+    } else {
+      res.status(500).send({
+        success: false,
+        message: "Seller cannot be registered",
+      });
+    }
+  } catch (err) {
+    res.status(500).send({
+      success: false,
+      message: `Something went wrong ${err}`,
+    });
+  }
+});
+
 // loggedin User Access
 router.get("/profile", requireLogin, async (req, res) => {
   try {
