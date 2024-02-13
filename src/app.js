@@ -65,6 +65,9 @@ app.get("/disclaimer", (req, res) => {
 app.get("/profile", (req, res) => {
   res.render("profile");
 });
+app.get("/seller-account", (req, res) => {
+  res.render("seller-account");
+});
 
 // db connection
 mongoose
