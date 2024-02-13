@@ -118,6 +118,15 @@
         </div>
     </header>
     {{!-- seller account starts from here --}}
+    <div class="custom-modal-overlay" id="customModalOverlay">
+        <div class="custom-modal-dialog" id="customModalDialog">
+            <small style="color: #5c8bdb">Message from Chalk Duster:</small> <br />
+            <p>Are you sure you want to proceed?</p>
+            <br />
+            <button id="btnOk">OK</button>
+            <button id="btnCancel">CANCEL</button>
+        </div>
+    </div>
     <section class="user-profile">
         <div class="profile-sidebar">
             <ul class="profile-items">
@@ -165,44 +174,30 @@
                     <i class="far fa-edit fa-lg" style="color: #000000"></i>
                 </button> --}}
             </div>
-            <form class="userform">
-                <div class="input-box">
-                    <label for="name">Full Name</label>
-                    <input id="name" type="text" name="fullname" placeholder="Enter Full Name" autocomplete="username"
-                        disabled required />
-                </div>
-                <div class="input-box">
-                    <label for="mobile">Phone Number</label>
-                    <input id="mobile" type="tel" name="phone" placeholder="Enter Mobile" autocomplete="mobile" disabled
-                        required />
-                </div>
-                <div class="input-box">
-                    <label for="email">Email Id</label>
-                    <input id="email" type="email" name="email" placeholder="Enter Email" autocomplete="email" disabled
-                        required />
-                </div>
-                <div class="input-box">
-                    <label for="state">State</label>
-                    <input id="state" type="text" name="state" placeholder="Enter State" autocomplete="address-level1"
-                        disabled required />
-                </div>
-                <div class="input-box">
-                    <label for="city">City / Vill</label>
-                    <input id="city" type="text" name="cityvill" placeholder="Enter City" autocomplete="address-level2"
-                        disabled required />
-                </div>
-                <div class="input-box">
-                    <label for="pin">Pin Code</label>
-                    <input id="pin" type="text" name="pin" placeholder="Enter Pin" autocomplete="postal-code" disabled
-                        required />
-                </div>
-                <div class="input-box">
-                    <label for="nearloc">Nearby Landmark</label>
-                    <input id="nearloc" type="text" name="nearloc" placeholder="Enter Landmark"
-                        autocomplete="street-address" disabled required />
-                </div>
-            </form>
-            <button class="update-profile">Send Product</button>
+            <div class="register-seller">
+                <form class="userform">
+                    <div class="input-box">
+                        <label for="firmName">Firm Name</label>
+                        <input id="firmName" type="text" name="firmName" placeholder="Enter Firm Name"
+                            autocomplete="off" required />
+                    </div>
+                    <div class="input-box">
+                        <label for="proprietor">Proprietor</label>
+                        <input id="proprietor" type="text" name="proprietor" placeholder="Enter Proprietor Name"
+                            autocomplete="off" required />
+                    </div>
+                    <div class="input-box">
+                        <label for="business">Business Category</label>
+                        <input id="business" type="text" name="businessCat" placeholder="Enter Business Category"
+                            autocomplete="off" required />
+                    </div>
+                    <div class="input-box">
+                        <label for="gst">GST Number</label>
+                        <input id="gst" type="text" name="gst" placeholder="Enter GST Number" autocomplete="off" />
+                    </div>
+                </form>
+                <button class="update-profile">Submit Seller</button>
+            </div>
         </div>
     </section>
     <hr>
@@ -335,7 +330,7 @@
         </div>
     </div>
     <script>
-        const formDiv = document.querySelector(".userform");
+        const regSeller = document.querySelector(".register-seller");
 
         document.addEventListener("DOMContentLoaded", () => {
             const tcd = localStorage.getItem("TCD");
@@ -351,9 +346,9 @@
                 .then((user) => {
                     // console.log(user);
                     if (user.success === true && user.loggedUSER.isSeller === 1) {
-                        formDiv.style.display = "flex";
+                        regSeller.style.display = "none";
                     } else {
-                        formDiv.style.display = "none";
+                        regSeller.style.display = "flex";
                     }
                 })
                 .catch((err) => console.log(err));

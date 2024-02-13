@@ -48,6 +48,18 @@ const userSchema = new mongoose.Schema({
     type: Number,
     default: 0,
   },
+  firmName: {
+    type: String,
+  },
+  proprietor: {
+    type: String,
+  },
+  businessCat: {
+    type: String,
+  },
+  gst: {
+    type: String,
+  },
   logState: {
     type: String,
     default: "out",
