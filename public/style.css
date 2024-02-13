@@ -3670,7 +3670,7 @@ p {
 .userform {
   width: 90%;
   height: fit-content;
-  display: none;
+  display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
@@ -3706,6 +3706,10 @@ button.update-profile {
   cursor: pointer;
   transition: all 0.2s ease;
   background: rgb(32, 78, 23);
+}
+.seller-reg-heading {
+  color: #ffffff;
+  margin-bottom: 20px;
 }
 button.update-profile:hover {
   background: rgb(39, 143, 49);
@@ -3980,6 +3984,9 @@ button.update-profile:hover {
   .custom-modal-dialog {
     width: 80%;
     font-size: 15px;
+  }
+  .seller-reg-heading {
+    font-size: medium;
   }
 }
 /* Media query for medium size devices and tablets */

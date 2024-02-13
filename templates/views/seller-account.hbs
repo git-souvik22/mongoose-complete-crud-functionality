@@ -176,6 +176,7 @@
             </div>
             <div class="register-seller">
                 <form class="userform">
+                    <strong class="seller-reg-heading">Register Yourself as a Seller</strong>
                     <div class="input-box">
                         <label for="firmName">Firm Name *</label>
                         <input id="firmName" type="text" name="firmName" placeholder="Enter Firm Name"
@@ -196,7 +197,7 @@
                         <input id="gst" type="text" name="gst" placeholder="Enter GST Number" autocomplete="off" />
                     </div>
                 </form>
-                <button class="update-profile">Submit Seller</button>
+                <button class="update-profile">SUBMIT SELLER</button>
             </div>
         </div>
     </section>
@@ -344,15 +345,17 @@
             })
                 .then((res) => res.json())
                 .then((user) => {
-                    console.log(user.loggedUSER.isSeller);
+                    //console.log(user.loggedUSER.isSeller);
                     if (user.success === true && user.loggedUSER.isSeller === 0) {
-                        regSeller.style.display = "flex";
+                        regSeller.style.display = "block";
                     } else {
                         regSeller.style.display = "none";
                     }
                 })
                 .catch((err) => console.log(err));
         });
+
+
 
         const formDiv = document.querySelector(".userform");
         let modalOverlay = document.querySelector(".custom-modal-overlay");
@@ -370,7 +373,7 @@
 
         updateProfileBtn.addEventListener("click", function () {
             modalOverlay.style = "display: block";
-            OKbtn.innerText = "Submit Seller";
+            OKbtn.innerText = "SUBMIT SELLER";
         });
 
         OKbtn.addEventListener("click", function (event) {
@@ -385,7 +388,7 @@
         });
 
         function proceed(value) {
-            if (value === "Submit Seller") {
+            if (value === "SUBMIT SELLER") {
                 const formData = new FormData(formDiv);
                 const data = Object.fromEntries(formData);
                 const { firmName, proprietor, businessCat, gst } = data;
@@ -396,6 +399,7 @@
                     gst: gst.trim(),
                     isSeller: 1
                 }
+                //console.log(bodyData)
                 const tid = localStorage.getItem("TCD");
                 if (firmName !== "" && proprietor !== "" && businessCat !== "") {
                     fetch(`${window.location.origin}/api/v2/register-seller`, {
