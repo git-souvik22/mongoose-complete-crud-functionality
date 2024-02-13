@@ -445,6 +445,7 @@ input[type="text"],
 input[type="tel"],
 input[type="url"],
 input[type="password"],
+input[type="file"],
 textarea,
 select {
   height: 50px;
@@ -3667,7 +3668,8 @@ p {
   box-shadow: rgba(99, 99, 236, 0.679) 0px 2px 4px 0px,
     rgba(107, 149, 192, 0.496) 0px 2px 16px 0px;
 }
-.userform {
+.userform,
+.productForm {
   width: 90%;
   height: fit-content;
   display: flex;
@@ -3679,7 +3681,12 @@ p {
   margin: auto;
   padding-block: 20px;
 }
-.userform .input-box {
+.register-seller,
+.listProduct {
+  align-items: center;
+}
+.userform .input-box,
+.productForm .input-box {
   width: 70%;
   color: white;
   display: flex;
@@ -3694,7 +3701,16 @@ p {
   margin-inline-start: auto;
   background-color: #454242;
 }
-button.update-profile {
+.productForm .input-box input[type="file"] {
+  height: 45px;
+  width: 60%;
+  color: white;
+  border: none;
+  margin-inline-start: auto;
+  background-color: #454242;
+}
+button.update-profile,
+button.list-product {
   width: 20%;
   display: none;
   color: #fff;
@@ -3707,12 +3723,32 @@ button.update-profile {
   transition: all 0.2s ease;
   background: rgb(32, 78, 23);
 }
-.seller-reg-heading {
+
+.seller-reg-heading,
+.product-listing-heading {
   color: #ffffff;
   margin-bottom: 20px;
 }
-button.update-profile:hover {
+button.update-profile:hover,
+button.list-product:hover {
   background: rgb(39, 143, 49);
+}
+.productForm #images:hover {
+  cursor: pointer;
+}
+.productForm #image-preview {
+  width: 90%;
+  height: auto;
+  display: flex;
+  background-color: #252424;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 20px;
+  object-fit: contain;
+}
+.productForm #image-preview .preview-image {
+  width: auto;
+  height: 200px;
 }
 /* Media query for mobile */
 @media (max-width: 480px) {
@@ -3953,23 +3989,33 @@ button.update-profile:hover {
     padding: 5px;
     font-size: 10px;
   }
-  .userform {
+  .userform,
+  .productForm {
     width: 90%;
   }
-  .userform .input-box {
+  .userform .input-box,
+  .productForm .input-box {
     font-size: 12px;
     width: 70%;
     flex-direction: column;
     align-items: baseline;
     margin-bottom: 5px;
   }
-  .userform .input-box label {
+  .userform .input-box label,
+  .productForm .input-box label {
     margin: 0;
   }
-  .userform .input-box input {
+  .userform .input-box input,
+  .productForm .input-box input {
     width: 100%;
     height: 35px;
     margin: 0;
+  }
+  .productForm .input-box input[type="file"] {
+    width: 100%;
+    height: 40px;
+    padding: 10px;
+    font-size: small;
   }
   .profile-sidebar .profile-items .profile-menu {
     justify-content: center;
@@ -3985,7 +4031,8 @@ button.update-profile:hover {
     width: 80%;
     font-size: 15px;
   }
-  .seller-reg-heading {
+  .seller-reg-heading,
+  .product-listing-heading {
     font-size: medium;
   }
 }

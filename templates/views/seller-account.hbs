@@ -199,6 +199,22 @@
                 </form>
                 <button class="update-profile">SUBMIT SELLER</button>
             </div>
+            {{!-- product listing Dashboard --}}
+            <div class="listProduct">
+                <form action="/api/v1/create-product" method="post" enctype="multipart/form-data" class="productForm">
+                    <strong class="product-listing-heading">List your Products</strong>
+                    <div class="input-box">
+                        <label for="images">Product Images (max- 4) *</label>
+                        <input id="images" type="file" name="images" accept="image/jpg, image/jpeg, image/png" required
+                            multiple />
+                    </div>
+                    <div id="image-preview">
+
+                    </div>
+
+                    <button type="submit" class="list-product">LIST PRODUCT</button>
+                </form>
+            </div>
         </div>
     </section>
     <hr>
@@ -332,6 +348,7 @@
     </div>
     <script>
         const regSeller = document.querySelector(".register-seller");
+        const listProduct = document.querySelector(".listProduct")
 
         document.addEventListener("DOMContentLoaded", () => {
             const tcd = localStorage.getItem("TCD");
@@ -347,9 +364,11 @@
                 .then((user) => {
                     //console.log(user.loggedUSER.isSeller);
                     if (user.success === true && user.loggedUSER.isSeller === 0) {
-                        regSeller.style.display = "block";
-                    } else {
-                        regSeller.style.display = "none";
+                        listProduct.style = "display: none";
+                        regSeller.style = "display:block";
+                    } else if (user.success === true && user.loggedUSER.isSeller === 1) {
+                        listProduct.style = "display: block";
+                        regSeller.style = "display: none";
                     }
                 })
                 .catch((err) => console.log(err));
@@ -358,11 +377,42 @@
 
 
         const formDiv = document.querySelector(".userform");
+        const productForm = document.querySelector(".productForm");
         let modalOverlay = document.querySelector(".custom-modal-overlay");
         const OKbtn = document.getElementById("btnOk");
         const CANCELbtn = document.getElementById("btnCancel");
         const updateProfileBtn = document.querySelector(".update-profile");
         let allInput = document.querySelectorAll("input");
+        const imageInput = document.getElementById("images");
+        const imagePreview = document.getElementById('image-preview');
+        const productSubmitBtn = document.querySelector(".list-product");
+
+
+        const productData = new FormData();
+        imageInput.addEventListener("change", function (event) {
+            productSubmitBtn.style = "display: block"
+
+            for (let i = 0; i < event.target.files.length; i++) {
+                productData.append("images", imageInput.files[i]);
+                const file = event.target.files[i];
+                if (file && file.type.startsWith('image/')) {
+                    const reader = new FileReader();
+                    reader.onload = function (event) {
+                        const img = document.createElement('img');
+                        img.src = event.target.result;
+                        img.alt = 'Image Preview';
+                        img.classList.add('preview-image');
+                        if (imagePreview.children.length < 4) {
+                            imagePreview.appendChild(img);
+                        }
+                    };
+                    reader.readAsDataURL(file);
+                }
+            }
+            productForm.addEventListener("submit", function (event) {
+                event.preventDefault();
+            })
+        })
 
         allInput.forEach((input) => {
             input.addEventListener("change", (event) => {
@@ -370,6 +420,7 @@
                 updateProfileBtn.style = "display: block";
             });
         });
+
 
         updateProfileBtn.addEventListener("click", function () {
             modalOverlay.style = "display: block";
@@ -386,6 +437,7 @@
         formDiv.addEventListener("submit", (event) => {
             event.preventDefault();
         });
+
 
         function proceed(value) {
             if (value === "SUBMIT SELLER") {
@@ -425,7 +477,8 @@
                             console.log(err);
                         });
                 }
-            } else if (value === "CANCEL") {
+            }
+            else if (value === "CANCEL") {
                 modalOverlay.style = "display: none";
             }
         }
