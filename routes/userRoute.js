@@ -110,7 +110,7 @@ router.post("/login-otp", async (req, res) => {
 
     const userExists = await User.findOne({ phone: phone });
 
-    if (userExists && userExists.logState === "out") {
+    if (userExists) {
       const loginOtp = await User.findOneAndUpdate(
         { phone: userExists.phone },
         {
