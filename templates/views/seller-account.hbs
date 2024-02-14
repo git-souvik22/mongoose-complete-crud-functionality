@@ -389,7 +389,6 @@
         }
 
         const productForm = document.querySelector(".productForm");
-        const imageInput = document.getElementById("images");
         const imagePreview = document.getElementById('image-preview');
         const productSubmitBtn = document.querySelector(".list-product");
 
@@ -418,6 +417,22 @@
 
         productForm.addEventListener("submit", (event) => {
             event.preventDefault();
+        })
+        const productData = {};
+        const Data = new FormData(productForm);
+        Data.forEach((value, key) => {
+            productData[key] = value
+        })
+        const images = Array.from(Data.getAll("images"));
+        const payload = {
+            name: productData.name,
+            images: images,
+            category: productData.category,
+            price: productData.price,
+        }
+
+        productSubmitBtn.addEventListener("click", function () {
+            console.log(payload)
         })
 
         const regSeller = document.querySelector(".register-seller");
