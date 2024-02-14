@@ -43,7 +43,7 @@ router.post("/create-product", upload.array("images", 4), async (req, res) => {
     const createProduct = new Product({
       name: newProduct.name,
       images: filePaths,
-      stock: newProduct.stock,
+      stock: true,
       category: newProduct.category,
       price: newProduct.price,
     });

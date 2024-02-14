@@ -388,52 +388,57 @@
             }
         }
 
-        const productForm = document.querySelector(".productForm");
+        const productForm = document.querySelector("form.productForm");
         const imagePreview = document.getElementById('image-preview');
+        const imageInput = document.getElementById("images")
+        const productName = document.getElementById("productTitle");
+        const productPrice = document.getElementById("productPrice");
+        const productCategory = document.getElementById("myCategory");
         const productSubmitBtn = document.querySelector(".list-product");
 
-
-        productForm.addEventListener("change", function (event) {
-            productSubmitBtn.style = "display: block"
-
+        const FD = new FormData();
+        //const images = []
+        imageInput.addEventListener("change", function (event) {
             for (let i = 0; i < event.target.files.length; i++) {
                 const file = event.target.files[i];
+                //images.push(file)
                 if (file && file.type.startsWith('image/')) {
                     const reader = new FileReader();
+
                     reader.onload = function (event) {
                         const img = document.createElement('img');
                         img.src = event.target.result;
                         img.alt = 'Image Preview';
                         img.classList.add('preview-image');
-                        if (imagePreview.children.length < 4) {
-                            imagePreview.appendChild(img);
-                        }
+
+                        imagePreview.appendChild(img);
                     };
                     reader.readAsDataURL(file);
                 }
+                //console.log(images)
+                FD.append(`images`, file);
             }
         })
-
-
         productForm.addEventListener("submit", (event) => {
             event.preventDefault();
+            FD.append("name", productName.value);
+            FD.append("category", productCategory.value);
+            FD.append("price", +productPrice.value)
+            //console.log()
+            fetch(`${window.location.origin}/api/v1/create-product`, {
+                method: "POST",
+                body: FD
+            }).then(res => res.json()).then(result => {
+                console.log(result);
+            })
+                .catch(err => {
+                    console.log(err)
+                })
         })
-        const productData = {};
-        const Data = new FormData(productForm);
-        Data.forEach((value, key) => {
-            productData[key] = value
+        productForm.addEventListener("change", () => {
+            productSubmitBtn.style = "display: block"
         })
-        const images = Array.from(Data.getAll("images"));
-        const payload = {
-            name: productData.name,
-            images: images,
-            category: productData.category,
-            price: productData.price,
-        }
 
-        productSubmitBtn.addEventListener("click", function () {
-            console.log(payload)
-        })
 
         const regSeller = document.querySelector(".register-seller");
         const listProduct = document.querySelector(".listProduct")
@@ -451,11 +456,17 @@
                 .then((res) => res.json())
                 .then((user) => {
                     //console.log(user.loggedUSER.isSeller);
-                    if (user.success === true && user.loggedUSER.isSeller === 0) {
+                    if (user.success === true) {
+                        if (user.loggedUSER.isSeller === 0) {
+                            listProduct.style = "display: none";
+                            regSeller.style = "display:block";
+                        }
+                        if (user.loggedUSER.isSeller === 1) {
+                            listProduct.style = "display: block";
+                            regSeller.style = "display: none";
+                        }
+                    } else {
                         listProduct.style = "display: none";
-                        regSeller.style = "display:block";
-                    } else if (user.success === true && user.loggedUSER.isSeller === 1) {
-                        listProduct.style = "display: block";
                         regSeller.style = "display: none";
                     }
                 })

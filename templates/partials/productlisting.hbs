@@ -3,7 +3,8 @@
         <strong class="product-listing-heading">List your Products</strong>
         <div class="input-box">
             <label for="images">Product Images (max- 4) *</label>
-            <input id="images" type="file" name="images" accept="image/jpg, image/jpeg, image/png" required multiple />
+            <input id="images" type="file" name="images" accept="image/jpg, image/jpeg, image/png" required="true"
+                multiple="multiple" />
         </div>
         <div id="image-preview">
 
@@ -11,16 +12,16 @@
         <div class="input-box">
             <label for="productTitle">Product Title</label>
             <input id="productTitle" placeholder="Enter Product Title" autocomplete="off" type="text" name="name"
-                required>
+                required="true">
         </div>
         <div class="input-box">
             <label for="productPrice">Product Price</label>
             <input id="productPrice" placeholder="Enter Product Price" autocomplete="off" type="text" name="price"
-                required>
+                required="true">
         </div>
         <div class="input-box">
             <label for="myCategory">Choose Category</label>
-            <select name="category" id="myCategory" required>
+            <select name="category" id="myCategory" required="true">
                 <option hidden value="">Category</option>
                 <option value="stationary">Stationary</option>
                 <option value="books">Books</option>
@@ -32,6 +33,6 @@
             </select>
         </div>
 
+        <button type="submit" class="list-product">LIST PRODUCT</button>
     </form>
-    <button class="list-product">LIST PRODUCT</button>
 </div>
