@@ -1,0 +1,37 @@
+<div class="listProduct">
+    <form enctype="multipart/form-data" class="productForm">
+        <strong class="product-listing-heading">List your Products</strong>
+        <div class="input-box">
+            <label for="images">Product Images (max- 4) *</label>
+            <input id="images" type="file" name="images" accept="image/jpg, image/jpeg, image/png" required multiple />
+        </div>
+        <div id="image-preview">
+
+        </div>
+        <div class="input-box">
+            <label for="productTitle">Product Title</label>
+            <input id="productTitle" placeholder="Enter Product Title" autocomplete="off" type="text" name="name"
+                required>
+        </div>
+        <div class="input-box">
+            <label for="productPrice">Product Price</label>
+            <input id="productPrice" placeholder="Enter Product Price" autocomplete="off" type="text" name="price"
+                required>
+        </div>
+        <div class="input-box">
+            <label for="myCategory">Choose Category</label>
+            <select name="category" id="myCategory" required>
+                <option hidden value="">Category</option>
+                <option value="stationary">Stationary</option>
+                <option value="books">Books</option>
+                <option value="uniform">Uniform</option>
+                <option value="utensils">Utensils</option>
+                <option value="sports">Sports</option>
+                <option value="bag">Bag</option>
+                <option value="footwear">Footwear</option>
+            </select>
+        </div>
+
+    </form>
+    <button class="list-product">LIST PRODUCT</button>
+</div>

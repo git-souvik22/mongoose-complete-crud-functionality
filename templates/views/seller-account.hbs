@@ -174,47 +174,9 @@
                     <i class="far fa-edit fa-lg" style="color: #000000"></i>
                 </button> --}}
             </div>
-            <div class="register-seller">
-                <form class="userform">
-                    <strong class="seller-reg-heading">Register Yourself as a Seller</strong>
-                    <div class="input-box">
-                        <label for="firmName">Firm Name *</label>
-                        <input id="firmName" type="text" name="firmName" placeholder="Enter Firm Name"
-                            autocomplete="off" required />
-                    </div>
-                    <div class="input-box">
-                        <label for="proprietor">Proprietor *</label>
-                        <input id="proprietor" type="text" name="proprietor" placeholder="Enter Proprietor Name"
-                            autocomplete="off" required />
-                    </div>
-                    <div class="input-box">
-                        <label for="business">Business Category *</label>
-                        <input id="business" type="text" name="businessCat" placeholder="Enter Business Category"
-                            autocomplete="off" required />
-                    </div>
-                    <div class="input-box">
-                        <label for="gst">GST Number (optional)</label>
-                        <input id="gst" type="text" name="gst" placeholder="Enter GST Number" autocomplete="off" />
-                    </div>
-                </form>
-                <button class="update-profile">SUBMIT SELLER</button>
-            </div>
+            {{>sellerRegistration}}
             {{!-- product listing Dashboard --}}
-            <div class="listProduct">
-                <form action="/api/v1/create-product" method="post" enctype="multipart/form-data" class="productForm">
-                    <strong class="product-listing-heading">List your Products</strong>
-                    <div class="input-box">
-                        <label for="images">Product Images (max- 4) *</label>
-                        <input id="images" type="file" name="images" accept="image/jpg, image/jpeg, image/png" required
-                            multiple />
-                    </div>
-                    <div id="image-preview">
-
-                    </div>
-
-                    <button type="submit" class="list-product">LIST PRODUCT</button>
-                </form>
-            </div>
+            {{>productlisting}}
         </div>
     </section>
     <hr>
@@ -347,72 +309,14 @@
         </div>
     </div>
     <script>
-        const regSeller = document.querySelector(".register-seller");
-        const listProduct = document.querySelector(".listProduct")
-
-        document.addEventListener("DOMContentLoaded", () => {
-            const tcd = localStorage.getItem("TCD");
-            // console.log(tcd);
-            fetch(`${window.location.origin}/api/v2/profile`, {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `${tcd}`,
-                },
-            })
-                .then((res) => res.json())
-                .then((user) => {
-                    //console.log(user.loggedUSER.isSeller);
-                    if (user.success === true && user.loggedUSER.isSeller === 0) {
-                        listProduct.style = "display: none";
-                        regSeller.style = "display:block";
-                    } else if (user.success === true && user.loggedUSER.isSeller === 1) {
-                        listProduct.style = "display: block";
-                        regSeller.style = "display: none";
-                    }
-                })
-                .catch((err) => console.log(err));
-        });
-
-
 
         const formDiv = document.querySelector(".userform");
-        const productForm = document.querySelector(".productForm");
         let modalOverlay = document.querySelector(".custom-modal-overlay");
         const OKbtn = document.getElementById("btnOk");
         const CANCELbtn = document.getElementById("btnCancel");
         const updateProfileBtn = document.querySelector(".update-profile");
         let allInput = document.querySelectorAll("input");
-        const imageInput = document.getElementById("images");
-        const imagePreview = document.getElementById('image-preview');
-        const productSubmitBtn = document.querySelector(".list-product");
 
-
-        const productData = new FormData();
-        imageInput.addEventListener("change", function (event) {
-            productSubmitBtn.style = "display: block"
-
-            for (let i = 0; i < event.target.files.length; i++) {
-                productData.append("images", imageInput.files[i]);
-                const file = event.target.files[i];
-                if (file && file.type.startsWith('image/')) {
-                    const reader = new FileReader();
-                    reader.onload = function (event) {
-                        const img = document.createElement('img');
-                        img.src = event.target.result;
-                        img.alt = 'Image Preview';
-                        img.classList.add('preview-image');
-                        if (imagePreview.children.length < 4) {
-                            imagePreview.appendChild(img);
-                        }
-                    };
-                    reader.readAsDataURL(file);
-                }
-            }
-            productForm.addEventListener("submit", function (event) {
-                event.preventDefault();
-            })
-        })
 
         allInput.forEach((input) => {
             input.addEventListener("change", (event) => {
@@ -437,6 +341,7 @@
         formDiv.addEventListener("submit", (event) => {
             event.preventDefault();
         });
+
 
 
         function proceed(value) {
@@ -482,6 +387,65 @@
                 modalOverlay.style = "display: none";
             }
         }
+
+        const productForm = document.querySelector(".productForm");
+        const imageInput = document.getElementById("images");
+        const imagePreview = document.getElementById('image-preview');
+        const productSubmitBtn = document.querySelector(".list-product");
+
+
+        productForm.addEventListener("change", function (event) {
+            productSubmitBtn.style = "display: block"
+
+            for (let i = 0; i < event.target.files.length; i++) {
+                const file = event.target.files[i];
+                if (file && file.type.startsWith('image/')) {
+                    const reader = new FileReader();
+                    reader.onload = function (event) {
+                        const img = document.createElement('img');
+                        img.src = event.target.result;
+                        img.alt = 'Image Preview';
+                        img.classList.add('preview-image');
+                        if (imagePreview.children.length < 4) {
+                            imagePreview.appendChild(img);
+                        }
+                    };
+                    reader.readAsDataURL(file);
+                }
+            }
+        })
+
+
+        productForm.addEventListener("submit", (event) => {
+            event.preventDefault();
+        })
+
+        const regSeller = document.querySelector(".register-seller");
+        const listProduct = document.querySelector(".listProduct")
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const tcd = localStorage.getItem("TCD");
+            // console.log(tcd);
+            fetch(`${window.location.origin}/api/v2/profile`, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `${tcd}`,
+                },
+            })
+                .then((res) => res.json())
+                .then((user) => {
+                    //console.log(user.loggedUSER.isSeller);
+                    if (user.success === true && user.loggedUSER.isSeller === 0) {
+                        listProduct.style = "display: none";
+                        regSeller.style = "display:block";
+                    } else if (user.success === true && user.loggedUSER.isSeller === 1) {
+                        listProduct.style = "display: block";
+                        regSeller.style = "display: none";
+                    }
+                })
+                .catch((err) => console.log(err));
+        });
 
 
     </script>

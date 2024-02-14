@@ -3685,15 +3685,23 @@ p {
 .listProduct {
   align-items: center;
 }
-.userform .input-box,
-.productForm .input-box {
+.userform .input-box {
   width: 70%;
   color: white;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
 }
-.userform .input-box input {
+.productForm .input-box {
+  width: 70%;
+  color: #fff;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.userform .input-box input,
+.productForm .input-box input,
+.productForm .input-box select {
   height: 45px;
   width: 60%;
   color: white;
@@ -3707,6 +3715,19 @@ p {
   color: white;
   border: none;
   margin-inline-start: auto;
+  background-color: #454242;
+}
+.productForm .column {
+  display: flex;
+  column-gap: 15px;
+}
+.select-box select {
+  height: 100%;
+  width: 100%;
+  outline: none;
+  border: none;
+  color: #fff;
+  font-size: 1rem;
   background-color: #454242;
 }
 button.update-profile,
@@ -3744,6 +3765,7 @@ button.list-product:hover {
   justify-content: center;
   flex-wrap: wrap;
   gap: 20px;
+  margin-block: 15px;
   object-fit: contain;
 }
 .productForm #image-preview .preview-image {
@@ -4006,7 +4028,8 @@ button.list-product:hover {
     margin: 0;
   }
   .userform .input-box input,
-  .productForm .input-box input {
+  .productForm .input-box input,
+  .productForm .input-box select {
     width: 100%;
     height: 35px;
     margin: 0;
@@ -4035,6 +4058,9 @@ button.list-product:hover {
   .product-listing-heading {
     font-size: medium;
   }
+  /* .productForm .column {
+    flex-wrap: wrap;
+  } */
 }
 /* Media query for medium size devices and tablets */
 @media (min-width: 481px) and (max-width: 1100px) {
