@@ -354,7 +354,6 @@
                     proprietor: proprietor.trim(),
                     businessCat: businessCat.trim(),
                     gst: gst.trim(),
-                    isSeller: 1
                 }
                 //console.log(bodyData)
                 const tid = localStorage.getItem("TCD");
@@ -393,6 +392,7 @@
         const imageInput = document.getElementById("images")
         const productName = document.getElementById("productTitle");
         const productPrice = document.getElementById("productPrice");
+        const productDesc = document.getElementById("productDesc")
         const productCategory = document.getElementById("myCategory");
         const productSubmitBtn = document.querySelector(".list-product");
 
@@ -410,8 +410,12 @@
                         img.src = event.target.result;
                         img.alt = 'Image Preview';
                         img.classList.add('preview-image');
-
-                        imagePreview.appendChild(img);
+                        if (imagePreview.children.length < 4) {
+                            imagePreview.appendChild(img);
+                            if (imagePreview.children.length === 4) {
+                                imageInput.setAttribute("disabled", "true")
+                            }
+                        }
                     };
                     reader.readAsDataURL(file);
                 }
@@ -423,21 +427,26 @@
             event.preventDefault();
             FD.append("name", productName.value);
             FD.append("category", productCategory.value);
-            FD.append("price", +productPrice.value)
+            FD.append("price", +productPrice.value);
             //console.log()
-            const prKey = localStorage.getItem("TCD")
-            fetch(`${window.location.origin}/api/v1/create-product`, {
-                method: "POST",
-                headers: {
-                    Authorization: `${prKey}`,
-                },
-                body: FD,
-            }).then(res => res.json()).then(result => {
-                console.log(result);
-            })
-                .catch(err => {
-                    console.log(err)
+            if (productDesc.value.length >= 100 || productDesc.value.length <= 300) {
+                FD.append("desc", productDesc.value);
+                const prKey = localStorage.getItem("TCD")
+                fetch(`${window.location.origin}/api/v1/create-product`, {
+                    method: "POST",
+                    headers: {
+                        Authorization: `${prKey}`,
+                    },
+                    body: FD,
+                }).then(res => res.json()).then(result => {
+                    console.log(result);
                 })
+                    .catch(err => {
+                        console.log(err)
+                    })
+            } else {
+                alert("Product description should include 100 to 300 characters")
+            }
         })
         productForm.addEventListener("change", () => {
             productSubmitBtn.style = "display: block"

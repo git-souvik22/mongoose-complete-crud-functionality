@@ -3717,6 +3717,12 @@ p {
   margin-inline-start: auto;
   background-color: #454242;
 }
+.productForm small.productForm-image-info {
+  color: rgb(115, 166, 208);
+  width: 80%;
+  line-height: normal;
+  margin-inline-start: auto;
+}
 .productForm .input-box textarea {
   width: 60%;
   color: white;
@@ -4051,6 +4057,11 @@ button.list-product:hover {
     padding: 10px;
     font-size: small;
   }
+  .productForm small.productForm-image-info {
+    font-size: 9px;
+    width: 70%;
+    margin-inline-start: 0;
+  }
   .profile-sidebar .profile-items .profile-menu {
     justify-content: center;
     width: 85%;
@@ -4294,23 +4305,38 @@ button.list-product:hover {
     padding: 10px;
     font-size: 15px;
   }
-  .userform {
+  .userform,
+  .productForm {
     margin-block: 15px;
     width: 90%;
   }
-  .userform .input-box {
+  .userform .input-box,
+  .productForm .input-box {
     font-size: 20px;
     width: 60%;
     flex-direction: column;
     align-items: baseline;
     margin-bottom: 10px;
   }
-  .userform .input-box label {
+  .userform .input-box label,
+  .productForm .input-box label {
     margin: 0;
   }
-  .userform .input-box input {
+  .userform .input-box input,
+  .productForm .input-box input,
+  .productForm .input-box select,
+  .productForm .input-box input[type="file"] {
     width: 100%;
     height: 45px;
+    margin: 0;
+  }
+  .productForm small.productForm-image-info {
+    font-size: 12px;
+    width: 60%;
+    margin-inline-start: 0;
+  }
+  .productForm .input-box textarea {
+    width: 100%;
     margin: 0;
   }
   .profile-sidebar .profile-items .profile-menu {
