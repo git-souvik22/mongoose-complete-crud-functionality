@@ -18,6 +18,18 @@ const productSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
+  desc: {
+    type: String,
+    required: true,
+  },
+  pState: {
+    type: String,
+    default: "unpublish",
+  },
+  sid: {
+    type: String,
+    required: true,
+  },
 });
 
 const Product = mongoose.model("products", productSchema);
