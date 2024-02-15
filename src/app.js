@@ -71,6 +71,9 @@ app.get("/profile", (req, res) => {
 app.get("/seller-account", (req, res) => {
   res.render("seller-account");
 });
+app.get("/listed-products", (req, res) => {
+  res.render("created-products");
+});
 
 // db connection
 mongoose

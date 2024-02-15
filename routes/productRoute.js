@@ -99,6 +99,28 @@ router.get("/product", async (req, res) => {
   }
 });
 
+// get products for specific seller
+router.get("/thisSellerProducts", requireLogin, async (req, res) => {
+  try {
+    const allproducts = await Product.find({ sid: req.user.id });
+    if (allproducts) {
+      res.status(200).json({
+        success: true,
+        createdproducts: allproducts,
+      });
+    } else {
+      res.status(500).json({
+        success: false,
+        message: "cannot get product details",
+      });
+    }
+  } catch (err) {
+    res.status(500).json({
+      message: "Cannot fetch products data",
+    });
+  }
+});
+
 router.get("/product/:id", async (req, res) => {
   try {
     const getOneProduct = await Product.findById(req.params.id);

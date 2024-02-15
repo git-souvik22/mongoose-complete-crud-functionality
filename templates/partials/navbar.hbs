@@ -27,7 +27,7 @@
                     </div>
                     <div class="col-md-4 col-sm-12 user-items">
                         <ul class="d-flex justify-content-end list-unstyled">
-                            <li>
+                            <li id="toggle-profile">
                                 <a href="/login">
                                     <i class="icon icon-user"></i>
                                 </a>
@@ -85,3 +85,25 @@
         </nav>
     </div>
 </header>
+
+<script>
+    const toggleProfile = document.getElementById("toggle-profile");
+    document.addEventListener("DOMContentLoaded", () => {
+        const navkey = localStorage.getItem("TCD");
+        fetch(`${window.location.origin}/api/v2/profile`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `${navkey}`,
+            },
+        })
+            .then(res => res.json())
+            .then(user => {
+                if (user.success === true) {
+                    toggleProfile.innerHTML = `<a href="/profile" title="your profile">
+                                    <i class="fas fa-user-circle fa-lg" style="color: #1a3666;"></i>
+                                </a>`
+                }
+            })
+    })
+</script>

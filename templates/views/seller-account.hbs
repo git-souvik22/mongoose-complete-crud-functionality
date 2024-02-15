@@ -77,10 +77,12 @@
             </ul>
         </div>
         <div class="profile-display">
-            <nav class="logout-nav">
-                {{!-- <button id="logoutBtn">
-                    <i class="fas fa-power-off fa-lg" style="color: #ffffff"></i>
-                </button> --}}
+            <nav class="seller-nav">
+                <a title="Listed Products" href="/listed-products">
+                    <button id="productsBtn">
+                        <i class="fas fa-server fa-lg" style="color: #B197FC;"></i>
+                    </button>
+                </a>
             </nav>
             <div class="edit-div">
                 <strong class="user-details">Seller Dashboard</strong>
@@ -209,7 +211,7 @@
                 <div class="copyright">
                     <p>
                         All the copyright factors are reserved to
-                        <a href="index.html">Chalk Duster&copy;</a>
+                        <a href="/">Chalk Duster&copy;</a>
                     </p>
                 </div>
                 <div class="payment-method">
@@ -372,7 +374,8 @@
 
 
         const regSeller = document.querySelector(".register-seller");
-        const listProduct = document.querySelector(".listProduct")
+        const listProduct = document.querySelector(".listProduct");
+        const firmHeading = document.querySelector(".user-details")
 
         document.addEventListener("DOMContentLoaded", () => {
             const tcd = localStorage.getItem("TCD");
@@ -388,6 +391,7 @@
                 .then((user) => {
                     //console.log(user.loggedUSER.isSeller);
                     if (user.success === true) {
+                        firmHeading.innerHTML = `${user.loggedUSER.firmName}'s Dashboard`
                         if (user.loggedUSER.isSeller === 0) {
                             listProduct.style = "display: none";
                             regSeller.style = "display:block";
