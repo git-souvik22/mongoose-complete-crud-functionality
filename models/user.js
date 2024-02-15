@@ -50,6 +50,7 @@ const userSchema = new mongoose.Schema({
   },
   firmName: {
     type: String,
+    unique: true,
   },
   proprietor: {
     type: String,
@@ -59,6 +60,7 @@ const userSchema = new mongoose.Schema({
   },
   gst: {
     type: String,
+    unique: true,
   },
   logState: {
     type: String,

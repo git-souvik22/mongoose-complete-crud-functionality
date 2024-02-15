@@ -235,23 +235,31 @@ router.put("/update-profile", requireLogin, async (req, res) => {
 
 router.put("/register-seller", requireLogin, async (req, res) => {
   try {
-    const sellerDetails = await User.findByIdAndUpdate(
-      req.user.id,
-      {
-        $set: req.body,
-      },
-      { new: true }
-    );
-    if (sellerDetails) {
-      res.status(201).send({
-        success: true,
-        message: "Seller details received",
-        result: sellerDetails,
-      });
+    const firm = await User.findOne({ firmName });
+    if (req.body.firmName !== firm.firmName) {
+      const sellerDetails = await User.findByIdAndUpdate(
+        req.user.id,
+        {
+          $set: req.body,
+        },
+        { new: true }
+      );
+      if (sellerDetails) {
+        res.status(201).send({
+          success: true,
+          message: "Seller details received",
+          result: sellerDetails,
+        });
+      } else {
+        res.status(500).send({
+          success: false,
+          message: "Seller cannot be registered",
+        });
+      }
     } else {
       res.status(500).send({
         success: false,
-        message: "Seller cannot be registered",
+        message: "This Business name is already Registered",
       });
     }
   } catch (err) {
