@@ -235,8 +235,9 @@ router.put("/update-profile", requireLogin, async (req, res) => {
 
 router.put("/register-seller", requireLogin, async (req, res) => {
   try {
-    const firm = await User.findOne({ firmName });
-    if (req.body.firmName !== firm.firmName) {
+    const { firmName, gst } = req.body;
+    const firmExists = await User.findOne({ firmName: firmName, gst: gst });
+    if (!firmExists) {
       const sellerDetails = await User.findByIdAndUpdate(
         req.user.id,
         {
