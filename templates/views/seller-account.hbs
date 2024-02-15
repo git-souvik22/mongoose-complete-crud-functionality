@@ -433,9 +433,9 @@
             FD.append("category", productCategory.value);
             FD.append("price", +productPrice.value);
             //console.log()
-            if (productDesc.value.length >= 100 || productDesc.value.length <= 300) {
+            if (productDesc.value.length >= 100 && productDesc.value.length <= 300) {
                 FD.append("desc", productDesc.value);
-                const prKey = localStorage.getItem("TCD")
+                const prKey = localStorage.getItem("TCD");
                 fetch(`${window.location.origin}/api/v1/create-product`, {
                     method: "POST",
                     headers: {
@@ -446,7 +446,7 @@
                     console.log(result);
                 })
                     .catch(err => {
-                        console.log(err)
+                        console.log(err);
                     })
             } else {
                 alert("Product description should include 100 to 300 characters")
