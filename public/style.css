@@ -3717,6 +3717,13 @@ p {
   margin-inline-start: auto;
   background-color: #454242;
 }
+.productForm .input-box textarea {
+  width: 60%;
+  color: white;
+  border: none;
+  margin-inline-start: auto;
+  background-color: #454242;
+}
 .productForm .column {
   display: flex;
   column-gap: 15px;
@@ -4034,6 +4041,10 @@ button.list-product:hover {
     height: 35px;
     margin: 0;
   }
+  .productForm .input-box textarea {
+    width: 100%;
+    margin: 0;
+  }
   .productForm .input-box input[type="file"] {
     width: 100%;
     height: 40px;
@@ -4058,9 +4069,12 @@ button.list-product:hover {
   .product-listing-heading {
     font-size: medium;
   }
-  /* .productForm .column {
-    flex-wrap: wrap;
-  } */
+  button.update-profile,
+  button.list-product {
+    width: fit-content;
+    font-size: 12px;
+    font-weight: 400;
+  }
 }
 /* Media query for medium size devices and tablets */
 @media (min-width: 481px) and (max-width: 1100px) {

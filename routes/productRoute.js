@@ -3,6 +3,7 @@ const Product = require("../models/product.js");
 const auth = require("../auth/authRoutes.js");
 const multer = require("multer");
 const path = require("path");
+const { requireLogin } = require("../middlewares/userAuth.js");
 
 // initializing multer for uploading product images
 const storage = multer.diskStorage({
@@ -36,36 +37,42 @@ const upload = multer({
 });
 
 // uploading multiple image files using the instance of multer middleware
-router.post("/create-product", upload.array("images", 4), async (req, res) => {
-  try {
-    const filePaths = req.files.map((file) => file.path);
-    const newProduct = req.body;
-    const createProduct = new Product({
-      name: newProduct.name,
-      images: filePaths,
-      stock: true,
-      category: newProduct.category,
-      price: newProduct.price,
-    });
-    const saveProduct = await createProduct.save();
-
-    if (saveProduct) {
-      res.status(201).json({
-        success: true,
-        result: saveProduct,
+router.post(
+  "/create-product",
+  upload.array("images", 4),
+  requireLogin,
+  async (req, res) => {
+    try {
+      const filePaths = req.files.map((file) => file.path);
+      const newProduct = req.body;
+      const createProduct = new Product({
+        name: newProduct.name,
+        images: filePaths,
+        category: newProduct.category,
+        price: newProduct.price,
+        desc: newProduct.desc,
+        sid: req.user.id,
       });
-    } else {
+      const saveProduct = await createProduct.save();
+
+      if (saveProduct) {
+        res.status(201).json({
+          success: true,
+          result: saveProduct,
+        });
+      } else {
+        res.status(500).json({
+          success: false,
+          message: "product data cannot be created",
+        });
+      }
+    } catch (err) {
       res.status(500).json({
-        success: false,
-        message: "product data cannot be created",
+        message: "Product creation postponed",
       });
     }
-  } catch (err) {
-    res.status(500).json({
-      message: "Product creation postponed",
-    });
   }
-});
+);
 
 router.get("/product", async (req, res) => {
   const databyCat = await Product.aggregate([

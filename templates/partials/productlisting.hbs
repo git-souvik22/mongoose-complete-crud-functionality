@@ -10,17 +10,17 @@
 
         </div>
         <div class="input-box">
-            <label for="productTitle">Product Title</label>
+            <label for="productTitle">Product Title *</label>
             <input id="productTitle" placeholder="Enter Product Title" autocomplete="off" type="text" name="name"
                 required="true">
         </div>
         <div class="input-box">
-            <label for="productPrice">Product Price</label>
+            <label for="productPrice">Product Price *</label>
             <input id="productPrice" placeholder="Enter Product Price" autocomplete="off" type="text" name="price"
                 required="true">
         </div>
         <div class="input-box">
-            <label for="myCategory">Choose Category</label>
+            <label for="myCategory">Choose Category *</label>
             <select name="category" id="myCategory" required="true">
                 <option hidden value="">Category</option>
                 <option value="stationary">Stationary</option>
@@ -32,7 +32,11 @@
                 <option value="footwear">Footwear</option>
             </select>
         </div>
-
+        <div class="input-box">
+            <label for="productDesc">Product Description *</label>
+            <textarea name="desc" placeholder="Write Product Description" id="productDesc" cols="30" rows="10"
+                required="true"></textarea>
+        </div>
         <button type="submit" class="list-product">LIST PRODUCT</button>
     </form>
 </div>

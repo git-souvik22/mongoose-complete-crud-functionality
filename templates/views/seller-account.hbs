@@ -425,9 +425,13 @@
             FD.append("category", productCategory.value);
             FD.append("price", +productPrice.value)
             //console.log()
+            const prKey = localStorage.getItem("TCD")
             fetch(`${window.location.origin}/api/v1/create-product`, {
                 method: "POST",
-                body: FD
+                headers: {
+                    Authorization: `${prKey}`,
+                },
+                body: FD,
             }).then(res => res.json()).then(result => {
                 console.log(result);
             })

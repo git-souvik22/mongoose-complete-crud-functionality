@@ -8,7 +8,7 @@ const productSchema = new mongoose.Schema({
   images: [String],
   stock: {
     type: Boolean,
-    required: true,
+    default: true,
   },
   category: {
     type: String,
