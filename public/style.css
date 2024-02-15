@@ -3717,7 +3717,7 @@ p {
   margin-inline-start: auto;
   background-color: #454242;
 }
-.productForm small.productForm-image-info {
+.productForm small.productForm-info {
   color: rgb(115, 166, 208);
   width: 80%;
   line-height: normal;
@@ -4057,7 +4057,7 @@ button.list-product:hover {
     padding: 10px;
     font-size: small;
   }
-  .productForm small.productForm-image-info {
+  .productForm small.productForm-info {
     font-size: 9px;
     width: 70%;
     margin-inline-start: 0;
@@ -4330,7 +4330,7 @@ button.list-product:hover {
     height: 45px;
     margin: 0;
   }
-  .productForm small.productForm-image-info {
+  .productForm small.productForm-info {
     font-size: 12px;
     width: 60%;
     margin-inline-start: 0;

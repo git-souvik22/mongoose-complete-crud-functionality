@@ -403,24 +403,28 @@
                 const file = event.target.files[i];
                 //images.push(file)
                 if (file && file.type.startsWith('image/')) {
-                    const reader = new FileReader();
+                    if (file.size <= 80 * 1024) {
+                        const reader = new FileReader();
 
-                    reader.onload = function (event) {
-                        const img = document.createElement('img');
-                        img.src = event.target.result;
-                        img.alt = 'Image Preview';
-                        img.classList.add('preview-image');
-                        if (imagePreview.children.length < 4) {
-                            imagePreview.appendChild(img);
-                            if (imagePreview.children.length === 4) {
-                                imageInput.setAttribute("disabled", "true")
+                        reader.onload = function (event) {
+                            const img = document.createElement('img');
+                            img.src = event.target.result;
+                            img.alt = 'Image Preview';
+                            img.classList.add('preview-image');
+                            if (imagePreview.children.length < 4) {
+                                imagePreview.appendChild(img);
+                                if (imagePreview.children.length === 4) {
+                                    imageInput.setAttribute("disabled", "true")
+                                }
                             }
-                        }
-                    };
-                    reader.readAsDataURL(file);
+                        };
+                        reader.readAsDataURL(file);
+                        FD.append(`images`, file);
+                    } else {
+                        alert(`${file.name} exceeds the size limit of 80KB`)
+                    }
                 }
                 //console.log(images)
-                FD.append(`images`, file);
             }
         })
         productForm.addEventListener("submit", (event) => {
