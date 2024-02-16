@@ -3792,15 +3792,17 @@ button.list-product:hover {
 /* created product cards css */
 .created-products-container {
   width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
   padding-inline: 10px;
 }
 .sellerProducts {
   background-color: #000;
   width: 30%;
-  border: 1px solid white;
   height: 500px;
   border-radius: 5px;
-  padding: 5px;
+  padding: 10px;
   box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px,
     rgba(0, 0, 0, 0.22) 0px 10px 10px;
 }
@@ -3814,17 +3816,52 @@ button.list-product:hover {
   width: auto;
   height: 100%;
 }
-.sellerProductTitleDiv,
+
 .sellerProductDescriptionDiv {
   width: 98%;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-
+.sellerProductTitleDiv {
+  width: 90%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.editProductBtn {
+  width: 7%;
+  cursor: pointer;
+  text-align: end;
+}
+.sellerProductCategoryDiv {
+  line-height: normal;
+  background-color: #223242;
+  color: #ffffff;
+  border-radius: 2px;
+  width: fit-content;
+  padding-inline: 3px;
+}
+.sellerProductStateDiv {
+  line-height: 16px;
+  background-color: #4b4f4b;
+  border-radius: 5px;
+  width: fit-content;
+  padding-inline: 3px;
+}
+.sellerProductState {
+  font-size: 12px;
+  margin: 0;
+  padding: 0;
+  color: #ffffff !important;
+}
 .sellerProductTitleDiv .sellerProductTitle {
   color: #fff;
+  font-size: 15px;
   padding: 0;
+}
+.firm-heading {
+  color: #72a9e9;
 }
 
 /* Media query for mobile */
@@ -4149,7 +4186,13 @@ button.list-product:hover {
     width: 60%;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-evenly;
+  }
+  .sellerProductTitleDiv .sellerProductTitle {
+    font-size: 12px;
+  }
+  .firm-heading {
+    font-size: 10px;
   }
 }
 /* Media query for medium size devices and tablets */
@@ -4438,6 +4481,9 @@ button.list-product:hover {
     width: 60%;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-evenly;
+  }
+  .firm-heading {
+    font-size: 12px;
   }
 }

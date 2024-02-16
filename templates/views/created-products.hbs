@@ -244,14 +244,26 @@
                             alt="Product Image">
                     </div>
                     <div class="sellerProductDetails">
+                        <div style="display: flex; justify-content: space-between;">
                         <div class="sellerProductTitleDiv">
                             <p class="sellerProductTitle">${sellerProduct.name}</p>
+                        </div>
+                        <div class="editProductBtn">
+                            <i class="fas fa-ellipsis-v fa-sm" style="color: #ffffff;"></i>
+                        </div>
                         </div>
                         <div class="sellerProductDescriptionDiv">
                             <small class="sellerProductDescription"> ${sellerProduct.desc}</small>
                         </div>
+                        <div style="display: flex; justify-content: space-between;">
+                        <div class="sellerProductCategoryDiv">
+                            <small class="sellerProductCategory"> ${sellerProduct.category.toUpperCase()}</small>
+                        </div>
+                        <div class="sellerProductStateDiv">
+                            <strong class="sellerProductState">${sellerProduct.pState.toUpperCase()}</strong>
+                        </div>
+                        </div>
                     </div>`;
-
                         const cardContainer = document.createElement("div");
                         cardContainer.classList.add("sellerProducts");
                         cardContainer.setAttribute("product-id", sellerProduct._id)
@@ -261,6 +273,23 @@
                 })
                 .catch(err => {
                     console.log(err);
+                })
+
+            //fetch seller details
+            const logoutNav = document.querySelector(".logout-nav");
+            fetch(`${window.location.origin}/api/v2/profile`, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `${productkey}`,
+                },
+            })
+                .then(res => res.json())
+                .then(seller => {
+                    logoutNav.innerHTML = `<strong class="firm-heading">${seller.loggedUSER.firmName}&copy; ${seller.loggedUSER.fullname}</strong>`;
+                })
+                .catch(err => {
+                    console.log(err)
                 })
         })
     </script>
