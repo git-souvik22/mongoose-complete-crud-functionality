@@ -41,6 +41,7 @@
             <button id="btnCancel">CANCEL</button>
         </div>
     </div>
+    {{>productlisting}}
     <section class="user-profile">
         <div class="profile-sidebar">
             <ul class="profile-items">
@@ -94,7 +95,7 @@
             </div>
         </div>
     </section>
-
+    <hr>
     <footer id="footer">
         <div class="container">
             <div class="footer-menu-list">
@@ -224,7 +225,12 @@
         </div>
     </div>
     <script>
+
+
         const listedProductContainer = document.querySelector(".created-products-container");
+        const listProductContainer = document.querySelector(".listProduct");
+        listProductContainer.style = "display:none;";
+
         document.addEventListener("DOMContentLoaded", () => {
             const productkey = localStorage.getItem("TCD");
             fetch(`${window.location.origin}/api/v1/thisSellerProducts`, {
@@ -248,7 +254,7 @@
                         <div class="sellerProductTitleDiv">
                             <p class="sellerProductTitle">${sellerProduct.name}</p>
                         </div>
-                        <div class="editProductBtn">
+                        <div class="editProductBtn" product-id="${sellerProduct._id}">
                             <i class="fas fa-ellipsis-v fa-sm" style="color: #ffffff;"></i>
                         </div>
                         </div>
@@ -266,14 +272,42 @@
                     </div>`;
                         const cardContainer = document.createElement("div");
                         cardContainer.classList.add("sellerProducts");
-                        cardContainer.setAttribute("product-id", sellerProduct._id)
                         cardContainer.innerHTML = cardinnerhtml;
                         listedProductContainer.prepend(cardContainer);
+
+                        const editProductBtn = document.querySelectorAll(".editProductBtn");
+                        editProductBtn.forEach(button => {
+                            button.addEventListener("click", function () {
+                                //display form
+                                const productForm = document.querySelector("form.productForm");
+                                const editFormTitle = document.querySelector(".product-listing-heading");
+                                const productSubmitBtn = document.querySelector(".list-product");
+                                listProductContainer.style = "display: block;width:100%; position: fixed; top:50%; left: 50%; transform: translate(-50%, -50%); z-index: 10000";
+                                productForm.style = "width: 80%;"
+                                editFormTitle.innerText = "Update your Product";
+                                productSubmitBtn.innerText = "UPDATE PRODUCT";
+                                productForm.addEventListener("change", function () {
+                                    productSubmitBtn.style = "display: block";
+                                });
+                                const formCloseBtn = document.createElement("div");
+                                formCloseBtn.classList.add("closeform");
+                                formCloseBtn.innerHTML = `<i class="far fa-times-circle fa-lg" style="color: #000000;"></i>`;
+                                listProductContainer.appendChild(formCloseBtn);
+                                // get product id
+                                const pid = button.getAttribute("product-id");
+                                console.log(pid);
+                                //close form
+                                formCloseBtn.addEventListener("click", function () {
+                                    listProductContainer.style = "display: none";
+                                })
+                            })
+                        })
                     }
                 })
                 .catch(err => {
                     console.log(err);
-                })
+                });
+
 
             //fetch seller details
             const logoutNav = document.querySelector(".logout-nav");
@@ -291,7 +325,9 @@
                 .catch(err => {
                     console.log(err)
                 })
-        })
+
+        });
+
     </script>
     <script src="js/jquery-1.11.0.min.js"></script>
     <script src="js/plugins.js"></script>
