@@ -3,6 +3,7 @@ const Product = require("../models/product.js");
 const auth = require("../auth/authRoutes.js");
 const multer = require("multer");
 const path = require("path");
+const fs = require("fs");
 const { requireLogin } = require("../middlewares/userAuth.js");
 
 // initializing multer for uploading product images
@@ -142,12 +143,26 @@ router.get("/product/:id", async (req, res) => {
   }
 });
 
-router.put("/product/:id", async (req, res) => {
+router.put("/product/:id", upload.array("images", 4), async (req, res) => {
   try {
+    const filePaths = req.files.map((file) => file.path);
+    const updatedProduct = req.body;
+    const productFound = await Product.findById({ _id: req.params.id });
+    productFound.images.map((image) => {
+      fs.unlink(`${path.join(__dirname, "../" + image)}`, (err) => {
+        if (err) throw err;
+        console.log(`${image} was deleted`);
+      });
+    });
+
     const productUpdate = await Product.findByIdAndUpdate(
       req.params.id,
       {
-        $set: req.body,
+        name: updatedProduct.name,
+        images: filePaths,
+        desc: updatedProduct.desc,
+        price: updatedProduct.price,
+        category: updatedProduct.category,
       },
       { new: true }
     );

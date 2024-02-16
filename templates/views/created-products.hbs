@@ -230,6 +230,14 @@
         const listedProductContainer = document.querySelector(".created-products-container");
         const listProductContainer = document.querySelector(".listProduct");
         listProductContainer.style = "display:none;";
+        const productForm = document.querySelector("form.productForm");
+        const productTitle = document.getElementById("productTitle");
+        const productPrice = document.getElementById("productPrice");
+        const productCategory = document.getElementById("myCategory");
+        const productDesc = document.getElementById("productDesc");
+        const productSubmitBtn = document.querySelector(".list-product");
+        const productImages = document.getElementById("images");
+        const imagePreview = document.getElementById('image-preview');
 
         document.addEventListener("DOMContentLoaded", () => {
             const productkey = localStorage.getItem("TCD");
@@ -278,12 +286,14 @@
                         const editProductBtn = document.querySelectorAll(".editProductBtn");
                         editProductBtn.forEach(button => {
                             button.addEventListener("click", function () {
+                                // get product id
+                                const pid = button.getAttribute("product-id");
+                                productSubmitBtn.setAttribute("product-code", pid);
                                 //display form
-                                const productForm = document.querySelector("form.productForm");
                                 const editFormTitle = document.querySelector(".product-listing-heading");
-                                const productSubmitBtn = document.querySelector(".list-product");
-                                listProductContainer.style = "display: block;width:100%; position: fixed; top:50%; left: 50%; transform: translate(-50%, -50%); z-index: 10000";
-                                productForm.style = "width: 80%;"
+
+                                listProductContainer.style = "display: block; width:100%; height: 100vh; overflow:auto; position: fixed; top:50%; left: 50%; transform: translate(-50%, -50%); z-index: 10000";
+                                productForm.style = "width: 80%;";
                                 editFormTitle.innerText = "Update your Product";
                                 productSubmitBtn.innerText = "UPDATE PRODUCT";
                                 productForm.addEventListener("change", function () {
@@ -293,16 +303,97 @@
                                 formCloseBtn.classList.add("closeform");
                                 formCloseBtn.innerHTML = `<i class="far fa-times-circle fa-lg" style="color: #000000;"></i>`;
                                 listProductContainer.appendChild(formCloseBtn);
-                                // get product id
-                                const pid = button.getAttribute("product-id");
-                                console.log(pid);
+
+
+                                fetch(`${window.location.origin}/api/v1/product/${pid}`, {
+                                    method: "GET",
+                                    headers: {
+                                        "Content-Type": "application/json",
+                                    },
+                                })
+                                    .then(res => res.json())
+                                    .then(product => {
+                                        if (product.success === true) {
+                                            const productRes = product.result[0];
+                                            productTitle.value = productRes.name;
+                                            productPrice.value = productRes.price;
+                                            productCategory.value = productRes.category;
+                                            productDesc.value = productRes.desc;
+                                        }
+                                    })
+                                    .catch(err => {
+                                        alert(err);
+                                    });
                                 //close form
                                 formCloseBtn.addEventListener("click", function () {
                                     listProductContainer.style = "display: none";
-                                })
+                                });
                             })
                         })
                     }
+                    // form updating functinality starts form here
+                    const FD = new FormData();
+                    productImages.addEventListener("change", function (event) {
+                        for (let i = 0; i < event.target.files.length; i++) {
+                            const file = event.target.files[i];
+                            //images.push(file)
+                            if (file && file.type.startsWith('image/')) {
+                                if (file.size <= 80 * 1024) {
+                                    const reader = new FileReader();
+
+                                    reader.onload = function (event) {
+                                        const img = document.createElement('img');
+                                        img.src = event.target.result;
+                                        img.alt = 'Image Preview';
+                                        img.classList.add('preview-image');
+                                        if (imagePreview.children.length < 4) {
+                                            imagePreview.appendChild(img);
+                                            if (imagePreview.children.length === 4) {
+                                                productImages.setAttribute("disabled", "true")
+                                            }
+                                        }
+                                    };
+                                    reader.readAsDataURL(file);
+                                    FD.append(`images`, file);
+                                } else {
+                                    alert(`${file.name} exceeds the size limit of 80KB`)
+                                }
+                            }
+                            //console.log(images)
+                        }
+                    });
+                    productTitle.addEventListener("change", () => {
+                        FD.append("name", productTitle.value);
+                    });
+                    productPrice.addEventListener("change", () => {
+                        FD.append("price", +productPrice.value);
+                    });
+                    productCategory.addEventListener("change", () => {
+                        FD.append("category", productCategory.value);
+                    });
+                    productForm.addEventListener("submit", (event) => {
+                        event.preventDefault();
+                        const proid = productSubmitBtn.getAttribute("product-code")
+                        if (productDesc.value.length >= 100 && productDesc.value.length <= 300) {
+                            FD.append("desc", productDesc.value);
+                            fetch(`${window.location.origin}/api/v1/product/${proid}`, {
+                                method: "PUT",
+                                body: FD,
+                            })
+                                .then(res => res.json())
+                                .then(upProduct => {
+                                    if (upProduct.success === true) {
+                                        alert("Product Updated Successfully");
+                                        window.location.reload();
+                                    }
+                                })
+                                .catch(err => {
+                                    alert(err);
+                                })
+                        } else {
+                            alert("Product description should include 100 to 300 characters");
+                        }
+                    });
                 })
                 .catch(err => {
                     console.log(err);

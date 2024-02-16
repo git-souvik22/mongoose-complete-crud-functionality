@@ -4529,4 +4529,10 @@ button.list-product:hover {
     font-size: 45px;
     margin: 0;
   }
+  button.update-profile,
+  button.list-product {
+    width: fit-content;
+    font-size: 15px;
+    font-weight: 400;
+  }
 }
