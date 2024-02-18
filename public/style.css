@@ -3818,6 +3818,14 @@ button.list-product:hover {
   gap: 5%;
   padding-inline: 10px;
 }
+.app-label {
+  color: white;
+}
+.applicant-name {
+  text-shadow: 1px 2px #171616;
+  color: #ffffff;
+  font-weight: 600;
+}
 .sellerProducts {
   background-color: #000;
   width: 30%;
@@ -3826,6 +3834,55 @@ button.list-product:hover {
   padding: 10px;
   box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px,
     rgba(0, 0, 0, 0.22) 0px 10px 10px;
+}
+.seller-application-card {
+  background-color: #333232;
+  width: 45%;
+  display: block;
+  overflow: hidden;
+  height: auto;
+  border-radius: 5px;
+  box-shadow: rgba(187, 186, 185, 0.254) 0px 3px 8px;
+}
+.applicant-name-div,
+.firm-details-header,
+.firm-details-footer {
+  display: flex;
+  justify-content: space-between;
+}
+.applicant-name-div {
+  border: 2px solid black;
+  background-color: #000;
+  padding-inline: 20px;
+}
+.applicant-firm-details {
+  padding-inline: 20px;
+  padding-block: 10px;
+}
+.firm-details-header .seller-firm-name {
+  color: rgb(218, 134, 56);
+}
+.firm-details-body {
+  line-height: 15px;
+  margin-block: 8px;
+}
+.firm-details-body .business-categories {
+  color: #20c0b0;
+}
+.firm-details-footer {
+  margin-block: 10px;
+}
+.firm-details-footer .business-gst-no {
+  text-shadow: 1px 2px #171616;
+  font-weight: 500;
+}
+.seller-application-card #approve-btn {
+  width: 100%;
+  background-color: rgb(7, 99, 7);
+  margin: 0;
+}
+.seller-application-card #approve-btn:hover {
+  background-color: rgb(28, 178, 28);
 }
 .sellerProductImgDiv {
   background-color: #fff;
@@ -4200,6 +4257,35 @@ button.list-product:hover {
     border: none;
     height: 150px;
   }
+  .seller-application-card {
+    width: 100%;
+  }
+  .app-label,
+  .applicant-name,
+  .seller-firm-name,
+  .business-categories,
+  .business-gst-no {
+    font-size: 13px;
+    margin: 0;
+    padding: 0;
+  }
+  .firm-details-header,
+  .firm-details-body,
+  .firm-details-footer {
+    margin-block: 3px;
+  }
+  .firm-details-body .business-categories {
+    font-size: 10px;
+  }
+  .applicant-name-div,
+  .applicant-firm-details {
+    padding-inline: 5px;
+    padding-top: 5px;
+  }
+  .seller-application-card #approve-btn {
+    font-size: 13px;
+    padding-block: 3px;
+  }
   .sellerProductImgDiv {
     width: 35%;
     height: 100%;
@@ -4537,5 +4623,8 @@ button.list-product:hover {
     width: fit-content;
     font-size: 15px;
     font-weight: 400;
+  }
+  .seller-application-card {
+    width: 100%;
   }
 }

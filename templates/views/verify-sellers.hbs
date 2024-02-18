@@ -81,7 +81,29 @@
             </div>
             <div class="applied-sellers-container">
                 {{!-- product cards appear here --}}
-
+                {{!-- <div class="seller-application-card">
+                    <div class="applicant-name-div">
+                        <span class="app-label">Applicant:</span>
+                        <strong class="applicant-name">Souvik Roy</strong>
+                    </div>
+                    <div class="applicant-firm-details">
+                        <div class="firm-details-header">
+                            <span class="app-label">Firm:</span>
+                            <p class="seller-firm-name">Chalk Duster <small>@Rahul Sir</small></p>
+                        </div>
+                        <div class="firm-details-body">
+                            <p class="app-label">Business Category:</p>
+                            <br>
+                            <small class="business-categories">
+                                Stationary, Books, Uniform, Utensils, Sports, Bag
+                            </small>
+                        </div>
+                        <div class="firm-details-footer">
+                            <span class="app-label">GST:</span>
+                            <p class="business-gst-no">22AAAAA0000A1Z5</p>
+                        </div>
+                    </div>
+                </div> --}}
             </div>
         </div>
     </section>
@@ -214,7 +236,83 @@
             </div>
         </div>
     </div>
+    <script>
+        const logoutNav = document.querySelector(".logout-nav");
+        const applicationsContainer = document.querySelector(".applied-sellers-container");
+        document.addEventListener("DOMContentLoaded", () => {
+            const authorlisence = localStorage.getItem("TCD");
+            fetch(`${window.location.origin}/api/v2/admin`, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `${authorlisence}`,
+                },
+            })
+                .then(res => res.json())
+                .then(Administrator => {
+                    if (Administrator.success === true) {
+                        logoutNav.innerHTML = `<strong class="firm-heading">ADMIN@ ${Administrator.loggedADMIN.fullname}</strong>`
+                    }
+                    if (Administrator.success === false) {
+                        applicationsContainer.style = "display: none";
+                        alert(Administrator.message);
+                    }
+                })
+                .catch(err => {
+                    alert("Something went wrong" + err);
+                })
+            // fetch seller applications
+            fetch(`${window.location.origin}/api/v2/user`, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `${authorlisence}`,
+                },
+            })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success === true && data.result.length !== 0) {
+                        for (let i = 0; i < data.result.length; i++) {
+                            const sellerData = data.result[i];
+                            //console.log(sellerData);
+                            const cardinnerhtml = `<div class="applicant-name-div">
+                        <span class="app-label">Applicant:</span>
+                        <strong class="applicant-name">${sellerData.fullname}</strong>
+                    </div>
+                    <div class="applicant-firm-details">
+                        <div class="firm-details-header">
+                            <span class="app-label">Firm:</span>
+                            <p class="seller-firm-name">${sellerData.firmName} <small>@${sellerData.proprietor}</small></p>
+                        </div>
+                        <div class="firm-details-body">
+                            <p class="app-label">Business Category:</p>
+                            <br>
+                            <small class="business-categories">
+                                ${sellerData.businessCat}
+                            </small>
+                        </div>
+                        <div class="firm-details-footer">
+                            <span class="app-label">GST:</span>
+                            <p class="business-gst-no">${sellerData.gst === "" ? "NOT PROVIDED" : sellerData.gst}</p>
+                        </div>
+                    </div>
+                    <button id="approve-btn">approve</button>`;
 
+                            const applicationCard = document.createElement("div");
+                            applicationCard.classList.add("seller-application-card");
+                            applicationCard.innerHTML = cardinnerhtml;
+                            applicationsContainer.prepend(applicationCard);
+                        }
+                    }
+                    if (data.success === true && data.result.length === 0) {
+                        alert("No Seller has pending application");
+                    }
+                })
+                .catch(err => {
+                    alert("Something went wrong" + err);
+                })
+        })
+    </script>
     <script src="js/jquery-1.11.0.min.js"></script>
     <script src="js/plugins.js"></script>
     <script src="js/script.js"></script>

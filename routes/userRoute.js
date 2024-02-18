@@ -11,16 +11,25 @@ const { otpVerification } = require("../middlewares/otpValidate.js");
 router.get("/user", requireLogin, adminAccess, async (req, res) => {
   try {
     const getUsers = await User.find().sort({ date: -1 });
-    if (getUsers) {
+    const sellers = getUsers.filter((user) => {
+      return (
+        user.isSeller === 0 &&
+        user.firmName !== "" &&
+        user.businessCat !== "" &&
+        user.proprietor !== ""
+      );
+    });
+    if (sellers) {
+      // console.log(sellers);
       res.status(200).send({
         success: true,
-        message: "Users data successfully fetched",
-        result: getUsers,
+        message: "Sellers data successfully fetched",
+        result: sellers,
       });
     } else {
       res.status(400).send({
         success: false,
-        message: "Users data cannot be fetched",
+        message: "No user found",
       });
     }
   } catch (err) {
@@ -315,6 +324,17 @@ router.get("/admin", requireLogin, adminAccess, async (req, res) => {
     });
   }
 });
+// find applications of sellers
+// router.get("/unapproved-sellers", requireLogin, adminAccess, async (req, res) =>{
+//   try{
+//     const findUser = await User.find()
+//   }catch(err){
+//     res.status(500).send({
+//       success: false,
+//       message: "SOMETHING WENT WRONG!"
+//     })
+//   }
+// })
 
 // Logout any User
 router.post("/logout", requireLogin, async (req, res) => {
