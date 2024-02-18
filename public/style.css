@@ -3810,7 +3810,8 @@ button.list-product:hover {
 }
 
 /* created product cards css */
-.created-products-container {
+.created-products-container,
+.applied-sellers-container {
   width: 100%;
   display: flex;
   flex-wrap: wrap;
@@ -4188,7 +4189,8 @@ button.list-product:hover {
     font-weight: 400;
   }
   /* created products page design */
-  .created-products-container {
+  .created-products-container,
+  .applied-sellers-container {
     gap: 10px;
   }
   .sellerProducts {
@@ -4495,7 +4497,8 @@ button.list-product:hover {
     width: 60%;
   }
   /* created products page design */
-  .created-products-container {
+  .created-products-container,
+  .applied-sellers-container {
     gap: 10px;
   }
   .sellerProducts {

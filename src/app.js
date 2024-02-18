@@ -75,6 +75,9 @@ app.get("/seller-account", (req, res) => {
 app.get("/listed-products", (req, res) => {
   res.render("created-products");
 });
+app.get("/pending-sellers-applications", (req, res) => {
+  res.render("verify-sellers");
+});
 
 // db connection
 mongoose
