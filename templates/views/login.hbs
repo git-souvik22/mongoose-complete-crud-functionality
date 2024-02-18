@@ -115,7 +115,7 @@
         }
         if (otpData.fullname === "" && otpData.email === "") {
           // console.log(data);
-          fetch(`http://localhost:5000/api/v2/login-otp`, {
+          fetch(`${window.location.origin}/api/v2/login-otp`, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -127,9 +127,7 @@
               console.log(logInfo);
               if (logInfo.success === false) {
                 alert(logInfo.message);
-                setTimeout(() => {
-                  window.location.reload();
-                }, 3000);
+
               }
               if (logInfo.success === true) {
                 coverBg.style.display = "block";

@@ -151,7 +151,7 @@ router.put("/product/:id", upload.array("images", 4), async (req, res) => {
     productFound.images.map((image) => {
       fs.unlink(`${path.join(__dirname, "../" + image)}`, (err) => {
         if (err) throw err;
-        console.log(`${image} was deleted`);
+        // console.log(`${image} was deleted`);
       });
     });
 
