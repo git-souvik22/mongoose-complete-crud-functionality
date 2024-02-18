@@ -127,7 +127,9 @@
               console.log(logInfo);
               if (logInfo.success === false) {
                 alert(logInfo.message);
-
+                setTimeout(() => {
+                  window.location.reload();
+                }, 3000);
               }
               if (logInfo.success === true) {
                 coverBg.style.display = "block";
