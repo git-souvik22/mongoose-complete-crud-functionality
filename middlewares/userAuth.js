@@ -3,6 +3,20 @@ const User = require("../models/user.js");
 
 const requireLogin = async (req, res, next) => {
   try {
+    const decodedToken = jwt.decode(req.headers.authorization, {
+      complete: true,
+    });
+    if (decodedToken && decodedToken.payload.exp < Date.now() / 1000) {
+      // console.log(decodedToken.payload.id);
+      await User.findByIdAndUpdate(
+        { _id: decodedToken.payload.id },
+        {
+          logState: "out",
+        },
+        { new: true }
+      );
+    }
+
     const decode = jwt.verify(req.headers.authorization, process.env.JWT_KEY);
     req.user = decode;
     const userState = await User.findById({ _id: req.user.id });

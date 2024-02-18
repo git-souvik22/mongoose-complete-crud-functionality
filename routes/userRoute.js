@@ -110,7 +110,7 @@ router.post("/login-otp", async (req, res) => {
 
     const userExists = await User.findOne({ phone: phone });
 
-    if (userExists) {
+    if (userExists && userExists.logState === "out") {
       const loginOtp = await User.findOneAndUpdate(
         { phone: userExists.phone },
         {
@@ -275,7 +275,7 @@ router.put("/register-seller", requireLogin, async (req, res) => {
 router.get("/profile", requireLogin, async (req, res) => {
   try {
     const user = await User.findById(req.user.id);
-    // console.log(req.element.input);
+    console.log(req.user.id);
     if (user) {
       res.status(200).send({
         success: true,
