@@ -3844,20 +3844,34 @@ button.list-product:hover {
   border-radius: 5px;
   box-shadow: rgba(187, 186, 185, 0.254) 0px 3px 8px;
 }
-.applicant-name-div,
 .firm-details-header,
 .firm-details-footer {
   display: flex;
   justify-content: space-between;
 }
 .applicant-name-div {
+  display: flex;
+  justify-content: space-between;
   border: 2px solid black;
   background-color: #000;
   padding-inline: 20px;
+  white-space: nowrap;
+  overflow-x: scroll;
 }
 .applicant-firm-details {
   padding-inline: 20px;
   padding-block: 10px;
+  white-space: nowrap;
+  overflow-x: scroll;
+}
+.applicant-name-div::-webkit-scrollbar,
+.applicant-firm-details::-webkit-scrollbar {
+  height: 4px;
+}
+.applicant-name-div::-webkit-scrollbar-thumb,
+.applicant-firm-details::-webkit-scrollbar-thumb {
+  background-color: rgb(73, 72, 72);
+  border-radius: 3px;
 }
 .firm-details-header .seller-firm-name {
   color: rgb(218, 134, 56);
