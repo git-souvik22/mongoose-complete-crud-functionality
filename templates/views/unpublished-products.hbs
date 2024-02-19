@@ -302,16 +302,63 @@
                             <small class="ProductCategory">${product.category.toUpperCase()}</small>
                         </div>
                         <div class="publishDiv">
-                            <button class="publishBtn">publish</button>
+                            <button pid="${product._id}" class="publishBtn">publish</button>
                         </div>
                     </div>`;
-
 
                             const productCard = document.createElement("div");
                             productCard.classList.add("unpublished-product-cards");
                             productCard.innerHTML = `${cardinnerhtml}`;
                             unpublishedProductsCont.prepend(productCard);
                         }
+                        const viewIcon = document.querySelectorAll(".fa-eye");
+                        viewIcon.forEach(ico => {
+                            ico.addEventListener("click", () => {
+                                const sellid = ico.getAttribute("seller-id");
+                                fetch(`${window.location.origin}/api/v2/seller-details/${sellid}`, {
+                                    method: "GET",
+                                    headers: {
+                                        "Content-Type": "application/json",
+                                        Authorization: `${unprkey}`
+                                    }
+                                })
+                                    .then(res => res.json())
+                                    .then(sellerResponse => {
+                                        if (sellerResponse.success === true) {
+                                            confirm(`${sellerResponse.productSeller.fullname}(${sellerResponse.productSeller.phone})
+                                            ${sellerResponse.productSeller.firmName}`)
+                                        }
+                                    })
+                                    .catch(err => {
+                                        alert("Something went wrong");
+                                    })
+                            })
+                        })
+
+                        // publish products
+                        const publishBtn = document.querySelectorAll(".publishBtn");
+                        publishBtn.forEach(button => {
+                            button.addEventListener("click", () => {
+                                const pid = button.getAttribute("pid");
+                                fetch(`${window.location.origin}/api/v1/publish-product/${pid}`, {
+                                    method: "PUT",
+                                    headers: {
+                                        "Content-Type": "application/json",
+                                        Authorization: `${unprkey}`,
+                                    },
+                                })
+                                    .then(res => res.json())
+                                    .then(publish => {
+                                        if (publish.success === true) {
+                                            confirm(`${publish.message}`);
+                                            window.location.reload();
+                                        }
+                                    })
+                                    .catch(err => {
+                                        alert("Something went wrong" + err);
+                                    })
+                            })
+                        })
                     }
                     if (result.success === false) {
                         alert(result.message);

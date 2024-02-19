@@ -212,4 +212,40 @@ router.get(
   }
 );
 
+// publish products
+router.put(
+  "/publish-product/:code",
+  requireLogin,
+  adminAccess,
+  async (req, res) => {
+    try {
+      const publishProduct = await Product.findByIdAndUpdate(
+        { _id: req.params.code },
+        {
+          pState: "published",
+        },
+        {
+          new: true,
+        }
+      );
+      if (publishProduct) {
+        res.status(201).json({
+          success: true,
+          message: `${publishProduct._id} is published Successfully`,
+        });
+      } else {
+        res.status(400).json({
+          success: false,
+          message: "Product cannot be published",
+        });
+      }
+    } catch (err) {
+      res.status(500).json({
+        success: false,
+        message: "Something Went Wrong",
+      });
+    }
+  }
+);
+
 module.exports = router;

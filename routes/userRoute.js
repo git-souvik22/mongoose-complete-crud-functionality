@@ -73,6 +73,33 @@ router.put(
     }
   }
 );
+// get seller details
+router.get(
+  "/seller-details/:id",
+  requireLogin,
+  adminAccess,
+  async (req, res) => {
+    try {
+      const productSeller = await User.findById({ _id: req.params.id });
+      if (productSeller) {
+        res.status(200).send({
+          success: true,
+          productSeller,
+        });
+      } else {
+        res.status(404).send({
+          success: false,
+          message: "Seller not found",
+        });
+      }
+    } catch (err) {
+      res.status(500).send({
+        success: false,
+        message: "Something went wrong",
+      });
+    }
+  }
+);
 
 // regitration otp
 router.post("/register-otp", async (req, res) => {
