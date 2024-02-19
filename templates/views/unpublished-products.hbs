@@ -80,7 +80,8 @@
             </div>
             <div class="unpublished-products-container">
                 {{!-- product cards appear here --}}
-                <div class="unpublished-product-cards">
+
+                {{!-- <div class="unpublished-product-cards">
                     <div
                         style="display: flex; justify-content: space-between; align-items: center; background-color: #ca5cdb73; padding-inline: 2px; border-radius: 5px;">
                         <small class="sellerProductCode">
@@ -121,49 +122,7 @@
                             <button class="publishBtn">publish</button>
                         </div>
                     </div>
-                </div>
-                <div class="unpublished-product-cards">
-                    <div
-                        style="display: flex; justify-content: space-between; align-items: center; background-color: #ca5cdb73; padding-inline: 2px; border-radius: 5px;">
-                        <small class="sellerProductCode">
-                            PID: 65ceec462ea2a54a8a508017
-                        </small>
-                        <i title="View Seller Details" class="fas fa-eye fa-lg" style="cursor: pointer;"></i>
-                    </div>
-                    <div class="unpublished-images-div">
-                        <img class="unpublished-images" src="../images/images-1708093233185479181150.jpg"
-                            alt="image preview">
-                        <img class="unpublished-images" src="../images/images-1708246214703472656210.jpg"
-                            alt="image preview">
-                        <img class="unpublished-images" src="../images/images-1708093233187148904174.jpg"
-                            alt="image preview">
-                        <img class="unpublished-images" src="../images/images-1708246214702899887469.jpg"
-                            alt="image preview">
-                    </div>
-                    <div class="sellerProductTitleDiv">
-                        <p class="sellerProductTitle">Title: Dress for 14 years old girls</p>
-                    </div>
-                    <div class="ProductDescriptionDiv">
-                        <small>Description:
-                            <details class="ProductDescription">
-                                Introducing the children's clothing store in the city, a
-                                haven for stylish and comfortable apparel for kids of all ages. Our store offers a wide
-                                range of trendy and high-quality clothing options, carefully curated to meet the needs
-                                and
-                                preferences of both children and parents.
-                            </details>
-                        </small>
-                    </div>
-                    <div
-                        style="display: flex; align-items: center; justify-content: space-between; margin-block: 10px;">
-                        <div class="ProductCategoryDiv">
-                            <small class="ProductCategory">UNIFORM</small>
-                        </div>
-                        <div class="publishDiv">
-                            <button class="publishBtn">publish</button>
-                        </div>
-                    </div>
-                </div>
+                </div> --}}
             </div>
         </div>
     </section>
@@ -296,6 +255,73 @@
             </div>
         </div>
     </div>
+    <script>
+        const unpublishedProductsCont = document.querySelector(".unpublished-products-container");
+        document.addEventListener("DOMContentLoaded", () => {
+            const unprkey = localStorage.getItem("TCD");
+            fetch(`${window.location.origin}/api/v1/unpublished-products`, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `${unprkey}`,
+                },
+            })
+                .then(res => res.json())
+                .then(result => {
+                    if (result.success === true) {
+                        //console.log(result.unProducts);
+                        for (let i = 0; i < result.unProducts.length; i++) {
+                            const product = result.unProducts[i];
+
+                            const cardinnerhtml = `<div
+                        style="display: flex; justify-content: space-between; align-items: center; background-color: #ca5cdb73; padding-inline: 2px; border-radius: 5px;">
+                        <small class="sellerProductCode">
+                            PID: ${product._id}
+                        </small>
+                        <i seller-id="${product.sid}" title="View Seller Details" class="fas fa-eye fa-lg" style="cursor: pointer;"></i>
+                    </div>
+                    <div class="unpublished-images-div">
+                        <img class="unpublished-images" src="../${product.images[0]}" alt="image preview">
+                        <img class="unpublished-images" src="../${product.images[1] ? product.images[1] : "./images/product-default.jpg"}" alt="image preview">
+                        <img class="unpublished-images" src="../${product.images[2] ? product.images[2] : "./images/product-default.jpg"}" alt="image preview">
+                        <img class="unpublished-images" src="../${product.images[3] ? product.images[3] : "./images/product-default.jpg"}" alt="image preview">
+                    </div >
+                    <div class="sellerProductTitleDiv">
+                        <p class="sellerProductTitle">Title: ${product.name}</p>
+                    </div>
+                    <div class="ProductDescriptionDiv">
+                        <small>Description:
+                            <details class="ProductDescription">
+                                ${product.desc}
+                            </details>
+                        </small>
+                    </div>
+                    <div
+                        style="display: flex; align-items: center; justify-content: space-between; margin-block: 10px;">
+                        <div class="ProductCategoryDiv">
+                            <small class="ProductCategory">${product.category.toUpperCase()}</small>
+                        </div>
+                        <div class="publishDiv">
+                            <button class="publishBtn">publish</button>
+                        </div>
+                    </div>`;
+
+
+                            const productCard = document.createElement("div");
+                            productCard.classList.add("unpublished-product-cards");
+                            productCard.innerHTML = `${cardinnerhtml}`;
+                            unpublishedProductsCont.prepend(productCard);
+                        }
+                    }
+                    if (result.success === false) {
+                        alert(result.message);
+                    }
+                })
+                .catch(err => {
+                    alert("Something went wrong" + err);
+                })
+        })
+    </script>
     <script src="js/jquery-1.11.0.min.js"></script>
     <script src="js/plugins.js"></script>
     <script src="js/script.js"></script>
