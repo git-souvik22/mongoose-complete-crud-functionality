@@ -296,12 +296,38 @@
                             <p class="business-gst-no">${sellerData.gst === "" ? "NOT PROVIDED" : sellerData.gst}</p>
                         </div>
                     </div>
-                    <button id="approve-btn">approve</button>`;
+                    <button seller-id="${sellerData._id}" class="approve-btn">approve</button>`;
 
                             const applicationCard = document.createElement("div");
                             applicationCard.classList.add("seller-application-card");
                             applicationCard.innerHTML = cardinnerhtml;
                             applicationsContainer.prepend(applicationCard);
+
+                            const approveBtn = document.querySelectorAll(".approve-btn");
+                            approveBtn.forEach(button => {
+                                button.addEventListener("click", () => {
+                                    const sid = button.getAttribute("seller-id");
+                                    const approveProposal = confirm("Did you checked the seller?");
+                                    //approve seller
+                                    fetch(`${window.location.origin}/api/v2/approve-seller/${sid}`, {
+                                        method: "PUT",
+                                        headers: {
+                                            "Content-Type": "application/json",
+                                            Authorization: `${authorlisence}`,
+                                        },
+                                    })
+                                        .then(res => res.json())
+                                        .then(seller => {
+                                            if (approveProposal === true && seller.success === true) {
+                                                alert(`The Seller with firm name ${seller.approvedSeller.firmName} is approved now.`);
+                                                window.location.reload();
+                                            }
+                                        })
+                                        .catch(err => {
+                                            alert(`Something went wrong- ${err}`);
+                                        })
+                                })
+                            })
                         }
                     }
                     if (data.success === true && data.result.length === 0) {
@@ -311,6 +337,9 @@
                 .catch(err => {
                     alert("Something went wrong" + err);
                 })
+
+            // approve sellers
+
         })
     </script>
     <script src="js/jquery-1.11.0.min.js"></script>

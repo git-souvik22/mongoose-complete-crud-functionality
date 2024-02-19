@@ -3890,12 +3890,12 @@ button.list-product:hover {
   text-shadow: 1px 2px #171616;
   font-weight: 500;
 }
-.seller-application-card #approve-btn {
+.seller-application-card .approve-btn {
   width: 100%;
   background-color: rgb(7, 99, 7);
   margin: 0;
 }
-.seller-application-card #approve-btn:hover {
+.seller-application-card .approve-btn:hover {
   background-color: rgb(28, 178, 28);
 }
 .sellerProductImgDiv {
@@ -4296,7 +4296,7 @@ button.list-product:hover {
     padding-inline: 5px;
     padding-top: 5px;
   }
-  .seller-application-card #approve-btn {
+  .seller-application-card .approve-btn {
     font-size: 13px;
     padding-block: 3px;
   }

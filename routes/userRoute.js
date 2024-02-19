@@ -40,7 +40,41 @@ router.get("/user", requireLogin, adminAccess, async (req, res) => {
   }
 });
 
-// // regitration otp
+// approve sellers
+router.put(
+  "/approve-seller/:id",
+  requireLogin,
+  adminAccess,
+  async (req, res) => {
+    try {
+      const approvedSeller = await User.findByIdAndUpdate(
+        { _id: req.params.id },
+        {
+          isSeller: 1,
+        },
+        { new: true }
+      );
+      if (approvedSeller) {
+        res.status(201).send({
+          success: true,
+          approvedSeller,
+        });
+      } else {
+        res.status(404).send({
+          success: false,
+          message: "Error occured",
+        });
+      }
+    } catch (err) {
+      res.status(500).send({
+        success: false,
+        message: "Something went wrong",
+      });
+    }
+  }
+);
+
+// regitration otp
 router.post("/register-otp", async (req, res) => {
   try {
     const accountSid = process.env.TWILIO_ACC_SID;
