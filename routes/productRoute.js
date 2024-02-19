@@ -4,7 +4,7 @@ const auth = require("../auth/authRoutes.js");
 const multer = require("multer");
 const path = require("path");
 const fs = require("fs");
-const { requireLogin } = require("../middlewares/userAuth.js");
+const { requireLogin, adminAccess } = require("../middlewares/userAuth.js");
 
 // initializing multer for uploading product images
 const storage = multer.diskStorage({
@@ -183,5 +183,33 @@ router.put("/product/:id", upload.array("images", 4), async (req, res) => {
     });
   }
 });
+
+// get unpublished products
+router.get(
+  "/unpublished-products",
+  requireLogin,
+  adminAccess,
+  async (req, res) => {
+    try {
+      const unProducts = await Product.find({ pState: "unpublish" });
+      if (unProducts) {
+        res.status(200).json({
+          success: true,
+          unProducts,
+        });
+      } else {
+        res.status(200).json({
+          success: false,
+          message: "No Unpublished products found!",
+        });
+      }
+    } catch (err) {
+      res.status(500).json({
+        success: false,
+        message: "Something went wrong",
+      });
+    }
+  }
+);
 
 module.exports = router;
