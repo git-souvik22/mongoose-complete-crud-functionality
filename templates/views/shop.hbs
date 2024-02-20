@@ -64,20 +64,26 @@
                                 <button class="filter-button active" data-category="all">
                                     All
                                 </button>
-                                <button class="filter-button" data-category="summer">
-                                    Summer Clothes
+                                <button class="filter-button" data-category="stationary">
+                                    Stationary
                                 </button>
-                                <button class="filter-button" data-category="winter">
-                                    Winter Clothes
+                                <button class="filter-button" data-category="books">
+                                    Books
                                 </button>
-                                <button class="filter-button" data-category="spring">
-                                    Spring Clothes
+                                <button class="filter-button" data-category="uniform">
+                                    Uniform
                                 </button>
-                                <button class="filter-button" data-category="monsoon">
-                                    Monsoon Clothes
+                                <button class="filter-button" data-category="utensils">
+                                    Utensils
                                 </button>
-                                <button class="filter-button" data-category="autumn">
-                                    Autumn Clothes
+                                <button class="filter-button" data-category="sports">
+                                    Sports
+                                </button>
+                                <button class="filter-button" data-category="bag">
+                                    Bag
+                                </button>
+                                <button class="filter-button" data-category="footwear">
+                                    Footwear
                                 </button>
                             </div>
                             <div class="row" id="productParentDiv">
@@ -423,6 +429,8 @@
                     let limit = 6;
                     let totalPage = Math.ceil(jsonData.products.length / limit);
 
+
+
                     function getAllProducts(page) {
                         let skip = limit * page;
                         let productSliced = jsonData.products.slice(skip - limit, skip);
@@ -686,6 +694,17 @@
                         });
                     }
                     const DataCategory = jsonData.databyCat;
+                    const publishedCategoryProducts = jsonData.databyCat;
+                    for (let c = 0; c < publishedCategoryProducts.length; c++) {
+                        const pubcat = publishedCategoryProducts[c];
+                        if (pubcat._id === "uniform") {
+                            const liveProducts = pubcat.details.filter(item => {
+                                return item.pState === "published";
+                            });
+                            console.log(liveProducts);
+                        }
+                    }
+
                     filterButtons.forEach((button) => {
                         button.addEventListener("click", function () {
                             productDivContainer.innerHTML = "";
