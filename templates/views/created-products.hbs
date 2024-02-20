@@ -332,6 +332,12 @@
                             })
                         })
                     }
+                    const publishElement = document.querySelectorAll(".sellerProductState");
+                    publishElement.forEach(el => {
+                        if (el.innerHTML === "PUBLISHED") {
+                            el.parentElement.style = "background-color: green;";
+                        }
+                    })
                     // form updating functinality starts form here
                     const FD = new FormData();
                     productImages.addEventListener("change", function (event) {
