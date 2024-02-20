@@ -3831,6 +3831,7 @@ button.list-product:hover {
   width: 30%;
   height: 500px;
   border-radius: 5px;
+  margin-bottom: 10px;
   padding: 10px;
   box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px,
     rgba(0, 0, 0, 0.22) 0px 10px 10px;
@@ -4328,6 +4329,7 @@ small.sellerProductCode {
     width: 100%;
     border: none;
     height: 150px;
+    margin-bottom: 0px;
   }
   .seller-application-card {
     width: 100%;
@@ -4705,6 +4707,7 @@ small.sellerProductCode {
     width: 100%;
     border: none;
     height: 250px;
+    margin-bottom: 0px;
   }
   .sellerProductImgDiv {
     width: 35%;

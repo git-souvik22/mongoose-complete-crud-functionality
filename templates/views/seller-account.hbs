@@ -96,6 +96,14 @@
         </div>
     </section>
     <hr>
+    {{!-- button click loader --}}
+    <div class="loader-content">
+        <h3 id="loadMessage"></h3>
+        <div class="loading">
+            <p>loading</p>
+            <span></span>
+        </div>
+    </div>
     <footer id="footer">
         <div class="container">
             <div class="footer-menu-list">
@@ -225,13 +233,15 @@
         </div>
     </div>
     <script>
-
         const formDiv = document.querySelector(".userform");
         let modalOverlay = document.querySelector(".custom-modal-overlay");
         const OKbtn = document.getElementById("btnOk");
         const CANCELbtn = document.getElementById("btnCancel");
         const updateProfileBtn = document.querySelector(".update-profile");
         let allInput = document.querySelectorAll("input");
+        let loaderDiv = document.querySelector(".loader-content");
+        const loadMessage = document.getElementById("loadMessage");
+        const loadingDiv = document.querySelector(".loading");
 
 
         allInput.forEach((input) => {
@@ -345,6 +355,9 @@
         })
         productForm.addEventListener("submit", (event) => {
             event.preventDefault();
+            loaderDiv.style = "display: flex;";
+            loadMessage.innerText = "Creating Product...";
+            loadMessage.style = "color: white;";
             FD.append("name", productName.value);
             FD.append("category", productCategory.value);
             FD.append("price", +productPrice.value);
@@ -359,7 +372,18 @@
                     },
                     body: FD,
                 }).then(res => res.json()).then(result => {
-                    console.log(result);
+                    if (result.success === true) {
+                        setTimeout(() => {
+                            loadMessage.innerText = "Product Created Successfully!";
+                            loadMessage.style = "color: white;";
+                            loadingDiv.innerHTML = `<img
+                        src="images/verified.gif" alt="verified animation" style="height: 80px; width: 80px"/>`;
+                        }, 1000);
+                        setTimeout(() => {
+                            loaderDiv.style = "display: none;";
+                            window.location.reload();
+                        }, 2500);
+                    }
                 })
                     .catch(err => {
                         console.log(err);
