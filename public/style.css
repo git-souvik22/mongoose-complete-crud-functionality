@@ -4164,6 +4164,11 @@ small.sellerProductCode {
     width: 25px;
     height: 25px;
   }
+  /* shop page css mobile */
+  .product-item {
+    width: 50%;
+    height: fit-content;
+  }
   /* wishlist design */
   .wishlistContainer,
   .cartContainer {
@@ -4555,6 +4560,11 @@ small.sellerProductCode {
     padding: 0;
     width: 35px;
     height: 35px;
+  }
+  /* shop page css mobile */
+  .product-item {
+    width: 50%;
+    height: fit-content;
   }
   /* wishlist design */
   .wishlistContainer,

@@ -427,11 +427,14 @@
                 .then((jsonData) => {
                     let pageNo = 1;
                     let limit = 6;
-                    let totalPage = Math.ceil(jsonData.products.length / limit);
-
+                    const allProducts = jsonData.products.filter(item => {
+                        return item.pState === "published";
+                    });
+                    let totalPage = Math.ceil(allProducts.length / limit);
+                    //console.log(allProducts.length);
                     function getAllProducts(page) {
                         let skip = limit * page;
-                        let productSliced = jsonData.products.slice(skip - limit, skip);
+                        let productSliced = allProducts.slice(skip - limit, skip);
                         for (let i = 0; i < productSliced.length; i++) {
                             const Products = productSliced[i];
                             const url = `${window.location.origin}/product?img=${Products.images[0]}&p=${Products.name}&pr=${Products.price}`;
@@ -590,20 +593,23 @@
 
                     function getFilteredData(category, pageNumber) {
                         let skipProducts = productsPerPage * pageNumber;
-                        let slicedProducts = category.details.slice(
+                        const liveProducts = category.details.filter(item => {
+                            return item.pState === "published";
+                        });
+                        let slicedProducts = liveProducts.slice(
                             skipProducts - productsPerPage,
                             skipProducts
                         );
                         for (let k = 0; k < slicedProducts.length; k++) {
                             const filteredProducts = slicedProducts[k];
-                            const visit = `${window.location.origin}/product?img=${filteredProducts.image}&p=${filteredProducts.name}&pr=${filteredProducts.price}`;
+                            const visit = `${window.location.origin}/product?img=${filteredProducts.images[0]}&p=${filteredProducts.name}&pr=${filteredProducts.price}`;
 
                             let cardContainer = document.createElement("div");
                             cardContainer.style = "cursor: pointer";
                             let productCard = `
                     <a href="${visit}" class="image-holder">
                       <img
-                        src=${filteredProducts.image}
+                        src=${filteredProducts.images[0]}
                         alt="Books"
                         class="product-image"
                       />
@@ -686,16 +692,6 @@
                         });
                     }
                     const DataCategory = jsonData.databyCat;
-                    const publishedCategoryProducts = jsonData.databyCat;
-                    for (let c = 0; c < publishedCategoryProducts.length; c++) {
-                        const pubcat = publishedCategoryProducts[c];
-                        if (pubcat._id === "uniform") {
-                            const liveProducts = pubcat.details.filter(item => {
-                                return item.pState === "published";
-                            });
-                            console.log(liveProducts);
-                        }
-                    }
 
                     filterButtons.forEach((button) => {
                         button.addEventListener("click", function () {
@@ -709,8 +705,11 @@
                                 const Categories = DataCategory[j];
                                 if (category === Categories._id) {
                                     getFilteredData(Categories, pageNumber);
+                                    const PubProducts = Categories.details.filter(item => {
+                                        return item.pState === "published";
+                                    });
                                     let totalNoOfPage = Math.ceil(
-                                        Categories.details.length / productsPerPage
+                                        PubProducts.length / productsPerPage
                                     );
                                     // PAGIINATION script starts from here
                                     pagContainer.innerHTML = "";
