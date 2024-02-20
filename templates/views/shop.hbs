@@ -429,19 +429,17 @@
                     let limit = 6;
                     let totalPage = Math.ceil(jsonData.products.length / limit);
 
-
-
                     function getAllProducts(page) {
                         let skip = limit * page;
                         let productSliced = jsonData.products.slice(skip - limit, skip);
                         for (let i = 0; i < productSliced.length; i++) {
                             const Products = productSliced[i];
-                            const url = `${window.location.origin}/product?img=${Products.image}&p=${Products.name}&pr=${Products.price}`;
+                            const url = `${window.location.origin}/product?img=${Products.images[0]}&p=${Products.name}&pr=${Products.price}`;
                             let cardContainer = document.createElement("div");
                             let productCard = `
                     <a href="${url}"  class="image-holder">
                       <img
-                        src=${Products.image}
+                        src=${Products.images[0]}
                         alt="Books"
                         class="product-image"
                       />
@@ -474,9 +472,6 @@
 
                             cardContainer.innerHTML = productCard;
                             cardContainer.classList.add("product-item");
-                            cardContainer.classList.add("col-lg-4");
-                            cardContainer.classList.add("col-md-6");
-                            cardContainer.classList.add("col-xs-6");
                             productDivContainer.appendChild(cardContainer);
                         }
                         // add to wishlist
@@ -639,9 +634,6 @@
                   `;
                             cardContainer.innerHTML = productCard;
                             cardContainer.classList.add("product-item");
-                            cardContainer.classList.add("col-lg-4");
-                            cardContainer.classList.add("col-md-6");
-                            cardContainer.classList.add("col-xs-6");
                             productDivContainer.appendChild(cardContainer);
                             document.querySelectorAll(".wishlist-btn").forEach((btn) =>
                                 btn.addEventListener("click", function () {
