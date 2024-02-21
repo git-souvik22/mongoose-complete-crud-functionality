@@ -53,6 +53,7 @@
     <input type="text" name="otp" id="otp-number" placeholder="Enter OTP here" />
     <button onclick="VerifyOTP()">Verify OTP</button>
   </div>
+  {{!-- button click loading --}}
   <div class="loader-content">
     <h3 id="loadMessage"></h3>
     <div class="loading">
@@ -73,8 +74,12 @@
     let nameInput = document.getElementById("name");
     let emailInput = document.getElementById("email");
 
+
     formDiv.addEventListener("submit", (event) => {
       event.preventDefault();
+      loaderDiv.style = "display: flex;";
+      loadMessage.innerText = "Sending OTP...";
+      loadMessage.style = "color: violet;";
       const formData = new FormData(formDiv);
       const data = Object.fromEntries(formData);
       const phoneNumber = data.country + data.phone.trim();
@@ -91,7 +96,7 @@
       // console.log(otpData);
       if (document.getElementById("mobile").value.length === 10) {
         if (nameInput.value !== "" && emailInput.value !== "") {
-          fetch(`http://localhost:5000/api/v2/register-otp`, {
+          fetch(`${window.location.origin}/api/v2/register-otp`, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -106,9 +111,12 @@
                 // window.location.reload();
               }
               if (data.success === true) {
-                coverBg.style.display = "block";
-                otpDiv.style.display = "flex";
-                phonePlaceholder.innerText = phoneNumber;
+                setTimeout(() => {
+                  loaderDiv.style = "display: none";
+                  coverBg.style.display = "block";
+                  otpDiv.style.display = "flex";
+                  phonePlaceholder.innerText = phoneNumber;
+                }, 1000)
               }
             })
             .catch((err) => console.log(err));
@@ -124,7 +132,7 @@
           })
             .then((res) => res.json())
             .then((logInfo) => {
-              console.log(logInfo);
+              //console.log(logInfo);
               if (logInfo.success === false) {
                 alert(logInfo.message);
                 setTimeout(() => {
@@ -132,9 +140,12 @@
                 }, 3000);
               }
               if (logInfo.success === true) {
-                coverBg.style.display = "block";
-                otpDiv.style.display = "flex";
-                phonePlaceholder.innerText = logData.phone;
+                setTimeout(() => {
+                  loaderDiv.style = "display: none";
+                  coverBg.style.display = "block";
+                  otpDiv.style.display = "flex";
+                  phonePlaceholder.innerText = logData.phone;
+                }, 1000)
               }
             })
             .catch((err) => console.log(err));
@@ -145,11 +156,14 @@
     });
 
     function VerifyOTP() {
+      loaderDiv.style = "display: flex;";
+      loadMessage.innerText = "Verifying OTP...";
+      loadMessage.style = "color: violet;";
       const verifyData = {
         phone: phonePlaceholder.innerText,
         otp: otpValue.value,
       };
-      fetch(`http://localhost:5000/api/v2/otp-verify`, {
+      fetch(`${window.location.origin}/api/v2/otp-verify`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -158,14 +172,20 @@
       })
         .then((res) => res.json())
         .then((result) => {
-          console.log(result);
-          localStorage.setItem("TCD", result.token);
+          //console.log(result);
           if (result.success === true) {
+            localStorage.setItem("TCD", result.token);
+            setTimeout(() => {
+              loadMessage.innerText = "SUCCESS!";
+              loadMessage.style = "color: violet;";
+              loadingDiv.innerHTML = `<img
+              src="images/verified.gif" alt="verified animation" style="height: 80px; width: 80px"/>`;
+            }, 1500);
             setTimeout(() => {
               window.location.assign(
                 `${window.location.origin}/profile`
               );
-            }, 2000);
+            }, 2500);
           }
         })
         .catch((err) => console.log(err));
