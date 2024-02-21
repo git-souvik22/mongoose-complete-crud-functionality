@@ -438,7 +438,7 @@
                         let productSliced = allProducts.slice(skip - limit, skip);
                         for (let i = 0; i < productSliced.length; i++) {
                             const Products = productSliced[i];
-                            const url = `${window.location.origin}/product?img=${Products.images[0]}&p=${Products.name}&pr=${Products.price}`;
+                            const url = `${window.location.origin}/product?pid=${Products._id}`;
                             let cardContainer = document.createElement("div");
                             let productCard = `
                     <a href="${url}"  class="image-holder">
@@ -454,7 +454,7 @@
 
                       <span class="ThreeDotBtn">
                             <i eid="${Products._id}" class="fas fa-ellipsis-v fa-sm" style="color: #00000;"></i>
-                        <div cid="${Products._id}" class="copyLink">
+                        <div cid="${Products._id}" link-url="${url}" class="copyLink">
                             <i class="far fa-copy fa-sm" style="color: #ffffff;"></i>
                         </div>
                       </span>
@@ -509,6 +509,25 @@
                                 })
                             })
                         })
+                        // get product link
+                        copyBtn.forEach(cbtn => {
+                            cbtn.addEventListener("click", function () {
+                                const productLink = cbtn.getAttribute("link-url");
+                                copyProductLink(productLink);
+                                setTimeout(() => {
+                                    cbtn.innerHTML = `<i class="fas fa-clipboard-check fa-sm" style="color: #ffffff;"></i>`
+                                }, 250)
+                            });
+                        });
+                        //copy product link
+                        const copyProductLink = async (productLink) => {
+                            try {
+                                await navigator.clipboard.writeText(productLink);
+                                //console.log("Product Link was Copied");
+                            } catch (err) {
+                                console.error("Fail to Copy " + err)
+                            }
+                        }
                         // add to wishlist
                         const wishBtn = document.querySelectorAll(".wishlist-btn");
                         wishBtn.forEach((btn) => {
