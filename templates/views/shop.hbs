@@ -448,7 +448,12 @@
                       />
                     </a>
                     <div class="product-detail">
-                      <p class="product-brand">Chalkduster &reg;</p>
+                    <div class="d-flex justify-content-between align-items-center">
+                      <span class="product-brand">Chalkduster&reg;</span>
+                      <div class="editProductBtn" product-id="${Products._id}">
+                            <i class="fas fa-ellipsis-v fa-sm" style="color: #00000;"></i>
+                        </div>
+                    </div>
                       <div
                         class="d-flex justify-content-between align-items-center"
                       >
@@ -464,11 +469,14 @@
                       <div class="d-flex justify-content-between align-items-center">
                       <p class="item-price">
                         <span class="inr">&#8377;</span>${Products.price}
-                        <span class="cut-price">&#8377;500</span>
+                        <span class="cut-price">&#8377;${Number(Products.price) + 70}</span>
                       </p>
                       <button type="button" data-product=${Products._id} class="cart-btn">
                         <i title="Add to Cart" class="fas fa-cart-plus" style="color: #c1b9b9;"></i>
                       </button>
+                    </div>
+                    <div class="product-desc-div">
+                        <small class="ProductDescription">${Products.desc}</small>
                     </div>
                     </div>
                   `;

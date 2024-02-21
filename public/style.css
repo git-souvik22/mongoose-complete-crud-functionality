@@ -2469,6 +2469,7 @@ strong {
   height: 500px;
   border-radius: 5px;
   margin-bottom: 10px;
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;
   padding: 10px;
 }
 .product-item:hover {
@@ -2493,7 +2494,7 @@ strong {
   filter: contrast(1.04);
   transition-duration: 400ms;
 }
-.product-detail p.product-brand {
+.product-detail span.product-brand {
   font-size: 15px;
 }
 .product-detail div {
@@ -3934,7 +3935,8 @@ small.sellerProductCode {
   color: rgba(103, 208, 244, 0.954);
   font-size: 15px;
 }
-.sellerProductDescriptionDiv {
+.sellerProductDescriptionDiv,
+.product-desc-div {
   width: 98%;
   overflow: hidden;
   text-overflow: ellipsis;
