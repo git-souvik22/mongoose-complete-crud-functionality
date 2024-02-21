@@ -173,6 +173,99 @@
             </div>
         </div>
     </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const cartlist = JSON.parse(localStorage.getItem("cart"));
+            cartlist.map((productId) => {
+                fetch(`${window.location.origin}/api/v1/product/${productId}`, {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                })
+                    .then((res) => res.json())
+                    .then((data) => {
+                        const cardContainer = document.querySelector(".cartContainer");
+
+                        for (let i = 0; i < data.result.length; i++) {
+                            const productData = data.result[i];
+                            const cartContent = `<div class="cart-imgDiv" style="background-position: center">
+            <img
+              class="cart-img"
+              src=${productData.images[0]}
+              alt="product image"
+            />
+          </div>
+          <div class="cart-card-details">
+            <div>
+              <strong class="cart-title">${productData.name}</strong>
+            </div>
+            <div class="tag-container">
+              <small>
+                <div>
+                  <span class="cart-tag">&bullet; 100% cotton</span>
+                  <span class="cart-tag">&bullet; Light weight</span>
+                </div>
+                <span class="cart-tag">&bullet; Best finish</span>
+                <span class="cart-tag">&bullet; Unique design</span>
+                <span class="cart-tag">&bullet; Casual</span>
+              </small>
+            </div>
+            <div class="cart-desc-title">Description:</div>
+            <div class="cart-description">
+              Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+              Molestias iure nulla aliquam sunt animi exercitationem dolore amet
+              qui ducimus ratione, mollitia placeat voluptatum ex minima eum
+              blanditiis quas impedit facilis
+            </div>
+          </div>
+          <div class="cart-btn-container">
+            <div>
+              <strong>&#8377;</strong>
+              <strong class="cart-price">${productData.price}</strong>
+              <small class="cut-price">&#8377;500</small>
+            </div>
+            <div class="delivery-text">Fast Delivery</div>
+            <div class="cart-card-action">
+              <button class="orderNow">Order Now</button>
+              <button data-number=${productData._id} class="removeCartProduct">Remove</button>
+            </div>
+          </div>`;
+
+                            const cartCard = document.createElement("div");
+                            cartCard.classList.add("cart-card");
+                            cartCard.setAttribute("data-id", productData._id);
+                            cartCard.innerHTML = cartContent;
+                            cardContainer.prepend(cartCard);
+                        }
+                        const cartCardDiv = document.querySelectorAll(".cart-card");
+                        const removeBtn = document.querySelectorAll(".removeCartProduct");
+                        removeBtn.forEach((btn) => {
+                            btn.addEventListener("click", function () {
+                                const productid = btn.getAttribute("data-number");
+                                const cartArray =
+                                    JSON.parse(localStorage.getItem("cart")) || [];
+                                if (cartArray.includes(productid)) {
+                                    const filteredCart = cartArray.filter(
+                                        (item) => item !== productid
+                                    );
+                                    cartCardDiv.forEach((card) => {
+                                        const cardId = card.getAttribute("data-id");
+                                        if (cardId === productid) {
+                                            card.style.display = "none";
+                                        }
+                                    });
+                                    if (filteredCart.length === 0) {
+                                        localStorage.removeItem("cart");
+                                    }
+                                    localStorage.setItem("cart", JSON.stringify(filteredCart));
+                                }
+                            });
+                        });
+                    });
+            });
+        });
+    </script>
     <script src="js/jquery-1.11.0.min.js"></script>
     <script src="js/plugins.js"></script>
     <script src="js/script.js"></script>

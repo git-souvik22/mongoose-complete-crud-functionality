@@ -3431,6 +3431,7 @@ p {
 .cart-card .cart-imgDiv .cart-img {
   width: 100%;
   height: auto;
+  text-align: center;
   object-fit: cover;
 }
 .wishlist-card .wishlist-imgDiv .wishlist-img:hover,
