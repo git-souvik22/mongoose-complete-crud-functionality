@@ -173,6 +173,111 @@
             </div>
         </div>
     </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const productlist = JSON.parse(localStorage.getItem("wishlist"));
+            // console.log(productlist);
+            productlist.map((productId) => {
+                // console.log(productId);
+                fetch(`${window.location.origin}/api/v1/product/${productId}`, {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                })
+                    .then((res) => res.json())
+                    .then((data) => {
+                        const cardContainer =
+                            document.querySelector(".wishlistContainer");
+                        // console.log(data.result[0]._id);
+                        for (let i = 0; i < data.result.length; i++) {
+                            const productData = data.result[i];
+                            // console.log(productData);
+                            const wishContent = `
+          <div class="wishlist-imgDiv" style="background-position: center">
+            <img
+              class="wishlist-img"
+              src=${productData.images[0]}
+              alt="product image"
+            />
+          </div>
+          <div class="wishlist-card-details">
+            <div>
+              <strong class="wishlist-title">${productData.name}</strong>
+            </div>
+            <div class="tag-container">
+              <small>
+                <div>
+                  <span class="wishlist-tag">&bullet; 100% cotton</span>
+                  <span class="wishlist-tag">&bullet; Light weight</span>
+                </div>
+                <span class="wishlist-tag">&bullet; Best finish</span>
+                <span class="wishlist-tag">&bullet; Unique design</span>
+                <span class="wishlist-tag">&bullet; Casual</span>
+              </small>
+            </div>
+            <div class="wishlist-desc-title">Description:</div>
+            <div class="wishlist-description">
+              Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+              Molestias iure nulla aliquam sunt animi exercitationem dolore amet
+              qui ducimus ratione, mollitia placeat voluptatum ex minima eum
+              blanditiis quas impedit facilis
+            </div>
+          </div>
+          <div class="wishlist-btn-container">
+            <div>
+              <strong>&#8377;</strong>
+              <strong class="wishlist-price">${productData.price}</strong>
+              <small class="cut-price">&#8377;500</small>
+            </div>
+            <div class="delivery-text">Fast Delivery</div>
+            <div class="wishlist-card-action">
+              <button class="orderNow">Order Now</button>
+              <button data-number=${productData._id} class="removeWishProduct">Remove</button>
+            </div>
+          </div>
+        `;
+
+                            const wishCard = document.createElement("div");
+                            wishCard.classList.add("wishlist-card");
+                            // const productAttribute = document.createAttribute("data-id");
+                            wishCard.setAttribute("data-id", productData._id);
+                            wishCard.innerHTML = wishContent;
+                            cardContainer.prepend(wishCard);
+                        }
+
+                        const wishCardDiv = document.querySelectorAll(".wishlist-card");
+                        const removeBtn = document.querySelectorAll(".removeWishProduct");
+                        removeBtn.forEach((btn) => {
+                            btn.addEventListener("click", function () {
+                                const productid = btn.getAttribute("data-number");
+                                const wishArray =
+                                    JSON.parse(localStorage.getItem("wishlist")) || [];
+                                if (wishArray.includes(productid)) {
+                                    const filteredWish = wishArray.filter(
+                                        (item) => item !== productid
+                                    );
+                                    wishCardDiv.forEach((card) => {
+                                        const cardId = card.getAttribute("data-id");
+                                        if (cardId === productid) {
+                                            card.style.display = "none";
+                                        }
+                                    });
+                                    if (filteredWish.length === 0) {
+                                        localStorage.removeItem("wishlist");
+                                    }
+                                    localStorage.setItem(
+                                        "wishlist",
+                                        JSON.stringify(filteredWish)
+                                    );
+                                }
+                            });
+                        });
+                    })
+                    .catch((err) => console.log(err));
+            });
+        });
+    </script>
     <script src="js/jquery-1.11.0.min.js"></script>
     <script src="js/plugins.js"></script>
     <script src="js/script.js"></script>

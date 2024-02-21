@@ -3556,6 +3556,8 @@ p {
 }
 .profile-sidebar {
   width: 20%;
+  position: sticky;
+  top: 20px;
   padding-block: 60px;
   background-color: #69a6c6;
   height: 100%;
@@ -3714,6 +3716,17 @@ p {
 .register-seller,
 .listProduct {
   align-items: center;
+}
+.listProduct::-webkit-scrollbar {
+  width: 10px;
+}
+.listProduct::-webkit-scrollbar-thumb {
+  background-color: #000;
+  border-radius: 5px;
+}
+.listProduct::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 10px rgba(98, 96, 96, 0.873);
+  border-radius: 5px;
 }
 .userform .input-box {
   width: 70%;
