@@ -5,6 +5,18 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Single Product Page</title>
+    <link rel="stylesheet" type="text/css" href="css/normalize.css" />
+    <link rel="stylesheet" type="text/css" href="icomoon/icomoon.css" />
+    <link rel="stylesheet" type="text/css" media="all"
+        href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <!-- icons css -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="css/vendor.css" />
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet" />
     <!-- script
     ================================================== -->
     <script src="js/modernizr.js"></script>
@@ -12,180 +24,121 @@
 
 <body>
     {{>navbar}}
+    <div class="singleProductSection">
+        <div class="productImageSlideSection">
+            <div class="slideshow-container">
 
-    <link rel="stylesheet" href="singleproduct.css" />
+                <div class="mySlides fade">
+                    <div class="numbertext">1 / 4</div>
+                    <img class="image1" src="../images/images-1708431433898856931689.jpg"
+                        style="width:100%, height: auto;">
+                </div>
 
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet" />
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
-    <link rel="stylesheet" href="https://sachinchoolur.github.io/lightslider/dist/css/lightslider.css" />
-    <div class="container-fluid text-light" id="singleProductBody">
-        <div class="row no-gutters pb-4">
-            <div class="col-md-4 pr-2">
-                <div class="card bag-color">
-                    <div class="demo">
-                        <ul id="lightSlider">
-                            <!-- <li data-thumb="ready-images/autumn1.jpg">
-                  <img src="ready-images/autumn1.jpg" />
-                </li> -->
-                        </ul>
-                    </div>
+                <div class="mySlides fade">
+                    <div class="numbertext">2 / 4</div>
+                    <img class="image2" src="../images/images-1708431433898856931689.jpg"
+                        style="width:100%, height: auto;">
+                </div>
+
+                <div class="mySlides fade">
+                    <div class="numbertext">3 / 4</div>
+                    <img class="image3" src="../images/images-1708431433898856931689.jpg"
+                        style="width:100%, height: auto;">
+                </div>
+
+                <div class="mySlides fade">
+                    <div class="numbertext">4 / 4</div>
+                    <img class="image4" src="../images/images-1708431433898856931689.jpg"
+                        style="width:100%, height: auto;">
+                </div>
+
+                <a class="prev" onclick="plusSlides(-1)">❮</a>
+                <a class="next" onclick="plusSlides(1)">❯</a>
+
+                <div style="bottom: 0; left: 50%; transform: translate(-50%, -50%); position: absolute; z-index: 100;">
+                    <span class="dot" onclick="currentSlide(1)"></span>
+                    <span class="dot" onclick="currentSlide(2)"></span>
+                    <span class="dot" onclick="currentSlide(3)"></span>
+                    <span class="dot" onclick="currentSlide(4)"></span>
                 </div>
             </div>
-            <div class="col-md-8">
-                <div class="card bag-color">
-                    <div class="d-flex flex-row align-items-center">
-                        <div class="p-ratings">
-                            <i class="fa fa-star"></i> <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i> <i class="fa fa-star"></i>
-                        </div>
-                        <span class="ml-1">5.0</span>
-                    </div>
-                    <div class="about">
-                        <span id="product-title" class="font-weight-bold text-light">
-                        </span>
-                        <h4 id="product-price" class="font-weight-bold text-light"></h4>
-                    </div>
-                    <div class="proceed-buttons">
-                        <button class="btn btn-outline-warning btn-long cart">
-                            Add to Cart
-                        </button>
-                        <button class="btn btn-warning btn-long buy">Buy Now</button>
-                        <button class="btn btn-light wishlist">
-                            <i class="fa fa-heart"></i>
-                        </button>
-                    </div>
-                    <div class="product-description">
-                        <div>
-                            <span class="font-weight-bold">Sizes:</span>
-                        </div>
-                        <div class="my-size">
-                            <label class="radio">
-                                <input type="radio" name="gender" value="small" />
-                                <p class="text-light">S</p>
-                            </label>
-                            <label class="radio">
-                                <input type="radio" name="gender" value="medium" />
-                                <p class="text-light">M</p>
-                            </label>
-                            <label class="radio">
-                                <input type="radio" name="gender" value="large" />
-                                <p class="text-light">L</p>
-                            </label>
-                            <label class="radio">
-                                <input type="radio" name="gender" value="xlarge" />
-                                <p class="text-light">XL</p>
-                            </label>
-                        </div>
-                        <div class="d-flex flex-row align-items-center">
-                            <i class="fa fa-calendar-check-o"></i>
-                            <span class="ml-1">Delivery from Chalk Duster, 15-45 days</span>
-                        </div>
-                        <div class="mt-2">
-                            <span class="font-weight-bold">Description</span>
-                            <small>
-                                The minimalist collaboration features chairs, lightening,
-                                Shelves, Sofas, Desks and various home accessories, all
-                                offering form and function at the same point.We use
-                                high-strength clamps and joinery techniques specially designed
-                                for engineered wood beds. Ergo, no irksome creaks - and you
-                                can sleep like a baby, well into adulthood!
-                            </small>
-                            <div class="bullets mt-4">
-                                <div class="d-flex align-items-center">
-                                    <span class="dot"></span>
-                                    <span class="bullet-text">Best in Quality</span>
-                                </div>
-                                <div class="d-flex align-items-center">
-                                    <span class="dot"></span>
-                                    <span class="bullet-text">Anti-creak joinery</span>
-                                </div>
-                                <div class="d-flex align-items-center">
-                                    <span class="dot"></span>
-                                    <span class="bullet-text">Sturdy laminate surfaces</span>
-                                </div>
-                                <div class="d-flex align-items-center">
-                                    <span class="dot"></span>
-                                    <span class="bullet-text">Relocation friendly design</span>
-                                </div>
-                                <div class="d-flex align-items-center">
-                                    <span class="dot"></span>
-                                    <span class="bullet-text">High gloss, high style</span>
-                                </div>
-                                <div class="d-flex align-items-center">
-                                    <span class="dot"></span>
-                                    <span class="bullet-text">Easy-access hydraulic storage</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+            <br>
+
+        </div>
+        <div class="productDeatilsSection">
+            <div class="d-flex flex-row align-items-center">
+                <div class="p-ratings">
+                    <i class="fa fa-star"></i> <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i> <i class="fa fa-star"></i>
                 </div>
-                <!-- <div class="card mt-2">
-            <span>Similar items:</span>
-            <div class="similar-products mt-2 d-flex flex-row">
-              <div
-                class="card border p-1"
-                style="width: 9rem; margin-right: 3px"
-              >
-                <img
-                  src="https://i.imgur.com/KZpuufK.jpg"
-                  class="card-img-top"
-                  alt="..."
-                />
-                <div class="card-body">
-                  <h6 class="card-title">$1,999</h6>
-                </div>
-              </div>
-              <div
-                class="card border p-1"
-                style="width: 9rem; margin-right: 3px"
-              >
-                <img
-                  src="https://i.imgur.com/GwiUmQA.jpg"
-                  class="card-img-top"
-                  alt="..."
-                />
-                <div class="card-body">
-                  <h6 class="card-title">$1,699</h6>
-                </div>
-              </div>
-              <div
-                class="card border p-1"
-                style="width: 9rem; margin-right: 3px"
-              >
-                <img
-                  src="https://i.imgur.com/c9uUysL.jpg"
-                  class="card-img-top"
-                  alt="..."
-                />
-                <div class="card-body">
-                  <h6 class="card-title">$2,999</h6>
-                </div>
-              </div>
-              <div
-                class="card border p-1"
-                style="width: 9rem; margin-right: 3px"
-              >
-                <img
-                  src="https://i.imgur.com/kYWqL7k.jpg"
-                  class="card-img-top"
-                  alt="..."
-                />
-                <div class="card-body">
-                  <h6 class="card-title">$3,999</h6>
-                </div>
-              </div>
-              <div class="card border p-1" style="width: 9rem">
-                <img
-                  src="https://i.imgur.com/DhKkTrG.jpg"
-                  class="card-img-top"
-                  alt="..."
-                />
-                <div class="card-body">
-                  <h6 class="card-title">$999</h6>
-                </div>
-              </div>
+                <span class="ml-1">5.0</span>
             </div>
-          </div> -->
+            <div class="about">
+                <span id="product-title" class="font-weight-bold text-light">
+                </span>
+                <h4 id="product-price" class="font-weight-bold text-light"></h4>
+            </div>
+            <div class="proceed-buttons">
+                <button class="btn btn-warning btn-long buy">Buy Now</button>
+            </div>
+            <div class="product-description">
+                <div>
+                    <span class="font-weight-bold">Sizes:</span>
+                </div>
+                <div class="my-size">
+                    <label class="radio">
+                        <input type="radio" name="gender" value="small" />
+                        <p class="text-light">S</p>
+                    </label>
+                    <label class="radio">
+                        <input type="radio" name="gender" value="medium" />
+                        <p class="text-light">M</p>
+                    </label>
+                    <label class="radio">
+                        <input type="radio" name="gender" value="large" />
+                        <p class="text-light">L</p>
+                    </label>
+                    <label class="radio">
+                        <input type="radio" name="gender" value="xlarge" />
+                        <p class="text-light">XL</p>
+                    </label>
+                </div>
+                <div class="d-flex flex-row align-items-center">
+                    <i class="fa fa-calendar-check-o"></i>
+                    <span class="ml-1"> Delivery from Chalk Duster, 15-45 days</span>
+                </div>
+                <div class="mt-2">
+                    <span class="font-weight-bold">Description</span>
+                    <small class="product-desc">
+                        {{!-- description --}}
+                    </small>
+                    <div class="bullets mt-4">
+                        <div class="d-flex align-items-center">
+                            <span class="dot"></span>
+                            <span class="bullet-text">Best in Quality</span>
+                        </div>
+                        <div class="d-flex align-items-center">
+                            <span class="dot"></span>
+                            <span class="bullet-text">Anti-creak joinery</span>
+                        </div>
+                        <div class="d-flex align-items-center">
+                            <span class="dot"></span>
+                            <span class="bullet-text">Sturdy laminate surfaces</span>
+                        </div>
+                        <div class="d-flex align-items-center">
+                            <span class="dot"></span>
+                            <span class="bullet-text">Relocation friendly design</span>
+                        </div>
+                        <div class="d-flex align-items-center">
+                            <span class="dot"></span>
+                            <span class="bullet-text">High gloss, high style</span>
+                        </div>
+                        <div class="d-flex align-items-center">
+                            <span class="dot"></span>
+                            <span class="bullet-text">Easy-access hydraulic storage</span>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -318,54 +271,64 @@
             </div>
         </div>
     </div>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-    <script src="https://sachinchoolur.github.io/lightslider/dist/js/lightslider.js"></script>
-    <script type="text/javascript"
-        src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
     <script>
         const queryParams = new URLSearchParams(window.location.search);
-        const imagePath = queryParams.get("img");
-        const productName = queryParams.get("p");
-        const productPrice = queryParams.get("pr");
-        document.getElementById("product-title").innerText = productName;
-        document.getElementById(
-            "product-price"
-        ).innerHTML = `&#8377; ${productPrice}`;
-        let insertImages = `<li data-thumb="${imagePath}">
-                  <img src=${imagePath} />
-                </li>
-                <li data-thumb="${imagePath}">
-                  <img src=${imagePath} />
-                </li>
-                <li data-thumb="${imagePath}">
-                  <img src=${imagePath} />
-                </li>
-                <li data-thumb="${imagePath}">
-                  <img src=${imagePath} />
-                </li>`;
-        document.getElementById("lightSlider").innerHTML = insertImages;
-        $("#lightSlider").lightSlider({
-            gallery: true,
-            item: 1,
-            loop: true,
-            slideMargin: 0,
-            thumbItem: 6,
+        const pid = queryParams.get("pid");
+        document.addEventListener("DOMContentLoaded", () => {
+            fetch(`${window.location.origin}/api/v1/product/${pid}`, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            })
+                .then(res => res.json())
+                .then(productData => {
+                    if (productData.success === true) {
+                        console.log(productData.result);
+                        const product = productData.result[0];
+                        document.getElementById("product-title").innerText = product.name;
+                        document.getElementById("product-price").innerHTML = `&#8377; ${product.price}`;
+                        document.querySelector(".product-desc").innerText = product.desc;
+                        document.querySelector(".image1").setAttribute("src", `../${product.images[0]}`);
+                        document.querySelector(".image2").setAttribute("src", `../${product.images[1] ? product.images[1] : "./images/product-default.jpg"}`);
+                        document.querySelector(".image3").setAttribute("src", `../${product.images[2] ? product.images[2] : "./images/product-default.jpg"}`);
+                        document.querySelector(".image4").setAttribute("src", `../${product.images[3] ? product.images[3] : "./images/product-default.jpg"}`);
+                    }
+                })
+                .catch(err => {
+                    alert("Something went wrong " + err);
+                })
         });
+        //console.log(pid)
     </script>
-    <link rel="stylesheet" type="text/css" href="css/normalize.css" />
-    <link rel="stylesheet" type="text/css" href="icomoon/icomoon.css" />
-    <link rel="stylesheet" type="text/css" media="all"
-        href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
-    <!-- icons css -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet" />
-    <link rel="stylesheet" type="text/css" href="css/vendor.css" />
-    <link rel="stylesheet" type="text/css" href="style.css" />
+    <script>
+        let slideIndex = 1;
+        showSlides(slideIndex);
 
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap"
-        rel="stylesheet" />
+        function plusSlides(n) {
+            showSlides(slideIndex += n);
+        }
 
+        function currentSlide(n) {
+            showSlides(slideIndex = n);
+        }
+
+        function showSlides(n) {
+            let i;
+            let slides = document.getElementsByClassName("mySlides");
+            let dots = document.getElementsByClassName("dot");
+            if (n > slides.length) { slideIndex = 1 }
+            if (n < 1) { slideIndex = slides.length }
+            for (i = 0; i < slides.length; i++) {
+                slides[i].style.display = "none";
+            }
+            for (i = 0; i < dots.length; i++) {
+                dots[i].className = dots[i].className.replace(" active", "");
+            }
+            slides[slideIndex - 1].style.display = "block";
+            dots[slideIndex - 1].className += " active";
+        }
+    </script>
     <script src="js/script.js"></script>
     <script src="js/jquery-1.11.0.min.js"></script>
     <script src="js/plugins.js"></script>

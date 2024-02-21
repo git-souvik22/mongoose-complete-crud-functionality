@@ -4069,6 +4069,155 @@ small.sellerProductCode {
   color: rgb(54, 174, 210);
   transition-duration: 300ms;
 }
+/* single page design */
+.singleProductSection {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+.productImageSlideSection {
+  width: 35%;
+  background-color: #524f4fba;
+}
+.productDeatilsSection {
+  width: 64%;
+  padding: 10px;
+  background-color: #878484ba;
+}
+.mySlides {
+  display: none;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+}
+.mySlides img {
+  width: auto;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* Slideshow container */
+.slideshow-container {
+  max-width: 700px;
+  height: 550px;
+  position: relative;
+  margin: auto;
+}
+
+/* Next & previous buttons */
+.prev,
+.next {
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  width: auto;
+  padding: 16px;
+  margin-top: -22px;
+  color: white;
+  background-color: #f37de58e;
+  font-weight: bold;
+  font-size: 18px;
+  transition: 0.6s ease;
+  border-radius: 0 3px 3px 0;
+  user-select: none;
+}
+
+/* Position the "next button" to the right */
+.next {
+  right: 0;
+  border-radius: 3px 0 0 3px;
+}
+
+/* On hover, add a black background color with a little bit see-through */
+.prev:hover,
+.next:hover {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+.numbertext {
+  color: #040202;
+  font-size: 12px;
+  padding: 8px 12px;
+  position: absolute;
+  top: 0;
+}
+
+/* The dots/bullets/indicators */
+.dot {
+  cursor: pointer;
+  height: 15px;
+  width: 15px;
+  margin: 0 2px;
+  background-color: #ffffff;
+  border-radius: 50%;
+  display: inline-block;
+  transition: background-color 0.6s ease;
+}
+
+.active,
+.dot:hover {
+  background-color: #363434;
+}
+
+/* Fading animation */
+.fade {
+  animation-name: fade;
+  animation-duration: 1.5s;
+}
+
+.p-ratings .fa-star {
+  color: yellow;
+}
+.p-ratings .ml-1,
+.about #product-title,
+.about #product-price,
+.product-description .font-weight-bold,
+.my-size .radio .text-light,
+.mt-2 .product-desc,
+.mt-4 .bullet-text {
+  color: #000000;
+  margin: 0;
+  padding: 0;
+}
+.my-size {
+  display: flex;
+  gap: 10px;
+}
+.my-size label.radio {
+  display: flex;
+  align-items: center;
+  padding: 0;
+  margin: 0;
+  width: 40px;
+  height: 40px;
+  border: 2px solid black;
+  cursor: pointer;
+}
+.my-size label.radio input[type="radio"] {
+  visibility: hidden;
+}
+.my-size label.radio p.text-light {
+  font-size: 15px;
+  padding: 0;
+  margin: 0;
+}
+@keyframes fade {
+  from {
+    opacity: 0.4;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* On smaller screens, decrease text size */
+@media only screen and (max-width: 300px) {
+  .prev,
+  .next,
+  .text {
+    font-size: 11px;
+  }
+}
+
 /* Media query for mobile */
 @media (max-width: 480px) {
   .logo-div {
@@ -4486,6 +4635,10 @@ small.sellerProductCode {
   }
   .fas.fa-eye.fa-lg {
     font-size: 15px;
+  }
+  .slideshow-container {
+    width: 100%;
+    height: fit-content;
   }
 }
 /* Media query for medium size devices and tablets */
