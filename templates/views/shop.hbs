@@ -413,6 +413,7 @@
         const nextprevContainer = document.getElementById("prevnextContainer");
         // console.log(containsActive);
 
+
         document.addEventListener("DOMContentLoaded", () => {
             fetch(`${window.location.origin}/api/v1/product`, {
                 method: "GET",
@@ -448,11 +449,15 @@
                       />
                     </a>
                     <div class="product-detail">
-                    <div class="d-flex justify-content-between align-items-center">
+                    <div class="product-detail-head-div">
                       <span class="product-brand">Chalkduster&reg;</span>
-                      <div class="ThreeDotBtn" product-id="${Products._id}">
-                            <i class="fas fa-ellipsis-v fa-sm" style="color: #00000;"></i>
+
+                      <span class="ThreeDotBtn">
+                            <i eid="${Products._id}" class="fas fa-ellipsis-v fa-sm" style="color: #00000;"></i>
+                        <div cid="${Products._id}" class="copyLink">
+                            <i class="far fa-copy fa-sm" style="color: #ffffff;"></i>
                         </div>
+                      </span>
                     </div>
                       <div
                         class="d-flex justify-content-between align-items-center"
@@ -485,6 +490,25 @@
                             cardContainer.classList.add("product-item");
                             productDivContainer.appendChild(cardContainer);
                         }
+                        const ellipBtn = document.querySelectorAll(".fa-ellipsis-v");
+                        const copyBtn = document.querySelectorAll(".copyLink");
+                        ellipBtn.forEach(btn => {
+                            btn.addEventListener("click", function () {
+                                const eid = btn.getAttribute("eid");
+                                copyBtn.forEach(cbtn => {
+                                    const cid = cbtn.getAttribute("cid");
+                                    if (eid === cid) {
+                                        if (cbtn.classList.contains("active") === false) {
+                                            cbtn.style = "display: block;";
+                                            cbtn.classList.add("active");
+                                        } else if (cbtn.classList.contains("active") === true) {
+                                            cbtn.style = "display: none;";
+                                            cbtn.classList.remove("active");
+                                        }
+                                    }
+                                })
+                            })
+                        })
                         // add to wishlist
                         const wishBtn = document.querySelectorAll(".wishlist-btn");
                         wishBtn.forEach((btn) => {

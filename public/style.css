@@ -3948,11 +3948,40 @@ small.sellerProductCode {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-.editProductBtn,
-.ThreeDotBtn {
+.editProductBtn {
   width: 7%;
   cursor: pointer;
   text-align: end;
+}
+.product-detail-head-div {
+  display: flex;
+  align-items: center;
+}
+.ThreeDotBtn {
+  background-color: violet;
+  width: 20%;
+  margin-inline-start: auto;
+  position: relative;
+  text-align: end;
+}
+.ThreeDotBtn i.fa-ellipsis-v {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 20;
+}
+.ThreeDotBtn i.fa-ellipsis-v:hover {
+  cursor: pointer;
+}
+.copyLink {
+  display: none;
+  position: absolute;
+  top: 0%;
+  left: -10%;
+  background-color: #000;
+  z-index: 100;
+  text-align: center;
+  cursor: pointer;
 }
 .sellerProductCategoryDiv {
   line-height: normal;
