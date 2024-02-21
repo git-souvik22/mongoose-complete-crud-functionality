@@ -3948,7 +3948,8 @@ small.sellerProductCode {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-.editProductBtn {
+.editProductBtn,
+.ThreeDotBtn {
   width: 7%;
   cursor: pointer;
   text-align: end;
