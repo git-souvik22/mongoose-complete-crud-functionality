@@ -4073,13 +4073,14 @@ small.sellerProductCode {
 .singleProductSection {
   width: 100%;
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
 }
 .productImageSlideSection {
   width: 35%;
   background-color: #524f4fba;
 }
-.productDeatilsSection {
+.productDetailsSection {
   width: 64%;
   padding: 10px;
   background-color: #878484ba;
@@ -4153,7 +4154,7 @@ small.sellerProductCode {
   transition: background-color 0.6s ease;
 }
 
-.active,
+.activedot,
 .dot:hover {
   background-color: #363434;
 }
@@ -4167,16 +4168,34 @@ small.sellerProductCode {
 .p-ratings .fa-star {
   color: yellow;
 }
-.p-ratings .ml-1,
+.mt-2 {
+  line-height: normal;
+}
 .about #product-title,
 .about #product-price,
 .product-description .font-weight-bold,
 .my-size .radio .text-light,
-.mt-2 .product-desc,
-.mt-4 .bullet-text {
+.mt-2 .product-desc {
   color: #000000;
   margin: 0;
   padding: 0;
+}
+.about #product-title,
+.mt-2 .product-desc {
+  font-weight: 600;
+}
+.mt-2 .bullets {
+  margin-top: 15px;
+}
+.mt-4 .bullet-text {
+  color: #145802;
+  font-size: 14px;
+  font-weight: 500;
+  margin: 3px;
+}
+.ml-1 {
+  margin-left: 10px;
+  color: #ffffff;
 }
 .my-size {
   display: flex;
@@ -4636,9 +4655,16 @@ small.sellerProductCode {
   .fas.fa-eye.fa-lg {
     font-size: 15px;
   }
+  .productImageSlideSection,
+  .productDetailsSection {
+    width: 100%;
+  }
   .slideshow-container {
     width: 100%;
     height: fit-content;
+  }
+  .mySlides {
+    height: 425px;
   }
 }
 /* Media query for medium size devices and tablets */

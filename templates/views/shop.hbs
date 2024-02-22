@@ -654,7 +654,7 @@
                         );
                         for (let k = 0; k < slicedProducts.length; k++) {
                             const filteredProducts = slicedProducts[k];
-                            const visit = `${window.location.origin}/product?img=${filteredProducts.images[0]}&p=${filteredProducts.name}&pr=${filteredProducts.price}`;
+                            const visit = `${window.location.origin}/product?pid=${filteredProducts._id}`;
 
                             let cardContainer = document.createElement("div");
                             cardContainer.style = "cursor: pointer";
@@ -667,7 +667,16 @@
                       />
                     </a>
                     <div class="product-detail">
-                      <p class="product-brand">Chalkduster &reg;</p>
+                      <div class="product-detail-head-div">
+                       <span class="product-brand">Chalkduster&reg;</span>
+
+                       <span class="ThreeDotBtn">
+                            <i eid="${filteredProducts._id}" class="fas fa-ellipsis-v fa-sm" style="color: #00000;"></i>
+                         <div cid="${filteredProducts._id}" link-url="${visit}" class="copyLink">
+                            <i class="far fa-copy fa-sm" style="color: #ffffff;"></i>
+                         </div>
+                      </span>
+                     </div>
                       <div
                         class="d-flex justify-content-between align-items-center"
                       >
@@ -682,22 +691,58 @@
                       <div class="d-flex justify-content-between align-items-center">
                       <p class="item-price">
                         <span class="inr">&#8377;</span>${filteredProducts.price}
-                        <span class="cut-price">&#8377;500</span>
+                        <span class="cut-price">&#8377;${Number(filteredProducts.price) + 70}</span>
                       </p>
                       <button type="button" data-product=${filteredProducts._id} class="cart-btn">
                         <i class="fas fa-cart-plus" style="color: #c1b9b9;"></i>
                       </button>
                       </div>
+                      <div class="product-desc-div">
+                        <small class="ProductDescription">${filteredProducts.desc}</small>
+                    </div>
                     </div>
                   `;
                             cardContainer.innerHTML = productCard;
                             cardContainer.classList.add("product-item");
                             productDivContainer.appendChild(cardContainer);
-                            document.querySelectorAll(".wishlist-btn").forEach((btn) =>
-                                btn.addEventListener("click", function () {
-                                    console.log(filteredProducts._id);
+                        }
+                        const ellipsisBtn = document.querySelectorAll(".fa-ellipsis-v");
+                        const copybutton = document.querySelectorAll(".copyLink");
+                        ellipsisBtn.forEach(btn => {
+                            btn.addEventListener("click", function () {
+                                const eID = btn.getAttribute("eid");
+                                copybutton.forEach(cbtn => {
+                                    const cID = cbtn.getAttribute("cid");
+                                    if (eID === cID) {
+                                        if (cbtn.classList.contains("active") === false) {
+                                            cbtn.style = "display: block;";
+                                            cbtn.classList.add("active");
+                                        } else if (cbtn.classList.contains("active") === true) {
+                                            cbtn.style = "display: none;";
+                                            cbtn.classList.remove("active");
+                                        }
+                                    }
                                 })
-                            );
+                            })
+                        })
+                        // get product link
+                        copybutton.forEach(cbtn => {
+                            cbtn.addEventListener("click", function () {
+                                const productURL = cbtn.getAttribute("link-url");
+                                copyProductLink(productURL);
+                                setTimeout(() => {
+                                    cbtn.innerHTML = `<i class="fas fa-clipboard-check fa-sm" style="color: #ffffff;"></i>`
+                                }, 250)
+                            });
+                        });
+                        //copy product link
+                        const copyProductLink = async (productLink) => {
+                            try {
+                                await navigator.clipboard.writeText(productLink);
+                                //console.log("Product Link was Copied");
+                            } catch (err) {
+                                console.error("Fail to Copy " + err)
+                            }
                         }
                         // add to wishlist
                         const wishBtns = document.querySelectorAll(".wishlist-btn");
