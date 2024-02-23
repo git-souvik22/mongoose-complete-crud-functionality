@@ -22,7 +22,7 @@ const orderSchema = new mongoose.Schema({
   },
   delState: {
     type: String,
-    required: true,
+    default: "placed",
   },
 });
 
