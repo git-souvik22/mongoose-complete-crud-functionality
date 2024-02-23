@@ -3,6 +3,7 @@ const { requireLogin } = require("../middlewares/userAuth.js");
 const Order = require("../models/order.js");
 const Razorpay = require("razorpay");
 const crypto = require("crypto");
+const User = require("../models/user.js");
 
 const KEY_ID = process.env.RAZORPAY_KEY_ID;
 const KEY_SECRET = process.env.RAZORPAY_SECRET_KEY;
@@ -14,6 +15,7 @@ let instance = new Razorpay({
 
 router.post("/create-order", requireLogin, async (req, res) => {
   let { amount } = req.body;
+  const customer = await User.findById({ _id: req.user.id });
   var options = {
     amount: amount * 100,
     currency: "INR",
@@ -29,6 +31,7 @@ router.post("/create-order", requireLogin, async (req, res) => {
       res.send({
         status: true,
         order,
+        customer,
       });
     }
   });

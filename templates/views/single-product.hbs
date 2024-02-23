@@ -337,7 +337,7 @@
         const quantity = document.getElementById("quantity");
         let productPrice = document.getElementById("product-price")
         let totalprice = document.querySelector(".checkoutTotalPrice");
-
+        const transactionKey = "{{KEY}}";
         //inc | dec function
         incBtn.addEventListener("click", () => {
             if (Number(quantity.value) >= 1) {
@@ -449,8 +449,7 @@
                                     } else {
                                         checkoutSelectedSize.style = "display: none";
                                     }
-
-                                }, 1000)
+                                }, 800)
                             } else {
                                 confirm(`Dear ${user.fullname} please fill your Address Details to place an order`)
                                 window.location.assign(`${window.location.origin}/profile`);
@@ -468,6 +467,9 @@
         });
         const proceedBtn = document.querySelector(".proceedBtn");
         proceedBtn.addEventListener("click", () => {
+            setTimeout(() => {
+                checkOutContainer.style = "display: none";
+            }, 400)
             const totalamount = (Number(totalprice.innerText.slice(9)));
             const dataOBJ = {
                 amount: totalamount
@@ -484,7 +486,7 @@
                 .then(res => res.json())
                 .then(orderData => {
                     let options = {
-                        key: "rzp_test_tqwqpKVIhIvmPz",
+                        key: transactionKey,
                         amount: dataOBJ.amount * 100,
                         currency: "INR",
                         name: "CHALK DUSTER",
@@ -521,9 +523,9 @@
                                 })
                         },
                         prefill: {
-                            name: "Souvik Roy",
-                            email: "souvik2018roy@gmail.com",
-                            contact: "+917365926202",
+                            name: `${orderData.customer.fullname}`,
+                            email: `${orderData.customer.email}`,
+                            contact: `${orderData.customer.phone}`,
                         },
                     };
                     var rzp1 = new window.Razorpay(options);

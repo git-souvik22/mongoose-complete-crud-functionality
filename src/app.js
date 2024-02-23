@@ -14,6 +14,7 @@ app.options("*", cors());
 const apiURL = process.env.API;
 const apiURL2 = process.env.U_API;
 const apiURL3 = process.env.O_API;
+const key_id = process.env.RAZORPAY_KEY_ID;
 // middlewares
 // makes JSON data readable for backend if data is sent from frontend to backend
 app.use(express.json());
@@ -55,7 +56,9 @@ app.get("/shop", (req, res) => {
   res.render("shop");
 });
 app.get("/product", (req, res) => {
-  res.render("single-product");
+  res.render("single-product", {
+    KEY: key_id,
+  });
 });
 app.get("/blog", (req, res) => {
   res.render("blog");
