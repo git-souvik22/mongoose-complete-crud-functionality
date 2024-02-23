@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE>
 <html lang="en">
 
 <head>
@@ -12,6 +12,7 @@
     <meta name="author" content="" />
     <meta name="keywords" content="" />
     <meta name="description" content="" />
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
     <link rel="stylesheet" type="text/css" href="css/normalize.css" />
     <link rel="stylesheet" type="text/css" href="icomoon/icomoon.css" />
     <link rel="stylesheet" type="text/css" media="all"
@@ -27,7 +28,6 @@
     <!-- script
     ================================================== -->
     <script src="js/modernizr.js"></script>
-    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 </head>
 
 <body>
@@ -320,6 +320,7 @@
         </div>
     </div>
     <script>
+        const sizeDiv = document.querySelector(".my-size");
         const sizeBtns = document.querySelectorAll("label.radio");
         const checkOutContainer = document.querySelector(".checkout-coverbg");
         let loaderDiv = document.querySelector(".loader-content");
@@ -389,6 +390,10 @@
                         document.querySelector(".image2").setAttribute("src", `../${product.images[1] ? product.images[1] : "./images/product-default.jpg"}`);
                         document.querySelector(".image3").setAttribute("src", `../${product.images[2] ? product.images[2] : "./images/product-default.jpg"}`);
                         document.querySelector(".image4").setAttribute("src", `../${product.images[3] ? product.images[3] : "./images/product-default.jpg"}`);
+                        if (product.category !== "uniform" && product.category !== "sports" && product.category !== "footwears") {
+                            sizeDiv.style = "display: none";
+                            smallInput.removeAttribute("checked");
+                        }
                     }
                 })
                 .catch(err => {
@@ -435,17 +440,17 @@
                                     &bullet; State: ${user.state} &bullet; City/Vill: ${user.cityvill} &bullet; Landmark: ${user.nearloc}`;
                                     if (smallInput.checked) {
                                         checkoutSelectedSize.innerText = "S";
-                                    }
-                                    if (mediumInput.checked) {
+                                    } else if (mediumInput.checked) {
                                         checkoutSelectedSize.innerText = "M";
-                                    }
-                                    if (largeInput.checked) {
+                                    } else if (largeInput.checked) {
                                         checkoutSelectedSize.innerText = "L";
-                                    }
-                                    if (xlargeInput.checked) {
+                                    } else if (xlargeInput.checked) {
                                         checkoutSelectedSize.innerText = "XL";
+                                    } else {
+                                        checkoutSelectedSize.style = "display: none";
                                     }
-                                }, 1200)
+
+                                }, 1000)
                             } else {
                                 confirm(`Dear ${user.fullname} please fill your Address Details to place an order`)
                                 window.location.assign(`${window.location.origin}/profile`);
@@ -460,7 +465,7 @@
                 .catch(err => {
                     alert("Something went wrong " + err)
                 })
-        })
+        });
         const proceedBtn = document.querySelector(".proceedBtn");
         proceedBtn.addEventListener("click", () => {
             const totalamount = (Number(totalprice.innerText.slice(9)));
@@ -491,11 +496,16 @@
                                 payment_id: response.razorpay_payment_id,
                                 order_id: response.razorpay_order_id,
                                 signature: response.razorpay_signature,
+                                pid: pid,
+                                size: checkoutSelectedSize.innerText,
+                                quantity: Number(quantity.value),
+                                pay: dataOBJ.amount,
                             };
                             fetch(`${window.location.origin}/api/v3/verify-payment`, {
                                 method: "POST",
                                 headers: {
                                     "Content-Type": "application/json",
+                                    Authorization: `${shinchan}`,
                                 },
                                 body: JSON.stringify(sendData),
                             })

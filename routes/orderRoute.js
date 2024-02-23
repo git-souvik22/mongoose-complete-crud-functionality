@@ -33,8 +33,8 @@ router.post("/create-order", requireLogin, async (req, res) => {
     }
   });
 });
-router.post("/verify-payment", async (req, res) => {
-  let { payment_id, order_id, signature } = req.body;
+router.post("/verify-payment", requireLogin, async (req, res) => {
+  let { payment_id, order_id, signature, pid, size, quantity, pay } = req.body;
 
   let payDetails = order_id + "|" + payment_id;
   let generated_signature = crypto
@@ -46,10 +46,20 @@ router.post("/verify-payment", async (req, res) => {
   console.log("cli_signature", signature);
 
   if (generated_signature == signature) {
-    res.send({
-      status: true,
-      message: "Payment Done",
+    const order = new Order({
+      pid: pid,
+      cid: req.user.id,
+      size: size,
+      quantity: quantity,
+      pay: pay,
     });
+    const savedOrder = await order.save();
+    if (savedOrder) {
+      res.send({
+        status: true,
+        message: "Payment Done and Order was successfully saved",
+      });
+    }
   } else {
     res.status(500).send({
       status: false,
