@@ -27,7 +27,7 @@ const requireLogin = async (req, res, next) => {
     } else {
       res.status(500).json({
         success: false,
-        message: "SPAM",
+        message: "SPAM DETECTED",
       });
     }
   } catch (err) {

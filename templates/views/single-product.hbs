@@ -40,26 +40,22 @@
 
                 <div class="mySlides fade">
                     <div class="numbertext">1 / 4</div>
-                    <img class="image1" src="../images/images-1708431433898856931689.jpg"
-                        style="width:100%, height: auto;">
+                    <img class="image1" src="./images/product-default.jpg" style="width:100%, height: auto;">
                 </div>
 
                 <div class="mySlides fade">
                     <div class="numbertext">2 / 4</div>
-                    <img class="image2" src="../images/images-1708431433898856931689.jpg"
-                        style="width:100%, height: auto;">
+                    <img class="image2" src="./images/product-default.jpg" style="width:100%, height: auto;">
                 </div>
 
                 <div class="mySlides fade">
                     <div class="numbertext">3 / 4</div>
-                    <img class="image3" src="../images/images-1708431433898856931689.jpg"
-                        style="width:100%, height: auto;">
+                    <img class="image3" src="./images/product-default.jpg" style="width:100%, height: auto;">
                 </div>
 
                 <div class="mySlides fade">
                     <div class="numbertext">4 / 4</div>
-                    <img class="image4" src="../images/images-1708431433898856931689.jpg"
-                        style="width:100%, height: auto;">
+                    <img class="image4" src="./images/product-default.jpg" style="width:100%, height: auto;">
                 </div>
 
                 <a class="prev" onclick="plusSlides(-1)">❮</a>
@@ -87,27 +83,27 @@
                 <h4 id="product-price" class="font-weight-bold text-light"></h4>
             </div>
             <div class="proceed-buttons">
-                <button class="btn btn-warning btn-long buy">Buy Now</button>
+                <button id="buyBtn">Buy Now</button>
             </div>
             <div class="product-description">
                 <div>
                     <span class="font-weight-bold">Sizes:</span>
                 </div>
                 <div class="my-size">
-                    <label class="radio">
-                        <input type="radio" name="gender" value="small" />
+                    <label for="small" class="radio  active">
+                        <input type="radio" id="small" name="size" value="small" checked />
                         <p class="text-light">S</p>
                     </label>
-                    <label class="radio">
-                        <input type="radio" name="gender" value="medium" />
+                    <label for="medium" class="radio">
+                        <input type="radio" id="medium" name="size" value="medium" />
                         <p class="text-light">M</p>
                     </label>
-                    <label class="radio">
-                        <input type="radio" name="gender" value="large" />
+                    <label for="large" class="radio">
+                        <input type="radio" id="large" name="size" value="large" />
                         <p class="text-light">L</p>
                     </label>
-                    <label class="radio">
-                        <input type="radio" name="gender" value="xlarge" />
+                    <label for="xlarge" class="radio">
+                        <input type="radio" id="xlarge" name="size" value="xlarge" />
                         <p class="text-light">XL</p>
                     </label>
                 </div>
@@ -150,7 +146,50 @@
             </div>
         </div>
     </div>
+    <div class="checkout-coverbg">
+        <div class="checkout-Modal">
+            <i class="far fa-times-circle fa-lg" style="color: #000000;"></i>
+            <div class="checkflex">
+                <div class="checkoutImgDiv">
+                    <img class="checkoutImg" src="" alt="product image">
+                </div>
+                <div class="checkoutProductDetails">
+                    <strong class="checkoutProductTitle"></strong>
+                    <h5 class="checkoutProductPrice"></h5>
+                    <small class="checkoutProductDescription"></small>
+                </div>
+            </div>
+            <div class="checkoutOrderDetails">
+                <div class="checkoutProductQuantity">
+                    <div class="inc">+</div>
+                    <input id="quantity" type="text" value="1">
+                    <div class="dec">-</div>
+                </div>
+                <small class="checkoutSelectedSize"></small>
+            </div>
+            <label for="checkoutUserAddress">Your Address Details:</label>
+            <details id="checkoutUserAddress">
+
+            </details>
+            <div class="checkoutActionDiv">
+                <div class="checkoutTotalPriceDiv">
+                    <small class="checkoutTotalPrice"></small>
+                </div>
+                <div class="checkoutProceedDiv">
+                    <button class="proceedBtn">PROCEED</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <hr>
+    {{!-- button click loading --}}
+    <div class="loader-content">
+        <h3 id="loadMessage"></h3>
+        <div class="loading">
+            <p>loading</p>
+            <span></span>
+        </div>
+    </div>
     <footer id="footer">
         <div class="container">
             <div class="footer-menu-list">
@@ -280,6 +319,54 @@
         </div>
     </div>
     <script>
+        const sizeBtns = document.querySelectorAll("label.radio");
+        const checkOutContainer = document.querySelector(".checkout-coverbg");
+        let loaderDiv = document.querySelector(".loader-content");
+        const loadMessage = document.getElementById("loadMessage");
+        const loadingDiv = document.querySelector(".loading");
+        const smallInput = document.getElementById("small");
+        const mediumInput = document.getElementById("medium");
+        const largeInput = document.getElementById("large");
+        const xlargeInput = document.getElementById("xlarge");
+        const checkoutSelectedSize = document.querySelector(".checkoutSelectedSize")
+        const formClose = document.querySelector("i.fa-times-circle");
+        const incBtn = document.querySelector(".inc");
+        const decBtn = document.querySelector(".dec");
+        const quantity = document.getElementById("quantity");
+        let productPrice = document.getElementById("product-price")
+        let totalprice = document.querySelector(".checkoutTotalPrice");
+
+        //inc | dec function
+        incBtn.addEventListener("click", () => {
+            if (Number(quantity.value) >= 1) {
+                quantity.value = Number(quantity.value) + 1;
+                const total = Number(totalprice.innerText.slice(9)) + Number(productPrice.innerText.slice(2));
+                totalprice.innerHTML = `Total: &#8377; ${total}`
+            }
+        });
+        decBtn.addEventListener("click", () => {
+            if (Number(quantity.value) > 1) {
+                quantity.value = Number(quantity.value) - 1;
+                const total = Number(totalprice.innerText.slice(9)) - Number(productPrice.innerText.slice(2));
+                totalprice.innerHTML = `Total: &#8377; ${total}`;
+            } else if (Number(quantity.value) === 1) {
+                quantity.value = 1;
+            }
+        })
+
+        formClose.addEventListener("click", () => {
+            checkOutContainer.style = "display: none;";
+        })
+        sizeBtns.forEach(btn => {
+            btn.addEventListener("click", () => {
+                sizeBtns.forEach(item => {
+                    if (item.classList.contains("active") === true) {
+                        item.classList.remove("active");
+                    }
+                })
+                btn.classList.add("active");
+            })
+        })
         const queryParams = new URLSearchParams(window.location.search);
         const pid = queryParams.get("pid");
         document.addEventListener("DOMContentLoaded", () => {
@@ -292,7 +379,7 @@
                 .then(res => res.json())
                 .then(productData => {
                     if (productData.success === true) {
-                        console.log(productData.result);
+                        //console.log(productData.result);
                         const product = productData.result[0];
                         document.getElementById("product-title").innerText = product.name;
                         document.getElementById("product-price").innerHTML = `&#8377; ${product.price}`;
@@ -308,6 +395,71 @@
                 })
         });
         //console.log(pid)
+        const buyBtn = document.getElementById("buyBtn");
+        buyBtn.addEventListener("click", () => {
+            loaderDiv.style = "display: flex;";
+            loadMessage.innerText = "Wait Redirecting You....";
+            loadMessage.style = "color: black;";
+            const user = localStorage.getItem("TCD");
+            fetch(`${window.location.origin}/api/v2/profile`, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `${user}`,
+                },
+            })
+                .then(res => res.json())
+                .then(userData => {
+                    if (userData.success === true) {
+                        const user = userData.loggedUSER;
+                        if (user.logState === "in") {
+                            if (user.state !== "" && user.pin !== "" && user.cityvill !== "" && user.nearloc !== "") {
+                                //confirm("User is logged In and has Address details filled");
+                                setTimeout(() => {
+                                    loaderDiv.style = "display: none";
+                                    checkOutContainer.style = "display: flex";
+                                    // setting product title
+                                    document.querySelector(".checkoutProductTitle").innerText = document.getElementById("product-title").innerText;
+                                    //setting product price
+                                    document.querySelector(".checkoutProductPrice").innerHTML = document.getElementById("product-price").innerHTML;
+                                    // setting total product price
+                                    document.querySelector(".checkoutTotalPrice").innerHTML = `Total: ${document.getElementById("product-price").innerHTML}`;
+                                    //setting product image
+                                    const imageSRC = document.querySelector(".image1").getAttribute("src");
+                                    document.querySelector(".checkoutImg").setAttribute("src", imageSRC);
+                                    // setting product description
+                                    document.querySelector(".checkoutProductDescription").innerText = document.querySelector(".product-desc").innerText;
+                                    //setting address
+                                    document.getElementById("checkoutUserAddress").innerHTML = `&bullet; Full Name: ${user.fullname} &bullet; Phone: ${user.phone} &bullet; Pin: ${user.pin}
+                                    &bullet; State: ${user.state} &bullet; City/Vill: ${user.cityvill} &bullet; Landmark: ${user.nearloc}`;
+                                    if (smallInput.checked) {
+                                        checkoutSelectedSize.innerText = "S";
+                                    }
+                                    if (mediumInput.checked) {
+                                        checkoutSelectedSize.innerText = "M";
+                                    }
+                                    if (largeInput.checked) {
+                                        checkoutSelectedSize.innerText = "L";
+                                    }
+                                    if (xlargeInput.checked) {
+                                        checkoutSelectedSize.innerText = "XL";
+                                    }
+                                }, 1200)
+                            } else {
+                                confirm(`Dear ${user.fullname} please fill your Address Details to place an order`)
+                                window.location.assign(`${window.location.origin}/profile`);
+                            }
+                        } else {
+                            alert("Dear User please Login to place an Order!");
+                        }
+                    } else {
+                        alert(userData.message);
+                    }
+                })
+                .catch(err => {
+                    alert("Something went wrong " + err)
+                })
+        })
     </script>
     <script>
         let slideIndex = 1;
