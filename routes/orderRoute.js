@@ -2,6 +2,7 @@ const router = require("express").Router();
 const { requireLogin } = require("../middlewares/userAuth.js");
 const Order = require("../models/order.js");
 const Razorpay = require("razorpay");
+const receipt = require("otp-generator");
 const crypto = require("crypto");
 const User = require("../models/user.js");
 
@@ -16,11 +17,17 @@ let instance = new Razorpay({
 router.post("/create-order", requireLogin, async (req, res) => {
   let { amount } = req.body;
   const customer = await User.findById({ _id: req.user.id });
+
+  const gen_receipt = receipt.generate(16, {
+    upperCaseAlphabets: false,
+  });
+
   var options = {
     amount: amount * 100,
     currency: "INR",
-    receipt: "order_rcptid_11",
+    receipt: `${gen_receipt}`,
   };
+
   instance.orders.create(options, function (err, order) {
     if (err) {
       res.status(500).send({
@@ -45,8 +52,8 @@ router.post("/verify-payment", requireLogin, async (req, res) => {
     .update(payDetails.toString())
     .digest("hex");
 
-  console.log("gen_signature", generated_signature);
-  console.log("cli_signature", signature);
+  // console.log("gen_signature", generated_signature);
+  // console.log("cli_signature", signature);
 
   if (generated_signature == signature) {
     const order = new Order({
