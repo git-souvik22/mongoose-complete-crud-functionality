@@ -27,6 +27,7 @@
     <!-- script
     ================================================== -->
     <script src="js/modernizr.js"></script>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 </head>
 
 <body>
@@ -458,6 +459,65 @@
                 })
                 .catch(err => {
                     alert("Something went wrong " + err)
+                })
+        })
+        const proceedBtn = document.querySelector(".proceedBtn");
+        proceedBtn.addEventListener("click", () => {
+            const totalamount = (Number(totalprice.innerText.slice(9)));
+            const dataOBJ = {
+                amount: totalamount
+            }
+            const shinchan = localStorage.getItem("TCD");
+            fetch(`${window.location.origin}/api/v3/create-order`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `${shinchan}`,
+                },
+                body: JSON.stringify(dataOBJ),
+            })
+                .then(res => res.json())
+                .then(orderData => {
+                    let options = {
+                        key: "rzp_test_tqwqpKVIhIvmPz",
+                        amount: dataOBJ.amount * 100,
+                        currency: "INR",
+                        name: "CHALK DUSTER",
+                        description: "Payment Gateway Integration by Chalk Duster",
+                        image: `${window.location.origin}/images/favicon.jpg`,
+                        order_id: orderData.order.id,
+                        handler: async function (response) {
+                            let sendData = {
+                                payment_id: response.razorpay_payment_id,
+                                order_id: response.razorpay_order_id,
+                                signature: response.razorpay_signature,
+                            };
+                            fetch(`${window.location.origin}/api/v3/verify-payment`, {
+                                method: "POST",
+                                headers: {
+                                    "Content-Type": "application/json",
+                                },
+                                body: JSON.stringify(sendData),
+                            })
+                                .then(res => res.json())
+                                .then(data => {
+                                    if (data.status === true) {
+                                        alert(data.message);
+                                        window.location.reload();
+                                    }
+                                    if (data.status === false) {
+                                        alert(data.message);
+                                    }
+                                })
+                        },
+                        prefill: {
+                            name: "Souvik Roy",
+                            email: "souvik2018roy@gmail.com",
+                            contact: "+917365926202",
+                        },
+                    };
+                    var rzp1 = new window.Razorpay(options);
+                    rzp1.open();
                 })
         })
     </script>
