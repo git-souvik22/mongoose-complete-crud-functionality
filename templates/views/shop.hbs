@@ -1043,6 +1043,49 @@
                             resultElement.classList.add("product-item");
                             productDivContainer.appendChild(resultElement);
                         });
+                        // add to wishlist
+                        const wishbutton = document.querySelectorAll(".wishlist-btn");
+                        wishbutton.forEach((btn) => {
+                            const wishlist = JSON.parse(localStorage.getItem("wishlist"));
+                            if (
+                                wishlist !== null &&
+                                wishlist.includes(btn.getAttribute("data-number"))
+                            ) {
+                                btn.innerHTML = `<i class="fa fa-heart" style="color: #e20808;"></i>`;
+                            }
+                            // btn.innerHTML = `<i title="Add to Wishlist" class="icon icon-heart"></i>`;
+                            btn.addEventListener("click", function () {
+                                const piD = btn.getAttribute("data-number");
+                                const wishArray =
+                                    JSON.parse(localStorage.getItem("wishlist")) || [];
+                                if (!wishArray.includes(piD)) {
+                                    btn.innerHTML = `<i class="fa fa-heart" style="color: #e20808;"></i>`;
+                                    wishArray.push(piD);
+                                    localStorage.setItem("wishlist", JSON.stringify(wishArray));
+                                }
+                            });
+                        });
+                        // add to cart
+                        const cartbutton = document.querySelectorAll(".cart-btn");
+                        cartbutton.forEach((btn) => {
+                            const cart = JSON.parse(localStorage.getItem("cart"));
+                            if (
+                                cart !== null &&
+                                cart.includes(btn.getAttribute("data-product"))
+                            ) {
+                                btn.innerHTML = `<i title="Added to Cart" class="fas fa-cart-plus" style="color: #e7b80d;"></i>`;
+                            }
+                            btn.addEventListener("click", function () {
+                                const ciD = btn.getAttribute("data-product");
+                                const cartArray =
+                                    JSON.parse(localStorage.getItem("cart")) || [];
+                                if (!cartArray.includes(ciD)) {
+                                    btn.innerHTML = `<i title="Added to Cart" class="fas fa-cart-plus" style="color: #e7b80d;"></i>`;
+                                    cartArray.push(ciD);
+                                    localStorage.setItem("cart", JSON.stringify(cartArray));
+                                }
+                            });
+                        });
                     }
 
                     searchButton.addEventListener("click", performSearch);

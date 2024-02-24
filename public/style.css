@@ -3473,7 +3473,7 @@ p {
   background-color: #211616;
   height: 80px;
   display: flex;
-  justify-content: end;
+  justify-content: space-between;
   align-items: center;
   margin-bottom: 10px;
   padding-inline: 15px;
