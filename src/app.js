@@ -87,6 +87,9 @@ app.get("/pending-sellers-applications", (req, res) => {
 app.get("/unpublished-products", (req, res) => {
   res.render("unpublished-products");
 });
+app.get("/orders", (req, res) => {
+  res.render("order-history");
+});
 
 // db connection
 mongoose
