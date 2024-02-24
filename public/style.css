@@ -3697,7 +3697,8 @@ button.list-product:hover {
 
 /* created product cards css */
 .created-products-container,
-.applied-sellers-container {
+.applied-sellers-container,
+.order-products-container {
   width: 100%;
   display: flex;
   flex-wrap: wrap;
@@ -3712,7 +3713,8 @@ button.list-product:hover {
   color: #ffffff;
   font-weight: 600;
 }
-.sellerProducts {
+.sellerProducts,
+.orderCard {
   background-color: #000;
   width: 30%;
   height: 500px;
@@ -3785,28 +3787,33 @@ button.list-product:hover {
 .seller-application-card .approve-btn:hover {
   background-color: rgb(28, 178, 28);
 }
-.sellerProductImgDiv {
+.sellerProductImgDiv,
+.orderImgDiv {
   background-color: #fff;
   width: 100%;
   height: 70%;
   text-align: center;
 }
-.sellerProductImg {
+.sellerProductImg,
+.orderImg {
   width: auto;
   height: 100%;
 }
-small.sellerProductCode {
+small.sellerProductCode,
+.orderPriceDiv .orderPrice {
   color: rgba(103, 208, 244, 0.954);
   font-size: 15px;
 }
 .sellerProductDescriptionDiv,
-.product-desc-div {
+.product-desc-div,
+.orderDescriptionDiv {
   width: 98%;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-.sellerProductTitleDiv {
+.sellerProductTitleDiv,
+.orderTitleDiv {
   width: 90%;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -3856,20 +3863,23 @@ small.sellerProductCode {
   width: fit-content;
   padding-inline: 3px;
 }
-.sellerProductStateDiv {
+.sellerProductStateDiv,
+.orderDeliveryStateDiv {
   line-height: 16px;
   background-color: #4b4f4b;
   border-radius: 5px;
   width: fit-content;
   padding-inline: 3px;
 }
-.sellerProductState {
+.sellerProductState,
+.orderDeliveryState {
   font-size: 12px;
   margin: 0;
   padding: 0;
   color: #ffffff !important;
 }
-.sellerProductTitleDiv .sellerProductTitle {
+.sellerProductTitleDiv .sellerProductTitle,
+.orderTitle {
   color: #fff;
   font-size: 15px;
   padding: 0;
@@ -4578,10 +4588,12 @@ small.sellerProductCode {
   }
   /* created products page design */
   .created-products-container,
-  .applied-sellers-container {
+  .applied-sellers-container,
+  .order-products-container {
     gap: 10px;
   }
-  .sellerProducts {
+  .sellerProducts,
+  .orderCard {
     display: flex;
     justify-content: space-between;
     width: 100%;
@@ -4618,21 +4630,25 @@ small.sellerProductCode {
     font-size: 13px;
     padding-block: 3px;
   }
-  .sellerProductImgDiv {
+  .sellerProductImgDiv,
+  .orderImgDiv {
     width: 35%;
     height: 100%;
   }
-  .sellerProductImg {
+  .sellerProductImg,
+  .orderImg {
     height: 100%;
   }
-  .sellerProductDetails {
+  .sellerProductDetails,
+  .orderDetails {
     font-size: small;
     width: 60%;
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
   }
-  .sellerProductTitleDiv .sellerProductTitle {
+  .sellerProductTitleDiv .sellerProductTitle,
+  .orderTitle {
     font-size: 12px;
   }
   .firm-heading {
@@ -4680,7 +4696,8 @@ small.sellerProductCode {
   .publishDiv button.publishBtn {
     font-size: 13px;
   }
-  small.sellerProductCode {
+  small.sellerProductCode,
+  .orderPriceDiv .orderPrice {
     font-size: 12px;
   }
   .fas.fa-eye.fa-lg {
@@ -5005,10 +5022,12 @@ small.sellerProductCode {
   }
   /* created products page design */
   .created-products-container,
-  .applied-sellers-container {
+  .applied-sellers-container,
+  .order-products-container {
     gap: 10px;
   }
-  .sellerProducts {
+  .sellerProducts,
+  .orderCard {
     display: flex;
     justify-content: space-between;
     width: 100%;
@@ -5016,14 +5035,17 @@ small.sellerProductCode {
     height: 250px;
     margin-bottom: 0px;
   }
-  .sellerProductImgDiv {
+  .sellerProductImgDiv,
+  .orderImgDiv {
     width: 35%;
     height: 100%;
   }
-  .sellerProductImg {
+  .sellerProductImg,
+  .orderImg {
     height: 100%;
   }
-  .sellerProductDetails {
+  .sellerProductDetails,
+  .orderDetails {
     font-size: medium;
     width: 60%;
     display: flex;
