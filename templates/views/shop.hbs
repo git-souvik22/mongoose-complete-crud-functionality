@@ -54,11 +54,15 @@
         </div>
     </section>
 
-    <div class="shopify-grid padding-large">
+    <div class="shopify-grid padding-small">
         <div class="container">
             <div class="row">
                 <section id="selling-products" class="col-md-10 product-store">
                     <div class="tab-content">
+                        <div class="searchBar">
+                            <input type="search" placeholder="Search products..." autocomplete="off" id="searchInput">
+                            <button id="searchBtn"><i class="fas fa-search" style="color: #ffffff;"></i></button>
+                        </div>
                         <div id="all" data-tab-content class="active">
                             <div class="filters">
                                 <button class="filter-button active" data-category="all">
@@ -413,6 +417,8 @@
         const nextPagBtn = document.getElementById("nextPag");
         const nextprevContainer = document.getElementById("prevnextContainer");
         // console.log(containsActive);
+        const searchInput = document.getElementById('searchInput');
+        const searchButton = document.getElementById('searchBtn');
 
 
         document.addEventListener("DOMContentLoaded", () => {
@@ -792,6 +798,7 @@
 
                     filterButtons.forEach((button) => {
                         button.addEventListener("click", function () {
+                            searchInput.value = "";
                             productDivContainer.innerHTML = "";
                             pageNo = 1;
                             pageNumber = 1;
@@ -962,6 +969,83 @@
                             }
                         });
                     });
+
+                    // search functionality starts here
+                    function performSearch() {
+                        if (searchInput.value !== "") {
+                            const query = searchInput.value.trim().toLowerCase();
+
+                            const results = allProducts.filter(product =>
+                                product.name.toLowerCase().includes(query) ||
+                                product.desc.toLowerCase().includes(query)
+                            );
+                            //console.log(results);
+                            displaySearchResults(results);
+                        }
+                    };
+                    function displaySearchResults(results) {
+                        filterButtons.forEach(btn => {
+                            if (btn.classList.contains("active")) {
+                                btn.classList.remove("active");
+                            }
+                        })
+                        productDivContainer.innerHTML = '';
+                        pagContainer.innerHTML = "";
+                        nextprevContainer.innerHTML = "";
+                        results.forEach(result => {
+                            const resultElement = document.createElement('div');
+                            const visitLink = `${window.location.origin}/product?pid=${result._id}`;
+                            const searchCards = `
+                    <a href="${visitLink}" class="image-holder">
+                      <img
+                        src=${result.images[0]}
+                        alt="Books"
+                        class="product-image"
+                      />
+                    </a>
+                    <div class="product-detail">
+                      <div class="product-detail-head-div">
+                       <span class="product-brand">Chalkduster&reg;</span>
+
+                       <span class="ThreeDotBtn">
+                            <i eid="${result._id}" class="fas fa-ellipsis-v fa-sm" style="color: #00000;"></i>
+                         <div cid="${result._id}" link-url="${visitLink}" class="copyLink">
+                            <i class="far fa-copy fa-sm" style="color: #ffffff;"></i>
+                         </div>
+                      </span>
+                     </div>
+                      <div
+                        class="d-flex justify-content-between align-items-center"
+                      >
+                        <p class="product-title">
+                          <a href="${visitLink}" >${result.name}</a
+                          >
+                        </p>
+                        <button type="button" data-number=${result._id} class="wishlist-btn">
+                          <i title="Add to Wishlist" class="icon icon-heart"></i>
+                        </button>
+                      </div>
+                      <div class="d-flex justify-content-between align-items-center">
+                      <p class="item-price">
+                        <span class="inr">&#8377;</span>${result.price}
+                        <span class="cut-price">&#8377;${Number(result.price) + 70}</span>
+                      </p>
+                      <button type="button" data-product=${result._id} class="cart-btn">
+                        <i class="fas fa-cart-plus" style="color: #c1b9b9;"></i>
+                      </button>
+                      </div>
+                      <div class="product-desc-div">
+                        <small class="ProductDescription">${result.desc}</small>
+                    </div>
+                    </div>
+                  `;
+                            resultElement.innerHTML = searchCards;
+                            resultElement.classList.add("product-item");
+                            productDivContainer.appendChild(resultElement);
+                        });
+                    }
+
+                    searchButton.addEventListener("click", performSearch);
                 })
                 .catch((err) => {
                     console.log(err);
