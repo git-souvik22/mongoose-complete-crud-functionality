@@ -85,7 +85,7 @@ router.get("/orders", requireLogin, async (req, res) => {
     const products = await Product.find({
       _id: userOrders.map((item) => item.pid),
     });
-    console.log(products);
+    // console.log(products);
     if (userOrders) {
       res.status(200).send({
         success: true,
