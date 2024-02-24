@@ -79,31 +79,7 @@
             </div>
             <div class="order-products-container">
                 {{!-- product cards appear here --}}
-                <div class="orderCard">
-                    <div class="orderImgDiv">
-                        <img src="./images/product-default.jpg" class="orderImg" alt="Product Image">
-                    </div>
-                    <div class="orderDetails">
-                        <div class="orderTitleDiv">
-                            <p class="orderTitle">Product Title</p>
-                        </div>
-                        <div style="display: flex; justify-content: space-between;">
-                            <div class="orderPriceDiv">
-                                <strong class="orderPrice">INR 500</strong>
-                            </div>
-                            <div class="orderDeliveryStateDiv">
-                                <strong class="orderDeliveryState">PLACED</strong>
-                            </div>
-                        </div>
-                        <div class="orderDescriptionDiv">
-                            <small class="orderDescription"> Product description Lorem ipsum dolor sit amet
-                                consectetur adipisicing elit. Esse quam, ut ullam obcaecati aut voluptate illum,
-                                eveniet,
-                                voluptates similique earum est culpa atque ea. Eum dolores molestias maiores nostrum
-                                minus.</small>
-                        </div>
-                    </div>
-                </div>
+
 
             </div>
         </div>
@@ -238,7 +214,61 @@
         </div>
     </div>
     <script>
+        const orderDisplayContainer = document.querySelector(".order-products-container");
+        document.addEventListener("DOMContentLoaded", () => {
+            const orderlibrary = localStorage.getItem("TCD");
+            fetch(`${window.location.origin}/api/v3/orders`, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `${orderlibrary}`,
+                },
+            })
+                .then(res => res.json())
+                .then(fetchedResult => {
+                    if (fetchedResult.success === true) {
+                        // get product details for each orders placed
+                        //console.log(fetchedResult);
+                        fetchedResult.products.forEach(product => {
+                            for (let i = 0; i < fetchedResult.orders.length; i++) {
+                                const order = fetchedResult.orders[i];
+                                const orderCard = document.createElement("div");
+                                orderCard.classList.add("orderCard");
 
+                                if (order.pid === product._id) {
+                                    const odrhtml = `
+                            <div class="orderImgDiv">
+                        <img src="../${product.images[0]}" class="orderImg" alt="Product Image">
+                    </div>
+                    <div class="orderDetails">
+                        <div class="orderTitleDiv">
+                            <p class="orderTitle">${product.name}</p>
+                        </div>
+                        <div style="display: flex; justify-content: space-between;">
+                            <div class="orderPriceDiv">
+                                <strong class="orderPrice">INR ${order.pay}</strong>
+                            </div>
+                            <div class="orderDeliveryStateDiv">
+                                <strong class="orderDeliveryState">${order.delState}</strong>
+                            </div>
+                        </div>
+                        <div class="orderDescriptionDiv">
+                            <small class="orderDescription">${product.desc}</small>
+                        </div>
+                    </div>
+                            `;
+
+                                    orderCard.innerHTML = odrhtml;
+                                    orderDisplayContainer.prepend(orderCard);
+                                }
+                            }
+                        });
+                    }
+                })
+                .catch(err => {
+                    alert("Something went wrong" + err);
+                })
+        })
     </script>
     <script src="js/jquery-1.11.0.min.js"></script>
     <script src="js/plugins.js"></script>

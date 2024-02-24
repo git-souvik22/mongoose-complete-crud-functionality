@@ -3713,8 +3713,7 @@ button.list-product:hover {
   color: #ffffff;
   font-weight: 600;
 }
-.sellerProducts,
-.orderCard {
+.sellerProducts {
   background-color: #000;
   width: 30%;
   height: 500px;
@@ -3723,6 +3722,17 @@ button.list-product:hover {
   padding: 10px;
   box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px,
     rgba(0, 0, 0, 0.22) 0px 10px 10px;
+}
+.orderCard {
+  background-color: #000;
+  width: 30%;
+  height: 450px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  padding: 10px;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px,
+    rgba(0, 0, 0, 0.22) 0px 10px 10px;
+  cursor: pointer;
 }
 .seller-application-card {
   background-color: #333232;
@@ -3863,8 +3873,7 @@ small.sellerProductCode,
   width: fit-content;
   padding-inline: 3px;
 }
-.sellerProductStateDiv,
-.orderDeliveryStateDiv {
+.sellerProductStateDiv {
   line-height: 16px;
   background-color: #4b4f4b;
   border-radius: 5px;

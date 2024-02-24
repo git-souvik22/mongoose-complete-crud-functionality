@@ -5,6 +5,7 @@ const Razorpay = require("razorpay");
 const receipt = require("otp-generator");
 const crypto = require("crypto");
 const User = require("../models/user.js");
+const Product = require("../models/product.js");
 
 const KEY_ID = process.env.RAZORPAY_KEY_ID;
 const KEY_SECRET = process.env.RAZORPAY_SECRET_KEY;
@@ -74,6 +75,28 @@ router.post("/verify-payment", requireLogin, async (req, res) => {
     res.status(500).send({
       status: false,
       message: "Payment Fail",
+    });
+  }
+});
+
+router.get("/orders", requireLogin, async (req, res) => {
+  try {
+    const userOrders = await Order.find({ cid: req.user.id });
+    const products = await Product.find({
+      _id: userOrders.map((item) => item.pid),
+    });
+    console.log(products);
+    if (userOrders) {
+      res.status(200).send({
+        success: true,
+        products: products,
+        orders: userOrders,
+      });
+    }
+  } catch (err) {
+    res.status(500).send({
+      success: false,
+      message: "BAD REQUEST",
     });
   }
 });
