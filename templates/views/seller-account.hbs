@@ -30,9 +30,6 @@
 </head>
 
 <body>
-    <div class="preloader-wrapper">
-        <div class="preloader"></div>
-    </div>
     {{>navbar}}
     {{!-- seller account starts from here --}}
     <div class="custom-modal-overlay" id="customModalOverlay">
@@ -436,7 +433,10 @@
                 .catch((err) => console.log(err));
         });
 
-
+        const gobackbtn = document.querySelector(".fa-arrow-alt-circle-left");
+        gobackbtn.addEventListener("click", () => {
+            history.go(-1);
+        })
     </script>
     <script src="js/jquery-1.11.0.min.js"></script>
     <script src="js/plugins.js"></script>

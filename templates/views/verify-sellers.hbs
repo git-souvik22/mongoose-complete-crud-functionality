@@ -70,7 +70,6 @@
         <div class="profile-display">
             <nav class="logout-nav">
                 <i class="far fa-arrow-alt-circle-left fa-lg" style="color: #ffffff;"></i>
-                <div></div>
             </nav>
             <div class="edit-div">
                 <strong class="user-details">Pending Applications</strong>
@@ -250,8 +249,13 @@
                 .then(res => res.json())
                 .then(Administrator => {
                     if (Administrator.success === true) {
-                        logoutNav.innerHTML = `<strong class="firm-heading">ADMIN@ ${Administrator.loggedADMIN.fullname}</strong>`
+                        const admininfo = `ADMIN@ ${Administrator.loggedADMIN.fullname}`;
+                        const adminInfoElement = document.createElement("strong");
+                        adminInfoElement.innerHTML = admininfo;
+                        adminInfoElement.classList.add("firm-heading");
+                        logoutNav.appendChild(adminInfoElement);
                     }
+
                     if (Administrator.success === false) {
                         applicationsContainer.style = "display: none";
                         alert(Administrator.message);
@@ -259,7 +263,8 @@
                 })
                 .catch(err => {
                     alert("Something went wrong" + err);
-                })
+                });
+
             // fetch seller applications
             fetch(`${window.location.origin}/api/v2/user`, {
                 method: "GET",
@@ -339,6 +344,10 @@
 
             // approve sellers
 
+        })
+        const gobackbtn = document.querySelector(".fa-arrow-alt-circle-left");
+        gobackbtn.addEventListener("click", () => {
+            history.go(-1);
         })
     </script>
     <script src="js/jquery-1.11.0.min.js"></script>

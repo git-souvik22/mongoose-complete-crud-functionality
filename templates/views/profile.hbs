@@ -265,6 +265,7 @@
         </div>
     </div>
     <script>
+        const gobackbtn = document.querySelector(".fa-arrow-alt-circle-left");
         const formDiv = document.querySelector(".userform");
         const fullnameInput = document.getElementById("name");
         const phoneInput = document.getElementById("mobile");
@@ -433,6 +434,9 @@
             modalOverlay.style = "display: block";
             OKbtn.innerText = "SAVE";
         });
+        gobackbtn.addEventListener("click", () => {
+            history.go(-1);
+        })
     </script>
     <script src="js/jquery-1.11.0.min.js"></script>
     <script src="js/plugins.js"></script>

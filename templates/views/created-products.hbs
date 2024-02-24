@@ -417,13 +417,20 @@
             })
                 .then(res => res.json())
                 .then(seller => {
-                    logoutNav.innerHTML = `<strong class="firm-heading">${seller.loggedUSER.firmName}&copy; ${seller.loggedUSER.fullname}</strong>`;
+                    const sellerInfo = `${seller.loggedUSER.firmName}&copy; ${seller.loggedUSER.fullname}`;
+                    const sellerInfoElement = document.createElement("strong");
+                    sellerInfoElement.innerHTML = sellerInfo;
+                    sellerInfoElement.classList.add("firm-heading");
+                    logoutNav.appendChild(sellerInfoElement);
                 })
                 .catch(err => {
                     console.log(err)
                 })
         });
-
+        const gobackbtn = document.querySelector(".fa-arrow-alt-circle-left");
+        gobackbtn.addEventListener("click", () => {
+            history.go(-1);
+        })
     </script>
     <script src="js/jquery-1.11.0.min.js"></script>
     <script src="js/plugins.js"></script>

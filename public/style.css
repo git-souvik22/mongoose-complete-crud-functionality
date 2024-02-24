@@ -3478,6 +3478,9 @@ p {
   margin-bottom: 10px;
   padding-inline: 15px;
 }
+.fa-arrow-alt-circle-left:hover {
+  cursor: pointer;
+}
 .edit-div {
   width: 90%;
   height: 70px;

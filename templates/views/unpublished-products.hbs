@@ -369,6 +369,10 @@
                     alert("Something went wrong" + err);
                 })
         })
+        const gobackbtn = document.querySelector(".fa-arrow-alt-circle-left");
+        gobackbtn.addEventListener("click", () => {
+            history.go(-1);
+        })
     </script>
     <script src="js/jquery-1.11.0.min.js"></script>
     <script src="js/plugins.js"></script>
