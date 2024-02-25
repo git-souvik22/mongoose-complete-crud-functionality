@@ -6,6 +6,7 @@ const receipt = require("otp-generator");
 const crypto = require("crypto");
 const User = require("../models/user.js");
 const Product = require("../models/product.js");
+const twilio = require("twilio");
 
 const KEY_ID = process.env.RAZORPAY_KEY_ID;
 const KEY_SECRET = process.env.RAZORPAY_SECRET_KEY;
@@ -36,6 +37,7 @@ router.post("/create-order", requireLogin, async (req, res) => {
         message: "unable to create a order",
       });
     } else {
+      // console.log(order);
       res.send({
         status: true,
         order,
@@ -45,7 +47,18 @@ router.post("/create-order", requireLogin, async (req, res) => {
   });
 });
 router.post("/verify-payment", requireLogin, async (req, res) => {
-  let { payment_id, order_id, signature, pid, size, quantity, pay } = req.body;
+  let {
+    payment_id,
+    order_id,
+    signature,
+    pid,
+    size,
+    quantity,
+    pay,
+    product,
+    receipt,
+    phone,
+  } = req.body;
 
   let payDetails = order_id + "|" + payment_id;
   let generated_signature = crypto
@@ -55,6 +68,10 @@ router.post("/verify-payment", requireLogin, async (req, res) => {
 
   // console.log("gen_signature", generated_signature);
   // console.log("cli_signature", signature);
+  const accountSid = process.env.TWILIO_ACC_SID;
+  const authToken = process.env.TWILIO_AUTH_TOKEN;
+  const VirtualMob = process.env.TWILIO_VMOB;
+  const twilioClient = new twilio(accountSid, authToken);
 
   if (generated_signature == signature) {
     const order = new Order({
@@ -63,12 +80,19 @@ router.post("/verify-payment", requireLogin, async (req, res) => {
       size: size,
       quantity: quantity,
       pay: pay,
+      tid: receipt,
     });
+
     const savedOrder = await order.save();
+    await twilioClient.messages.create({
+      from: VirtualMob,
+      body: `Placed: Chalkduster Order for ${product} is placed & will be delivered soon. (Transaction ID: ${receipt} )`,
+      to: phone,
+    });
     if (savedOrder) {
       res.send({
         status: true,
-        message: "Payment Done and Order was successfully saved",
+        message: "Payment Done",
       });
     }
   } else {

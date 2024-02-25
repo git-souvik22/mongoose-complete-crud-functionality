@@ -20,6 +20,10 @@ const orderSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
+  tid: {
+    type: String,
+    required: true,
+  },
   delState: {
     type: String,
     default: "placed",
