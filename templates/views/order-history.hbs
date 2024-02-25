@@ -214,6 +214,7 @@
         </div>
     </div>
     <script>
+        const gobackbtn = document.querySelector(".fa-arrow-alt-circle-left");
         const orderDisplayContainer = document.querySelector(".order-products-container");
         document.addEventListener("DOMContentLoaded", () => {
             const orderlibrary = localStorage.getItem("TCD");
@@ -268,6 +269,9 @@
                 .catch(err => {
                     alert("Something went wrong" + err);
                 })
+        })
+        gobackbtn.addEventListener("click", () => {
+            history.go(-1);
         })
     </script>
     <script src="js/jquery-1.11.0.min.js"></script>
