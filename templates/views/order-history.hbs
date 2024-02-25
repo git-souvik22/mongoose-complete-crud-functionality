@@ -245,6 +245,7 @@
                         <div class="orderTitleDiv">
                             <p class="orderTitle">${product.name}</p>
                         </div>
+                        <div class="orderQS">${"quan - " + order.quantity} ${order.size !== "" ? "size - " + order.size : ""}</div>
                         <div style="display: flex; justify-content: space-between;">
                             <div class="orderPriceDiv">
                                 <strong class="orderPrice">INR ${order.pay}</strong>

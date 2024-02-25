@@ -3733,6 +3733,12 @@ button.list-product:hover {
   box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px,
     rgba(0, 0, 0, 0.22) 0px 10px 10px;
 }
+.orderQS {
+  font-size: 15px;
+  font-weight: 500;
+  color: white;
+  line-height: normal;
+}
 .seller-application-card {
   background-color: #333232;
   width: 45%;
@@ -4754,6 +4760,10 @@ small.sellerProductCode,
     font-size: 15px;
     width: 28px;
     height: 28px;
+  }
+  .orderQS {
+    font-size: 12px;
+    font-weight: 400;
   }
 }
 /* Media query for medium size devices and tablets */
