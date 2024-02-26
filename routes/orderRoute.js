@@ -106,10 +106,11 @@ router.post("/verify-payment", requireLogin, async (req, res) => {
 router.get("/orders", requireLogin, async (req, res) => {
   try {
     const userOrders = await Order.find({ cid: req.user.id });
-    const products = await Product.find({
-      _id: userOrders.map((item) => item.pid),
-    });
-    // console.log(products);
+    const orderPID = userOrders.map((item) => item.pid);
+
+    const products = await Product.find({ _id: orderPID });
+
+    //console.log(orderPID);
     if (userOrders) {
       res.status(200).send({
         success: true,

@@ -230,12 +230,12 @@
                     if (fetchedResult.success === true) {
                         // get product details for each orders placed
                         //console.log(fetchedResult);
-                        fetchedResult.products.forEach(product => {
-                            for (let i = 0; i < fetchedResult.orders.length; i++) {
-                                const order = fetchedResult.orders[i];
-                                const orderCard = document.createElement("div");
-                                orderCard.classList.add("orderCard");
+                        for (let i = 0; i < fetchedResult.orders.length; i++) {
+                            const order = fetchedResult.orders[i];
+                            const orderCard = document.createElement("div");
+                            orderCard.classList.add("orderCard");
 
+                            fetchedResult.products.forEach(product => {
                                 if (order.pid === product._id) {
                                     const odrhtml = `
                             <div class="orderImgDiv">
@@ -263,8 +263,9 @@
                                     orderCard.innerHTML = odrhtml;
                                     orderDisplayContainer.prepend(orderCard);
                                 }
-                            }
-                        });
+                            });
+
+                        }
                     }
                 })
                 .catch(err => {
