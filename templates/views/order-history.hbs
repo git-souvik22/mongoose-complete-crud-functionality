@@ -258,6 +258,7 @@
                          <div title="Tap to Copy" class="orderTID">${order.tid !== undefined ? order.tid : "null"}</div title="Tap to copy">
                          <button oid=${order.tid} style="${order.delState === "placed" || order.delState === "shipped" || order.delState === "outfordelivery" ? "display: block" : "display: none"}" class="cancelOrder">CANCEL</button>
                          <strong style="${order.delState === "cancelled" || order.delState === "returned" ? "display: block" : "display: none"}" class="orderRefundState">${order.refund === "refund" ? `<i class="fas fa-sync-alt"></i> Refund` : `<i class="fas fa-check-circle" style="color: #279d06;"></i> Refunded`}</strong>
+                         <button style="${order.delState === "delivered" ? "display: block" : "display: none"}" class="returnOrder">Return</button>
                         </div>
                     </div>
                             `;

@@ -4313,16 +4313,18 @@ small.sellerProductCode,
   width: 50%;
   cursor: pointer;
 }
-.cancelOrder {
+.cancelOrder,
+.returnOrder {
   display: none;
-  background-color: green;
+  background-color: rgb(177, 145, 4);
   border-radius: 3px;
   font-size: 14px;
   margin: 0;
   padding: 3px;
 }
-.cancelOrder:hover {
-  background-color: rgb(12, 164, 25);
+.cancelOrder:hover,
+.returnOrder:hover {
+  background-color: rgb(163, 91, 8);
 }
 /* Media query for mobile */
 @media (max-width: 480px) {
@@ -4798,7 +4800,8 @@ small.sellerProductCode,
     font-weight: 400;
   }
   .orderActionDiv,
-  .cancelOrder {
+  .cancelOrder,
+  .returnOrder {
     font-size: 12px;
   }
 }
