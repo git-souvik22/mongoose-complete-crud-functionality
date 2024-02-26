@@ -3892,10 +3892,11 @@ small.sellerProductCode,
   color: #ffffff !important;
 }
 .orderRefundState {
+  display: none;
   font-size: 12px;
   margin: 0;
   padding: 0;
-  color: orange;
+  color: rgb(255, 255, 255);
 }
 .sellerProductTitleDiv .sellerProductTitle,
 .orderTitle {
@@ -4313,6 +4314,7 @@ small.sellerProductCode,
   cursor: pointer;
 }
 .cancelOrder {
+  display: none;
   background-color: green;
   border-radius: 3px;
   font-size: 14px;
