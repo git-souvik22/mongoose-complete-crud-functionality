@@ -254,8 +254,9 @@
                                 <strong class="orderDeliveryState">${order.delState}</strong>
                             </div>
                         </div>
-                        <div class="orderDescriptionDiv">
-                            <small class="orderDescription">${product.desc}</small>
+                        <div class="orderActionDiv">
+                         <div title="Tap to Copy" class="orderTID">${order.tid !== undefined ? order.tid : "null"}</div title="Tap to copy">
+                         <button oid=${order.tid} class="cancelOrder">CANCEL</button>
                         </div>
                     </div>
                             `;
@@ -264,8 +265,50 @@
                                     orderDisplayContainer.prepend(orderCard);
                                 }
                             });
-
                         }
+                        const orderID = document.querySelectorAll(".orderTID");
+                        orderID.forEach(ids => {
+                            ids.addEventListener("click", () => {
+                                const ordertid = ids.innerText;
+                                copyorderLink(ordertid);
+                            })
+                        })
+                        // copy order id
+                        const copyorderLink = async (ordertid) => {
+                            try {
+                                await navigator.clipboard.writeText(ordertid);
+                            } catch (err) {
+                                console.error("Fail to Copy " + err)
+                            }
+                        }
+                        // order cancelletion function
+                        const cancelBtn = document.querySelectorAll(".cancelOrder");
+                        cancelBtn.forEach(btn => {
+                            btn.addEventListener("click", () => {
+                                const oid = btn.getAttribute("oid");
+                                const queryString = encodeURIComponent(oid);
+                                fetch(`${window.location.origin}/api/v3/cancel-order?id=${queryString}`, {
+                                    method: "PUT",
+                                    headers: {
+                                        "Content-Type": "application/json",
+                                        Authorization: `${orderlibrary}`,
+                                    },
+                                })
+                                    .then(res => res.json())
+                                    .then(updatedOrder => {
+                                        if (updatedOrder.success === true) {
+                                            alert(`${updatedOrder.order.tid} was ${updatedOrder.order.delState} successfully`);
+                                            window.location.reload();
+                                        }
+                                        if (updatedOrder.success === false) {
+                                            alert(`${updatedOrder.message}`);
+                                        }
+                                    })
+                                    .catch(err => {
+                                        alert("Something went wrong " + err)
+                                    })
+                            })
+                        })
                     }
                 })
                 .catch(err => {
@@ -275,6 +318,7 @@
         gobackbtn.addEventListener("click", () => {
             history.go(-1);
         })
+
     </script>
     <script src="js/jquery-1.11.0.min.js"></script>
     <script src="js/plugins.js"></script>

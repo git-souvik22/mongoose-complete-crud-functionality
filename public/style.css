@@ -3820,8 +3820,7 @@ small.sellerProductCode,
   font-size: 15px;
 }
 .sellerProductDescriptionDiv,
-.product-desc-div,
-.orderDescriptionDiv {
+.product-desc-div {
   width: 98%;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -4291,6 +4290,31 @@ small.sellerProductCode,
 }
 .proceedBtn:hover {
   background-color: hsl(188, 58%, 57%);
+}
+.orderActionDiv {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+  line-height: normal;
+}
+.orderTID {
+  color: #e5e4e2;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  width: 50%;
+  cursor: pointer;
+}
+.cancelOrder {
+  background-color: green;
+  border-radius: 3px;
+  font-size: 14px;
+  margin: 0;
+  padding: 3px;
+}
+.cancelOrder:hover {
+  background-color: rgb(12, 164, 25);
 }
 /* Media query for mobile */
 @media (max-width: 480px) {
@@ -4764,6 +4788,10 @@ small.sellerProductCode,
   .orderQS {
     font-size: 12px;
     font-weight: 400;
+  }
+  .orderActionDiv,
+  .cancelOrder {
+    font-size: 12px;
   }
 }
 /* Media query for medium size devices and tablets */
