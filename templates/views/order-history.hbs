@@ -256,7 +256,8 @@
                         </div>
                         <div class="orderActionDiv">
                          <div title="Tap to Copy" class="orderTID">${order.tid !== undefined ? order.tid : "null"}</div title="Tap to copy">
-                         <button oid=${order.tid} class="cancelOrder">CANCEL</button>
+                         <button oid=${order.tid} style="${order.delState !== "cancelled" || "returned" || "delivered" ? "display: block" : "display: none"}" class="cancelOrder">CANCEL</button>
+                         <strong style="${order.delState === "cancelled" || "returned" ? "display: block" : "display: none"}" class="orderRefundState">${order.refund !== "refunded" ? `<i class="fas fa-sync-alt"></i> Refund` : `<i class="fas fa-check-circle"></i> Refunded`}</strong>
                         </div>
                     </div>
                             `;
@@ -285,28 +286,31 @@
                         const cancelBtn = document.querySelectorAll(".cancelOrder");
                         cancelBtn.forEach(btn => {
                             btn.addEventListener("click", () => {
-                                const oid = btn.getAttribute("oid");
-                                const queryString = encodeURIComponent(oid);
-                                fetch(`${window.location.origin}/api/v3/cancel-order?id=${queryString}`, {
-                                    method: "PUT",
-                                    headers: {
-                                        "Content-Type": "application/json",
-                                        Authorization: `${orderlibrary}`,
-                                    },
-                                })
-                                    .then(res => res.json())
-                                    .then(updatedOrder => {
-                                        if (updatedOrder.success === true) {
-                                            alert(`${updatedOrder.order.tid} was ${updatedOrder.order.delState} successfully`);
-                                            window.location.reload();
-                                        }
-                                        if (updatedOrder.success === false) {
-                                            alert(`${updatedOrder.message}`);
-                                        }
+                                const proceed = confirm("Are you sure you want to CANCEL this Order?");
+                                if (proceed === true) {
+                                    const oid = btn.getAttribute("oid");
+                                    const queryString = encodeURIComponent(oid);
+                                    fetch(`${window.location.origin}/api/v3/cancel-order?id=${queryString}`, {
+                                        method: "PUT",
+                                        headers: {
+                                            "Content-Type": "application/json",
+                                            Authorization: `${orderlibrary}`,
+                                        },
                                     })
-                                    .catch(err => {
-                                        alert("Something went wrong " + err)
-                                    })
+                                        .then(res => res.json())
+                                        .then(updatedOrder => {
+                                            if (updatedOrder.success === true) {
+                                                alert(`${updatedOrder.order.tid} was ${updatedOrder.order.delState} successfully`);
+                                                window.location.reload();
+                                            }
+                                            if (updatedOrder.success === false) {
+                                                alert(`${updatedOrder.message}`);
+                                            }
+                                        })
+                                        .catch(err => {
+                                            alert("Something went wrong " + err)
+                                        })
+                                }
                             })
                         })
                     }

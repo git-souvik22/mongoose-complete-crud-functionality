@@ -28,6 +28,9 @@ const orderSchema = new mongoose.Schema({
     type: String,
     default: "placed",
   },
+  refund: {
+    type: String,
+  },
 });
 
 const Order = mongoose.model("orders", orderSchema);

@@ -133,6 +133,7 @@ router.put("/cancel-order", requireLogin, async (req, res) => {
         { tid: foundOrder.tid },
         {
           delState: "cancelled",
+          refund: "refund",
         },
         { new: true }
       );

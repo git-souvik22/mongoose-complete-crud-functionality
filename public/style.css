@@ -3891,6 +3891,12 @@ small.sellerProductCode,
   padding: 0;
   color: #ffffff !important;
 }
+.orderRefundState {
+  font-size: 12px;
+  margin: 0;
+  padding: 0;
+  color: orange;
+}
 .sellerProductTitleDiv .sellerProductTitle,
 .orderTitle {
   color: #fff;
