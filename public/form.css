@@ -310,7 +310,7 @@ body {
 .otp-div button:hover {
   background: rgb(57, 39, 143);
 }
-.loader-content {
+/* .loader-content {
   width: 100%;
   height: 100vh;
   background-color: #fafafa81;
@@ -322,7 +322,7 @@ body {
   justify-content: center;
   align-items: center;
   z-index: 100;
-}
+} */
 
 /*Responsive*/
 @media screen and (max-width: 500px) {
