@@ -125,6 +125,7 @@ router.get("/orders", requireLogin, async (req, res) => {
     });
   }
 });
+// order cancellation
 router.put("/cancel-order", requireLogin, async (req, res) => {
   try {
     const foundOrder = await Order.findOne({ tid: req.query.id });
@@ -140,6 +141,36 @@ router.put("/cancel-order", requireLogin, async (req, res) => {
       res.status(201).send({
         success: true,
         order: cancelledOrder,
+      });
+    } else {
+      res.status(404).send({
+        success: false,
+        message: "BAD REQUEST",
+      });
+    }
+  } catch (err) {
+    res.status(500).send({
+      success: false,
+      message: "Something went wrong",
+    });
+  }
+});
+//order return
+router.put("/return-order", requireLogin, async (req, res) => {
+  try {
+    const foundOrder = await Order.findOne({ tid: req.query.id });
+    if (foundOrder.delState === "delivered" && foundOrder.cid === req.user.id) {
+      const returnedOrder = await Order.findOneAndUpdate(
+        { tid: foundOrder.tid },
+        {
+          delState: "return",
+          refund: "refund",
+        },
+        { new: true }
+      );
+      res.status(201).send({
+        success: true,
+        order: returnedOrder,
       });
     } else {
       res.status(404).send({

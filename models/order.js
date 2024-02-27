@@ -31,6 +31,10 @@ const orderSchema = new mongoose.Schema({
   refund: {
     type: String,
   },
+  time: {
+    type: Date,
+    default: new Date().getTime(),
+  },
 });
 
 const Order = mongoose.model("orders", orderSchema);

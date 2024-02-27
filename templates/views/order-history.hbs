@@ -256,9 +256,12 @@
                         </div>
                         <div class="orderActionDiv">
                          <div title="Tap to Copy" class="orderTID">${order.tid !== undefined ? order.tid : "null"}</div title="Tap to copy">
+
                          <button oid=${order.tid} style="${order.delState === "placed" || order.delState === "shipped" || order.delState === "outfordelivery" ? "display: block" : "display: none"}" class="cancelOrder">CANCEL</button>
-                         <strong style="${order.delState === "cancelled" || order.delState === "returned" ? "display: block" : "display: none"}" class="orderRefundState">${order.refund === "refund" ? `<i class="fas fa-sync-alt"></i> Refund` : `<i class="fas fa-check-circle" style="color: #279d06;"></i> Refunded`}</strong>
-                         <button style="${order.delState === "delivered" ? "display: block" : "display: none"}" class="returnOrder">Return</button>
+
+                         <strong style="${order.delState === "cancelled" || order.delState === "returned" || order.delState === "return" ? "display: block" : "display: none"}" class="orderRefundState">${order.refund === "refund" ? `<i class="fas fa-sync-alt"></i> Refund` : `<i class="fas fa-check-circle" style="color: #279d06;"></i> Refunded`}</strong>
+
+                         <button rid="${order.tid}" style="${order.delState === "delivered" ? "display: block" : "display: none"}" class="returnOrder">Return</button>
                         </div>
                     </div>
                             `;
@@ -301,6 +304,37 @@
                                         .then(updatedOrder => {
                                             if (updatedOrder.success === true) {
                                                 alert(`${updatedOrder.order.tid} was ${updatedOrder.order.delState} successfully`);
+                                                window.location.reload();
+                                            }
+                                            if (updatedOrder.success === false) {
+                                                alert(`${updatedOrder.message}`);
+                                            }
+                                        })
+                                        .catch(err => {
+                                            alert("Something went wrong " + err)
+                                        })
+                                }
+                            })
+                        })
+                        // order return
+                        const returnBtn = document.querySelectorAll(".returnOrder");
+                        returnBtn.forEach(btn => {
+                            btn.addEventListener("click", () => {
+                                const proceedReturn = confirm("Are you sure you want to RETURN this Order?");
+                                if (proceedReturn === true) {
+                                    const rid = btn.getAttribute("rid");
+                                    const returnString = encodeURIComponent(rid);
+                                    fetch(`${window.location.origin}/api/v3/return-order?id=${returnString}`, {
+                                        method: "PUT",
+                                        headers: {
+                                            "Content-Type": "application/json",
+                                            Authorization: `${orderlibrary}`,
+                                        },
+                                    })
+                                        .then(res => res.json())
+                                        .then(updatedOrder => {
+                                            if (updatedOrder.success === true) {
+                                                alert(`Your ${updatedOrder.order.delState} request was sent successfully for Order: ${updatedOrder.order.tid}`);
                                                 window.location.reload();
                                             }
                                             if (updatedOrder.success === false) {
