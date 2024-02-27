@@ -168,18 +168,20 @@ router.put("/return-order", requireLogin, async (req, res) => {
           message: "Return period for this Order was over",
         });
       }
-      const returnedOrder = await Order.findOneAndUpdate(
-        { tid: foundOrder.tid },
-        {
-          delState: "return",
-          refund: "refund",
-        },
-        { new: true }
-      );
-      res.status(201).send({
-        success: true,
-        order: returnedOrder,
-      });
+      if (!returnValidityExpired) {
+        const returnedOrder = await Order.findOneAndUpdate(
+          { tid: foundOrder.tid },
+          {
+            delState: "return",
+            refund: "refund",
+          },
+          { new: true }
+        );
+        res.status(201).send({
+          success: true,
+          order: returnedOrder,
+        });
+      }
     } else {
       res.status(404).send({
         success: false,

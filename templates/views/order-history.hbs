@@ -237,6 +237,9 @@
 
                             fetchedResult.products.forEach(product => {
                                 if (order.pid === product._id) {
+                                    const currentTime = new Date().getTime();
+                                    let returnPeriodMillisec = currentTime - order.time;
+                                    const returnPeriodminutes = Math.round(returnPeriodMillisec / (1000 * 60));
                                     const odrhtml = `
                             <div class="orderImgDiv">
                         <img src="../${product.images[0]}" class="orderImg" alt="Product Image">
@@ -261,7 +264,7 @@
 
                          <strong style="${order.delState === "cancelled" || order.delState === "returned" || order.delState === "return" ? "display: block" : "display: none"}" class="orderRefundState">${order.refund === "refund" ? `<i class="fas fa-sync-alt"></i> Refund` : `<i class="fas fa-check-circle" style="color: #279d06;"></i> Refunded`}</strong>
 
-                         <button rid="${order.tid}" style="${order.delState === "delivered" ? "display: block" : "display: none"}" class="returnOrder">Return</button>
+                         <button rid="${order.tid}" style="${order.delState === "delivered" && returnPeriodminutes < 5 ? "display: block" : "display: none"}" class="returnOrder">Return</button>
                         </div>
                     </div>
                             `;
