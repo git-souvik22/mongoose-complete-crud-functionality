@@ -7,6 +7,7 @@ const crypto = require("crypto");
 const User = require("../models/user.js");
 const Product = require("../models/product.js");
 const twilio = require("twilio");
+const { returnOrderValid } = require("../middlewares/returnOrderValidate.js");
 
 const KEY_ID = process.env.RAZORPAY_KEY_ID;
 const KEY_SECRET = process.env.RAZORPAY_SECRET_KEY;
@@ -160,6 +161,13 @@ router.put("/return-order", requireLogin, async (req, res) => {
   try {
     const foundOrder = await Order.findOne({ tid: req.query.id });
     if (foundOrder.delState === "delivered" && foundOrder.cid === req.user.id) {
+      const returnValidityExpired = await returnOrderValid(foundOrder.time);
+      if (returnValidityExpired) {
+        res.status(404).send({
+          success: false,
+          message: "Return period for this Order was over",
+        });
+      }
       const returnedOrder = await Order.findOneAndUpdate(
         { tid: foundOrder.tid },
         {
