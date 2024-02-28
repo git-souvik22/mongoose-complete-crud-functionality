@@ -214,8 +214,8 @@ router.get(
       if (OrdersToBeManaged || placedOrders) {
         res.status(200).send({
           success: true,
-          refunds: OrdersToBeManaged,
           placed: placedOrders,
+          refunds: OrdersToBeManaged,
         });
       }
       if (!OrdersToBeManaged || !placedOrders) {
