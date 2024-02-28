@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const { requireLogin } = require("../middlewares/userAuth.js");
+const { requireLogin, adminAccess } = require("../middlewares/userAuth.js");
 const Order = require("../models/order.js");
 const Razorpay = require("razorpay");
 const receipt = require("otp-generator");
@@ -195,5 +195,42 @@ router.put("/return-order", requireLogin, async (req, res) => {
     });
   }
 });
+// managed orders by Admin
+router.get(
+  "/manage-orders-globally",
+  requireLogin,
+  adminAccess,
+  async (req, res) => {
+    try {
+      const OrdersToBeManaged = await Order.aggregate([
+        { $match: { refund: "refund" } },
+        { $group: { _id: "$delState", order: { $push: "$$ROOT" } } },
+      ]);
+      const placedOrders = await Order.aggregate([
+        { $match: { delState: "placed" } },
+      ]);
+
+      //console.log(OrdersToBeManaged);
+      if (OrdersToBeManaged || placedOrders) {
+        res.status(200).send({
+          success: true,
+          refunds: OrdersToBeManaged,
+          placed: placedOrders,
+        });
+      }
+      if (!OrdersToBeManaged || !placedOrders) {
+        res.status(200).send({
+          success: false,
+          message: "No Order's under process",
+        });
+      }
+    } catch (err) {
+      res.status(500).send({
+        success: false,
+        message: "Something went wrong",
+      });
+    }
+  }
+);
 
 module.exports = router;

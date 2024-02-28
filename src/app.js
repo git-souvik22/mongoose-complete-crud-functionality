@@ -90,7 +90,7 @@ app.get("/unpublished-products", (req, res) => {
 app.get("/orders", (req, res) => {
   res.render("order-history");
 });
-app.get("/manage-orders-globally", (req, res) => {
+app.get("/manage-orders", (req, res) => {
   res.render("manage-orders");
 });
 
