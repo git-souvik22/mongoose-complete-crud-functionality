@@ -212,6 +212,192 @@
             </div>
         </div>
     </div>
+    <script>
+        const gobackbtn = document.querySelector(".fa-arrow-alt-circle-left");
+        const orderDisplayContainer = document.querySelector(".order-products-container");
+        document.addEventListener("DOMContentLoaded", () => {
+            const orderString = localStorage.getItem("TCD");
+            fetch(`${window.location.origin}/api/v3/manage-orders-globally`, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `${orderString}`,
+                }
+            })
+                .then(res => res.json())
+                .then(GlobalOrder => {
+                    if (GlobalOrder.success === true) {
+                        //console.log(GlobalOrder.refunds);
+                        if (GlobalOrder.placed !== [""]) {
+                            for (let i = 0; i < GlobalOrder.placed.length; i++) {
+                                const order = GlobalOrder.placed[i];
+                                const orderCard = document.createElement("div");
+                                orderCard.classList.add("orderCard");
+                                const orderdate = new Date(order.time).toLocaleString();
+                                //console.log(orderdate);
+                                GlobalOrder.placedProducts.forEach(placeProduct => {
+                                    if (order.pid === placeProduct._id) {
+                                        const odrhtml = `
+                            <div class="orderImgDiv">
+                        <img src="../${placeProduct.images[0]}" class="orderImg" alt="Product Image">
+                    </div>
+                    <div class="orderDetails">
+                        <div class="orderTitleDiv">
+                            <p class="orderTitle">${placeProduct.name}</p>
+                        </div>
+                        <div title="Order Placed Date" style="display: flex; align-items: center; justify-content: space-between;">
+                            <div class="orderQS">${"quan - " + order.quantity} ${order.size !== "" ? "size - " + order.size : ""}</div>
+                            <div class="orderDate">${orderdate}</div>
+                        </div>
+                        <div style="display: flex; align-items: center; justify-content: space-between;">
+                            <div class="orderPriceDiv">
+                                <strong class="orderPrice">INR ${order.pay}</strong>
+                            </div>
+                            <div class="orderDeliveryStateDiv">
+                                <strong class="orderDeliveryState">${order.delState}</strong>
+                            </div>
+                        </div>
+                        <div class="orderActionDiv">
+                         <div title="Tap to Copy" class="orderTID">${order.tid !== undefined ? order.tid : "null"}</div title="Tap to copy">
+
+                         <button sid=${order.tid} style="${order.delState === "placed" ? "display: block" : "display: none"}" class="shipOrder">SHIP</button>
+
+                         <strong style="${order.delState === "delivered" ? "display: block" : "display: none"}" class="orderDeliveredState"> fa-check-circle" style="color: #279d06;"></i> Delivered </strong>
+
+                         <button oid="${order.tid}" style="${order.delState === "shipped" ? "display: block" : "display: none"}" class="ofdOrder">outfordel</button>
+                        </div>
+
+                        </div>
+                    </div>
+                            `;
+                                        orderCard.innerHTML = odrhtml;
+                                        orderDisplayContainer.prepend(orderCard);
+                                    }
+                                })
+
+                            };
+                            // refund products
+                            for (let i = 0; i < GlobalOrder.refunds.length; i++) {
+                                const order = GlobalOrder.refunds[i];
+                                const orderCard = document.createElement("div");
+                                orderCard.classList.add("orderCard");
+                                const orderdate = new Date(order.time).toLocaleString();
+                                //console.log(orderdate);
+                                GlobalOrder.refundProducts.forEach(refundProduct => {
+                                    if (order.pid === refundProduct._id) {
+                                        const odrhtml = `
+                            <div class="orderImgDiv">
+                        <img src="../${refundProduct.images[0]}" class="orderImg" alt="Product Image">
+                    </div>
+                    <div class="orderDetails">
+                        <div class="orderTitleDiv">
+                            <p class="orderTitle">${refundProduct.name}</p>
+                        </div>
+                        <div title="Order Placed Date" style="display: flex; align-items: center; justify-content: space-between;">
+                            <div class="orderQS">${"quan - " + order.quantity} ${order.size !== "" ? "size - " + order.size : ""}</div>
+                            <div class="orderDate">${orderdate}</div>
+                        </div>
+                        <div style="display: flex; align-items: center; justify-content: space-between;">
+                            <div class="orderPriceDiv">
+                                <strong class="orderPrice">INR ${order.pay}</strong>
+                            </div>
+                            <div class="orderDeliveryStateDiv">
+                                <strong class="orderDeliveryState">${order.delState}</strong>
+                            </div>
+                        </div>
+                        <div class="orderActionDiv">
+                         <div title="Tap to Copy" class="orderTID">${order.tid !== undefined ? order.tid : "null"}</div title="Tap to copy">
+
+                         <button rid="${order.tid}" style="${order.refund === "refund" ? "display: block" : "display: none"}" class="refundOrder">REFUND</button>
+                        </div>
+                    </div>
+                            `;
+                                        orderCard.innerHTML = odrhtml;
+                                        orderDisplayContainer.prepend(orderCard);
+                                    }
+                                })
+                            }
+                        } else {
+                            alert("No placed Products exits currently");
+                        }
+                        const orderID = document.querySelectorAll(".orderTID");
+                        orderID.forEach(ids => {
+                            ids.addEventListener("click", () => {
+                                const ordertid = ids.innerText;
+                                copyorderLink(ordertid);
+                            })
+                        })
+                        // copy order id
+                        const copyorderLink = async (ordertid) => {
+                            try {
+                                await navigator.clipboard.writeText(ordertid);
+                            } catch (err) {
+                                console.error("Fail to Copy " + err)
+                            }
+                        }
+                        // ship order
+                        const shipOrderBtn = document.querySelectorAll(".shipOrder");
+                        shipOrderBtn.forEach(shipbtn => {
+                            shipbtn.addEventListener("click", () => {
+                                const sid = shipbtn.getAttribute("sid");
+                                const shipAct = "ship";
+                                takeAction(sid, shipAct);
+                            })
+                        });
+                        // outfordel order
+                        const ofdOrderBtn = document.querySelectorAll(".ofdOrder");
+                        ofdOrderBtn.forEach(ofdbtn => {
+                            ofdbtn.addEventListener("click", () => {
+                                const oid = ofdbtn.getAttribute("oid");
+                                const ofdAct = "outfordel";
+                                takeAction(oid, ofdAct);
+                            })
+                        });
+                        // refund order
+                        const refundOrderBtn = document.querySelectorAll(".refundOrder");
+                        refundOrderBtn.forEach(refundbtn => {
+                            refundbtn.addEventListener("click", () => {
+                                const rid = refundbtn.getAttribute("rid");
+                                const refundAct = "refund";
+                                takeAction(rid, refundAct);
+                            })
+                        });
+                        function takeAction(targetOrder, action) {
+                            const Proceed = confirm(`${action} the Order ${targetOrder}`);
+                            if (Proceed === true) {
+                                const targetString = encodeURIComponent(targetOrder);
+                                fetch(`${window.location.origin}/api/v3/action-order?id=${targetString}&action=${action}`, {
+                                    method: "PUT",
+                                    headers: {
+                                        "Content-Type": "application/json",
+                                        Authorization: `${orderString}`,
+                                    }
+                                })
+                                    .then(res => res.json())
+                                    .then(result => {
+                                        if (result.success === true) {
+                                            alert(result.message);
+                                            window.location.reload();
+                                        }
+                                    })
+                                    .catch(err => {
+                                        alert(err);
+                                    })
+                            }
+                        }
+                    }
+                    if (GlobalOrder.success === false) {
+                        alert(GlobalOrder.message);
+                    }
+                })
+                .catch(err => {
+                    console.log(err);
+                })
+        })
+        gobackbtn.addEventListener("click", () => {
+            history.go(-1);
+        })
+    </script>
     <script src="js/jquery-1.11.0.min.js"></script>
     <script src="js/plugins.js"></script>
     <script src="js/script.js"></script>

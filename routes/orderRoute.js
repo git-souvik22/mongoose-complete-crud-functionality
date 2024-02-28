@@ -204,18 +204,27 @@ router.get(
     try {
       const OrdersToBeManaged = await Order.aggregate([
         { $match: { refund: "refund" } },
-        { $group: { _id: "$delState", order: { $push: "$$ROOT" } } },
       ]);
+      const refundOrderPID = OrdersToBeManaged.map((item) => item.pid);
+      const refundProducts = await Product.find({ _id: refundOrderPID });
       const placedOrders = await Order.aggregate([
-        { $match: { delState: "placed" } },
+        {
+          $match: {
+            delState: { $in: ["placed", "shipped"] },
+          },
+        },
       ]);
+      const placedOrderPID = placedOrders.map((item) => item.pid);
+      const placedProducts = await Product.find({ _id: placedOrderPID });
 
       //console.log(OrdersToBeManaged);
       if (OrdersToBeManaged || placedOrders) {
         res.status(200).send({
           success: true,
           placed: placedOrders,
+          placedProducts: placedProducts,
           refunds: OrdersToBeManaged,
+          refundProducts: refundProducts,
         });
       }
       if (!OrdersToBeManaged || !placedOrders) {
@@ -232,5 +241,57 @@ router.get(
     }
   }
 );
+
+//order act by Admin
+router.put("/action-order", requireLogin, adminAccess, async (req, res) => {
+  try {
+    const targetOrder = req.query.id;
+    const Action = req.query.action;
+    if (Action === "ship") {
+      const shipOrder = await Order.findOneAndUpdate(
+        { tid: targetOrder },
+        {
+          delState: "shipped",
+        },
+        { new: true }
+      );
+      res.status(201).send({
+        success: true,
+        message: `${shipOrder.tid} has been ${shipOrder.delState} now`,
+      });
+    }
+    if (Action === "outfordel") {
+      const outDelOrder = await Order.findOneAndUpdate(
+        { tid: targetOrder },
+        {
+          delState: "outfordelivery",
+        },
+        { new: true }
+      );
+      res.status(201).send({
+        success: true,
+        message: `${outDelOrder.tid} has been ${outDelOrder.delState} now`,
+      });
+    }
+    if (Action === "refund") {
+      const refundedOrder = await Order.findOneAndUpdate(
+        { tid: targetOrder },
+        {
+          refund: "refunded",
+        },
+        { new: true }
+      );
+      res.status(201).send({
+        success: true,
+        message: `${refundedOrder.tid} has been ${refundedOrder.refund} now`,
+      });
+    }
+  } catch (err) {
+    res.status(500).send({
+      success: false,
+      message: "Something went wrong",
+    });
+  }
+});
 
 module.exports = router;
