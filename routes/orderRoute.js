@@ -210,7 +210,7 @@ router.get(
       const placedOrders = await Order.aggregate([
         {
           $match: {
-            delState: { $in: ["placed", "shipped"] },
+            delState: { $in: ["placed", "shipped", "outfordelivery"] },
           },
         },
       ]);
