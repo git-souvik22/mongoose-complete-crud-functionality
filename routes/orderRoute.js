@@ -87,7 +87,10 @@ router.post("/verify-payment", requireLogin, async (req, res) => {
     const savedOrder = await order.save();
     await twilioClient.messages.create({
       from: VirtualMob,
-      body: `Placed: Chalkduster Order for ${product} is placed & will be delivered soon. (Transaction ID: ${receipt} )`,
+      body: `Placed: Chalkduster Order for ${product.slice(
+        0,
+        23
+      )} is placed & will be delivered soon. (Transaction ID: ${receipt} )`,
       to: phone,
     });
     if (savedOrder) {
