@@ -11,6 +11,8 @@ const cors = require("cors");
 app.use(cors());
 app.options("*", cors());
 
+const PORT = process.env.PORT || 5000;
+
 const apiURL = process.env.API;
 const apiURL2 = process.env.U_API;
 const apiURL3 = process.env.O_API;
@@ -104,6 +106,6 @@ mongoose
     console.log(err);
   });
 
-app.listen(5000, () => {
+app.listen(PORT, () => {
   console.log(`Server is running on: http://127.0.0.1:5000`);
 });
