@@ -1,14 +1,3 @@
-FROM node:14
+FROM redis/redis-stack:latest
 
-WORKDIR /
-
-COPY package.json ./
-COPY package-lock.json ./
-
-RUN npm install
-
-COPY . .
-
-EXPOSE 5000
-
-CMD [ "npm", "start" ]
+COPY redis.conf /usr/local/etc/redis/redis.conf

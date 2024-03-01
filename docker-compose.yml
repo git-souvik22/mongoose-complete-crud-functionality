@@ -1,12 +1,9 @@
-version: '3'
+version: '3.8'
 services:
-  express-web:
-    build: .
-    ports:
-      - '3000:3000'
-    depends_on:
-      - redis-server
-  redis-server:
+  redis:
     image: redis/redis-stack:latest
     ports:
       - '6379:6379'
+    volumes:
+      - ./redis.conf:/usr/local/etc/redis/redis.conf
+    command: ["redis-server", "/usr/local/etc/redis/redis.conf"]

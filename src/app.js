@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const productRouter = require("../routes/productRoute.js");
 const userRouter = require("../routes/userRoute.js");
 const orderRouter = require("../routes/orderRoute.js");
+const RedisClient = require("../redisClient.js");
 const path = require("path");
 const hbs = require("hbs");
 require("dotenv").config({ path: path.resolve(__dirname, ".env") });
@@ -94,6 +95,21 @@ app.get("/manage-orders", (req, res) => {
   res.render("manage-orders");
 });
 
+// RedisClient.set("name", "Souvik Roy")
+//   .then(() => {
+//     console.log("name value was set");
+//   })
+//   .catch((err) => {
+//     console.log("Error setting value", err);
+//   });
+RedisClient.get("name")
+  .then((value) => {
+    console.log("Value retrieved:", value);
+  })
+  .catch((err) => {
+    console.error("Error retrieving value:", err);
+  });
+// RedisClient.quit();
 // db connection
 mongoose
   .connect(process.env.DB_URL)
