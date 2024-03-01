@@ -1,3 +1,13 @@
-FROM redis/redis-stack:latest
+FROM node:14
 
-COPY redis.conf /usr/local/etc/redis/redis.conf
+WORKDIR /app
+
+COPY package*.json ./
+
+RUN npm install
+
+COPY . .
+
+EXPOSE 3000
+
+CMD ["npm", "start"]
