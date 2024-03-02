@@ -1,6 +1,5 @@
 const router = require("express").Router();
 const User = require("../models/user.js");
-const auth = require("../auth/authRoutes.js");
 const jwt = require("jsonwebtoken");
 const { requireLogin, adminAccess } = require("../middlewares/userAuth.js");
 const twilio = require("twilio");
