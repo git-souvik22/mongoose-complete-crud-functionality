@@ -245,9 +245,9 @@
                         <div class="orderTitleDiv">
                             <p class="orderTitle">${placeProduct.name}</p>
                         </div>
-                        <div title="Order Placed Date" style="display: flex; align-items: center; justify-content: space-between;">
+                        <div style="display: flex; align-items: center; justify-content: space-between;">
                             <div class="orderQS">${"quan - " + order.quantity} ${order.size !== "" ? "size - " + order.size : ""}</div>
-                            <div class="orderDate">${orderdate}</div>
+                            <div title="Order Placed Date" class="orderDate">${orderdate}</div>
                         </div>
                         <div style="display: flex; align-items: center; justify-content: space-between;">
                             <div class="orderPriceDiv">
@@ -265,8 +265,9 @@
                          <strong style="${order.delState === "delivered" ? "display: block" : "display: none"}" class="orderDeliveredState"> fa-check-circle" style="color: #279d06;"></i> Delivered </strong>
 
                          <button oid="${order.tid}" style="${order.delState === "shipped" ? "display: block" : "display: none"}" class="ofdOrder">outfordel</button>
-                        </div>
 
+                        <button did="${order.tid}" style="${order.delState === "outfordelivery" ? "display: block" : "display: none"}" class="deliverOrder">DELIVER</button>
+                        </div>
                         </div>
                     </div>
                             `;
@@ -293,9 +294,9 @@
                         <div class="orderTitleDiv">
                             <p class="orderTitle">${refundProduct.name}</p>
                         </div>
-                        <div title="Order Placed Date" style="display: flex; align-items: center; justify-content: space-between;">
+                        <div style="display: flex; align-items: center; justify-content: space-between;">
                             <div class="orderQS">${"quan - " + order.quantity} ${order.size !== "" ? "size - " + order.size : ""}</div>
-                            <div class="orderDate">${orderdate}</div>
+                            <div title="Order Placed Date" class="orderDate">${orderdate}</div>
                         </div>
                         <div style="display: flex; align-items: center; justify-content: space-between;">
                             <div class="orderPriceDiv">
@@ -353,6 +354,15 @@
                                 takeAction(oid, ofdAct);
                             })
                         });
+                        //deliver order
+                        const deliverBtn = document.querySelectorAll(".deliverOrder");
+                        deliverBtn.forEach(delBtn => {
+                            delBtn.addEventListener("click", () => {
+                                const did = delBtn.getAttribute("did");
+                                const delAct = "deliver";
+                                takeAction(did, delAct);
+                            })
+                        })
                         // refund order
                         const refundOrderBtn = document.querySelectorAll(".refundOrder");
                         refundOrderBtn.forEach(refundbtn => {

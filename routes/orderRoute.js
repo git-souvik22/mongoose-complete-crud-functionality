@@ -273,7 +273,20 @@ router.put("/action-order", requireLogin, adminAccess, async (req, res) => {
       );
       res.status(201).send({
         success: true,
-        message: `${outDelOrder.tid} has been ${outDelOrder.delState} now`,
+        message: `${outDelOrder.tid} is ${outDelOrder.delState} now`,
+      });
+    }
+    if (Action === "deliver") {
+      const delOrder = await Order.findOneAndUpdate(
+        { tid: targetOrder },
+        {
+          delState: "delivered",
+        },
+        { new: true }
+      );
+      res.status(201).send({
+        success: true,
+        message: `${delOrder.tid} is ${delOrder.delState} now`,
       });
     }
     if (Action === "refund") {
