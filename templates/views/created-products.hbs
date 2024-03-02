@@ -313,7 +313,7 @@
                                     .then(res => res.json())
                                     .then(product => {
                                         if (product.success === true) {
-                                            const productRes = product.result[0];
+                                            const productRes = product.result;
                                             productTitle.value = productRes.name;
                                             productPrice.value = productRes.price;
                                             productCategory.value = productRes.category;

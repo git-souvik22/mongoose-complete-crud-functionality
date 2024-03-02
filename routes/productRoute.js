@@ -1,26 +1,10 @@
 const router = require("express").Router();
 const Product = require("../models/product.js");
-const auth = require("../auth/authRoutes.js");
 const multer = require("multer");
 const path = require("path");
 const fs = require("fs");
 const { requireLogin, adminAccess } = require("../middlewares/userAuth.js");
-const redis = require("../redisClient.js");
-
-// redis
-//   .set("name", "Souvik Roy")
-//   .then(() => {
-//     console.log("Name value was successfully set");
-//   })
-//   .catch((err) => {
-//     console.log("Value could not be set", err);
-//   });
-// redis.get("name", (err, data) => {
-//   if (err) {
-//     console.log("Error retreiving data" + err);
-//   }
-//   console.log("name value is:" + data);
-// });
+// const redis = require("../redisClient.js");
 
 // initializing multer for uploading product images
 const storage = multer.diskStorage({
@@ -93,26 +77,26 @@ router.post(
 
 router.get("/product", async (req, res) => {
   try {
-    const redisproducts = await redis.get("products");
-    const redisproductsbyCat = await redis.get("databyCat");
+    // const redisproducts = await redis.get("products");
+    // const redisproductsbyCat = await redis.get("databyCat");
 
-    if (redisproducts && redisproductsbyCat) {
-      const products = JSON.parse(redisproducts);
-      const productsbyCat = JSON.parse(redisproductsbyCat);
-      return res.status(200).json({
-        success: true,
-        products: products,
-        databyCat: productsbyCat,
-      });
-    }
+    // if (redisproducts && redisproductsbyCat) {
+    //   const products = JSON.parse(redisproducts);
+    //   const productsbyCat = JSON.parse(redisproductsbyCat);
+    //   return res.status(200).json({
+    //     success: true,
+    //     products: products,
+    //     databyCat: productsbyCat,
+    //   });
+    // }
     const databyCat = await Product.aggregate([
       { $group: { _id: "$category", details: { $push: "$$ROOT" } } },
     ]);
     const getAllProducts = await Product.find();
 
     if (getAllProducts && databyCat) {
-      await redis.setex("products", 86400, JSON.stringify(getAllProducts));
-      await redis.setex("databyCat", 86400, JSON.stringify(databyCat));
+      // await redis.setex("products", 86400, JSON.stringify(getAllProducts));
+      // await redis.setex("databyCat", 86400, JSON.stringify(databyCat));
       res.status(200).json({
         success: true,
         products: getAllProducts,
@@ -159,7 +143,7 @@ router.get("/product/:id", async (req, res) => {
     if (getOneProduct) {
       res.status(200).json({
         success: true,
-        result: [getOneProduct],
+        result: getOneProduct,
       });
     } else {
       res.status(500).json({

@@ -379,7 +379,7 @@
                 .then(productData => {
                     if (productData.success === true) {
                         //console.log(productData.result);
-                        const product = productData.result[0];
+                        const product = productData.result;
                         document.getElementById("product-title").innerText = product.name;
                         document.getElementById("product-price").innerHTML = `&#8377; ${product.price}`;
                         document.querySelector(".product-desc").innerText = product.desc;
