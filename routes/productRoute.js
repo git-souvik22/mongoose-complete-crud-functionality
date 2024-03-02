@@ -5,7 +5,7 @@ const multer = require("multer");
 const path = require("path");
 const fs = require("fs");
 const { requireLogin, adminAccess } = require("../middlewares/userAuth.js");
-const redis = require("../redisClient.js");
+// const redis = require("../redisClient.js");
 
 // redis
 //   .set("name", "Souvik Roy")
@@ -15,12 +15,12 @@ const redis = require("../redisClient.js");
 //   .catch((err) => {
 //     console.log("Value could not be set", err);
 //   });
-redis.get("name", (err, data) => {
-  if (err) {
-    console.log("Error retreiving data" + err);
-  }
-  console.log("name value is:" + data);
-});
+// redis.get("name", (err, data) => {
+//   if (err) {
+//     console.log("Error retreiving data" + err);
+//   }
+//   console.log("name value is:" + data);
+// });
 
 // initializing multer for uploading product images
 const storage = multer.diskStorage({

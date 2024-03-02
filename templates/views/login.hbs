@@ -105,10 +105,10 @@
           })
             .then((res) => res.json())
             .then((data) => {
-              console.log(data); // otp sent
+              //console.log(data); // otp sent
               if (data.success === false) {
                 alert(data.message);
-                // window.location.reload();
+                window.location.reload();
               }
               if (data.success === true) {
                 setTimeout(() => {
