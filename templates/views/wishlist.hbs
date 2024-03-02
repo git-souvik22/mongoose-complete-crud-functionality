@@ -190,10 +190,10 @@
                         const cardContainer =
                             document.querySelector(".wishlistContainer");
                         // console.log(data.result[0]._id);
-                        for (let i = 0; i < data.result.length; i++) {
-                            const productData = data.result[i];
-                            // console.log(productData);
-                            const wishContent = `
+
+                        const productData = data.result;
+                        // console.log(productData);
+                        const wishContent = `
           <div class="wishlist-imgDiv" style="background-position: center">
             <img
               class="wishlist-img"
@@ -235,13 +235,13 @@
           </div>
         `;
 
-                            const wishCard = document.createElement("div");
-                            wishCard.classList.add("wishlist-card");
-                            // const productAttribute = document.createAttribute("data-id");
-                            wishCard.setAttribute("data-id", productData._id);
-                            wishCard.innerHTML = wishContent;
-                            cardContainer.prepend(wishCard);
-                        }
+                        const wishCard = document.createElement("div");
+                        wishCard.classList.add("wishlist-card");
+                        // const productAttribute = document.createAttribute("data-id");
+                        wishCard.setAttribute("data-id", productData._id);
+                        wishCard.innerHTML = wishContent;
+                        cardContainer.prepend(wishCard);
+
 
                         const wishCardDiv = document.querySelectorAll(".wishlist-card");
                         const removeBtn = document.querySelectorAll(".removeWishProduct");

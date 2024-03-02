@@ -187,9 +187,9 @@
                     .then((data) => {
                         const cardContainer = document.querySelector(".cartContainer");
 
-                        for (let i = 0; i < data.result.length; i++) {
-                            const productData = data.result[i];
-                            const cartContent = `<div class="cart-imgDiv" style="background-position: center">
+
+                        const productData = data.result;
+                        const cartContent = `<div class="cart-imgDiv" style="background-position: center">
             <img
               class="cart-img"
               src=${productData.images[0]}
@@ -229,12 +229,12 @@
             </div>
           </div>`;
 
-                            const cartCard = document.createElement("div");
-                            cartCard.classList.add("cart-card");
-                            cartCard.setAttribute("data-id", productData._id);
-                            cartCard.innerHTML = cartContent;
-                            cardContainer.prepend(cartCard);
-                        }
+                        const cartCard = document.createElement("div");
+                        cartCard.classList.add("cart-card");
+                        cartCard.setAttribute("data-id", productData._id);
+                        cartCard.innerHTML = cartContent;
+                        cardContainer.prepend(cartCard);
+
                         const cartCardDiv = document.querySelectorAll(".cart-card");
                         const removeBtn = document.querySelectorAll(".removeCartProduct");
                         removeBtn.forEach((btn) => {
