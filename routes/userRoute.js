@@ -145,7 +145,8 @@ router.post("/register-otp", async (req, res) => {
           message: "Registration OTP couldn't be sent",
         });
       }
-    } else {
+    }
+    if (userExists) {
       res.status(500).json({
         success: false,
         message: "already registered",
