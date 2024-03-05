@@ -5,6 +5,8 @@ const { requireLogin, adminAccess } = require("../middlewares/userAuth.js");
 const twilio = require("twilio");
 const otpGenerator = require("otp-generator");
 const { otpVerification } = require("../middlewares/otpValidate.js");
+const path = require("path");
+require("dotenv").config({ path: path.resolve(__dirname, "../src/.env") });
 
 //for admin
 router.get("/user", requireLogin, adminAccess, async (req, res) => {

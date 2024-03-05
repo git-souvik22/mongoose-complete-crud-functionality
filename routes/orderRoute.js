@@ -8,6 +8,8 @@ const User = require("../models/user.js");
 const Product = require("../models/product.js");
 const twilio = require("twilio");
 const { returnOrderValid } = require("../middlewares/returnOrderValidate.js");
+const path = require("path");
+require("dotenv").config({ path: path.resolve(__dirname, "../src/.env") });
 
 const KEY_ID = process.env.RAZORPAY_KEY_ID;
 const KEY_SECRET = process.env.RAZORPAY_SECRET_KEY;
