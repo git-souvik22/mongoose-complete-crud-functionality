@@ -83,30 +83,32 @@ router.get("/product", async (req, res) => {
     if (redisproducts && redisproductsbyCat) {
       const products = JSON.parse(redisproducts);
       const productsbyCat = JSON.parse(redisproductsbyCat);
-      return res.status(200).json({
+      res.status(200).json({
         success: true,
         products: products,
         databyCat: productsbyCat,
       });
     }
-    const databyCat = await Product.aggregate([
-      { $group: { _id: "$category", details: { $push: "$$ROOT" } } },
-    ]);
-    const getAllProducts = await Product.find();
+    if (!redisproducts && !redisproductsbyCat) {
+      const databyCat = await Product.aggregate([
+        { $group: { _id: "$category", details: { $push: "$$ROOT" } } },
+      ]);
+      const getAllProducts = await Product.find();
 
-    if (getAllProducts && databyCat) {
-      await redis.setex("products", 86400, JSON.stringify(getAllProducts));
-      await redis.setex("databyCat", 86400, JSON.stringify(databyCat));
-      res.status(200).json({
-        success: true,
-        products: getAllProducts,
-        databyCat: databyCat,
-      });
-    } else {
-      res.status(500).json({
-        success: false,
-        message: "cannot get product details",
-      });
+      if (getAllProducts && databyCat) {
+        await redis.setex("products", 86400, JSON.stringify(getAllProducts));
+        await redis.setex("databyCat", 86400, JSON.stringify(databyCat));
+        res.status(200).json({
+          success: true,
+          products: getAllProducts,
+          databyCat: databyCat,
+        });
+      } else {
+        res.status(500).json({
+          success: false,
+          message: "cannot get product details",
+        });
+      }
     }
   } catch (err) {
     res.status(500).json({
@@ -118,17 +120,29 @@ router.get("/product", async (req, res) => {
 // get products for specific seller
 router.get("/thisSellerProducts", requireLogin, async (req, res) => {
   try {
-    const allproducts = await Product.find({ sid: req.user.id });
-    if (allproducts) {
-      res.status(200).json({
+    const sellerID = req.user.id;
+    const redisSellerProducts = await redis.get(sellerID);
+    if (redisSellerProducts) {
+      const sellerProducts = JSON.parse(redisSellerProducts);
+      res.status(200).send({
         success: true,
-        createdproducts: allproducts,
+        createdproducts: sellerProducts,
       });
-    } else {
-      res.status(500).json({
-        success: false,
-        message: "cannot get product details",
-      });
+    }
+    if (!redisSellerProducts) {
+      const allproducts = await Product.find({ sid: sellerID });
+      if (allproducts) {
+        await redis.setex(sellerID, 86400, JSON.stringify(allproducts));
+        res.status(200).json({
+          success: true,
+          createdproducts: allproducts,
+        });
+      } else {
+        res.status(500).json({
+          success: false,
+          message: "cannot get product details",
+        });
+      }
     }
   } catch (err) {
     res.status(500).json({
@@ -139,17 +153,29 @@ router.get("/thisSellerProducts", requireLogin, async (req, res) => {
 
 router.get("/product/:id", async (req, res) => {
   try {
-    const getOneProduct = await Product.findById(req.params.id);
-    if (getOneProduct) {
-      res.status(200).json({
+    const productID = req.params.id;
+    const redisProduct = await redis.get(productID);
+    if (redisProduct) {
+      const specificproduct = JSON.parse(redisProduct);
+      res.status(200).send({
         success: true,
-        result: getOneProduct,
+        result: specificproduct,
       });
-    } else {
-      res.status(500).json({
-        success: false,
-        message: "Product cannot get",
-      });
+    }
+    if (!redisProduct) {
+      const getOneProduct = await Product.findById(productID);
+      if (getOneProduct) {
+        await redis.setex(productID, 86400, JSON.stringify(getOneProduct));
+        res.status(200).json({
+          success: true,
+          result: getOneProduct,
+        });
+      } else {
+        res.status(500).json({
+          success: false,
+          message: "Product cannot get",
+        });
+      }
     }
   } catch (err) {
     res.status(500).json({
@@ -206,17 +232,28 @@ router.get(
   adminAccess,
   async (req, res) => {
     try {
-      const unProducts = await Product.find({ pState: "unpublish" });
-      if (unProducts) {
-        res.status(200).json({
+      const redisUnpublishProducts = await redis.get("unProducts");
+      if (redisUnpublishProducts) {
+        const unpublishedProducts = JSON.parse(redisUnpublishProducts);
+        res.status(200).send({
           success: true,
-          unProducts,
+          unProducts: unpublishedProducts,
         });
-      } else {
-        res.status(200).json({
-          success: false,
-          message: "No Unpublished products found!",
-        });
+      }
+      if (!redisUnpublishProducts) {
+        const unProducts = await Product.find({ pState: "unpublish" });
+        if (unProducts) {
+          await redis.setex("unProducts", 86400, JSON.stringify(unProducts));
+          res.status(200).json({
+            success: true,
+            unProducts,
+          });
+        } else {
+          res.status(200).json({
+            success: false,
+            message: "No Unpublished products found!",
+          });
+        }
       }
     } catch (err) {
       res.status(500).json({
