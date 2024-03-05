@@ -466,8 +466,16 @@
                             } else {
                                 alert("Dear User please Login to place an Order!");
                             }
-                        } else {
-                            alert(userData.message);
+                        }
+                        if (userData.success === false) {
+                            const alert = confirm(userData.message);
+                            if (alert === true) {
+                                loaderDiv.style = "display: none";
+                            }
+                            if (alert === true && Act === "1") {
+                                loaderDiv.style = "display: none";
+                                history.go(-1)
+                            }
                         }
                     })
                     .catch(err => {
