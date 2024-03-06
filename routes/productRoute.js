@@ -232,28 +232,17 @@ router.get(
   adminAccess,
   async (req, res) => {
     try {
-      const redisUnpublishProducts = await redis.get("unProducts");
-      if (redisUnpublishProducts) {
-        const unpublishedProducts = JSON.parse(redisUnpublishProducts);
-        res.status(200).send({
+      const unProducts = await Product.find({ pState: "unpublish" });
+      if (unProducts) {
+        res.status(200).json({
           success: true,
-          unProducts: unpublishedProducts,
+          unProducts,
         });
-      }
-      if (!redisUnpublishProducts) {
-        const unProducts = await Product.find({ pState: "unpublish" });
-        if (unProducts) {
-          await redis.setex("unProducts", 86400, JSON.stringify(unProducts));
-          res.status(200).json({
-            success: true,
-            unProducts,
-          });
-        } else {
-          res.status(200).json({
-            success: false,
-            message: "No Unpublished products found!",
-          });
-        }
+      } else {
+        res.status(200).json({
+          success: false,
+          message: "No Unpublished products found!",
+        });
       }
     } catch (err) {
       res.status(500).json({
