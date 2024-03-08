@@ -121,29 +121,29 @@ router.get("/product", async (req, res) => {
 router.get("/thisSellerProducts", requireLogin, async (req, res) => {
   try {
     const sellerID = req.user.id;
-    const redisSellerProducts = await redis.get(sellerID);
-    if (redisSellerProducts) {
-      const sellerProducts = JSON.parse(redisSellerProducts);
-      res.status(200).send({
+    // const redisSellerProducts = await redis.get(sellerID);
+    // if (redisSellerProducts) {
+    //   const sellerProducts = JSON.parse(redisSellerProducts);
+    //   res.status(200).send({
+    //     success: true,
+    //     createdproducts: sellerProducts,
+    //   });
+    // }
+    // if (!redisSellerProducts) {
+    const allproducts = await Product.find({ sid: sellerID });
+    if (allproducts) {
+      // await redis.setex(sellerID, 86400, JSON.stringify(allproducts));
+      res.status(200).json({
         success: true,
-        createdproducts: sellerProducts,
+        createdproducts: allproducts,
+      });
+    } else {
+      res.status(500).json({
+        success: false,
+        message: "cannot get product details",
       });
     }
-    if (!redisSellerProducts) {
-      const allproducts = await Product.find({ sid: sellerID });
-      if (allproducts) {
-        await redis.setex(sellerID, 86400, JSON.stringify(allproducts));
-        res.status(200).json({
-          success: true,
-          createdproducts: allproducts,
-        });
-      } else {
-        res.status(500).json({
-          success: false,
-          message: "cannot get product details",
-        });
-      }
-    }
+    // }
   } catch (err) {
     res.status(500).json({
       message: "Cannot fetch products data",
