@@ -28,9 +28,7 @@
                     <div class="col-md-4 col-sm-12 user-items">
                         <ul class="d-flex justify-content-end list-unstyled">
                             <li id="toggle-profile">
-                                <a href="/login">
-                                    <i class="icon icon-user"></i>
-                                </a>
+                                {{!-- user --}}
                             </li>
                             <li>
                                 <a href="/cart">
@@ -102,6 +100,11 @@
                 if (user.success === true) {
                     toggleProfile.innerHTML = `<a href="/profile" title="your profile">
                                     <i class="fas fa-user-circle fa-lg" style="color: #1a3666;"></i>
+                                </a>`
+                }
+                if (user.success === false) {
+                    toggleProfile.innerHTML = `<a href="/login">
+                                    <i class="icon icon-user"></i>
                                 </a>`
                 }
             })

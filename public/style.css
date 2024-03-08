@@ -3537,7 +3537,7 @@ p {
 }
 .closeform {
   background-color: #dbd4d4;
-  margin: 0;
+  margin-top: 55px;
   position: fixed;
   top: 0;
   right: 10%;
