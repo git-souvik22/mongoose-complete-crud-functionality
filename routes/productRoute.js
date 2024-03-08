@@ -121,29 +121,29 @@ router.get("/product", async (req, res) => {
 router.get("/thisSellerProducts", requireLogin, async (req, res) => {
   try {
     const sellerID = req.user.id;
-    // const redisSellerProducts = await redis.get(sellerID);
-    // if (redisSellerProducts) {
-    //   const sellerProducts = JSON.parse(redisSellerProducts);
-    //   res.status(200).send({
-    //     success: true,
-    //     createdproducts: sellerProducts,
-    //   });
-    // }
-    // if (!redisSellerProducts) {
-    const allproducts = await Product.find({ sid: sellerID });
-    if (allproducts) {
-      // await redis.setex(sellerID, 86400, JSON.stringify(allproducts));
-      res.status(200).json({
+    const redisSellerProducts = await redis.get(sellerID);
+    if (redisSellerProducts) {
+      const sellerProducts = JSON.parse(redisSellerProducts);
+      res.status(200).send({
         success: true,
-        createdproducts: allproducts,
-      });
-    } else {
-      res.status(500).json({
-        success: false,
-        message: "cannot get product details",
+        createdproducts: sellerProducts,
       });
     }
-    // }
+    if (!redisSellerProducts) {
+      const allproducts = await Product.find({ sid: sellerID });
+      if (allproducts) {
+        await redis.setex(sellerID, 86400, JSON.stringify(allproducts));
+        res.status(200).json({
+          success: true,
+          createdproducts: allproducts,
+        });
+      } else {
+        res.status(500).json({
+          success: false,
+          message: "cannot get product details",
+        });
+      }
+    }
   } catch (err) {
     res.status(500).json({
       message: "Cannot fetch products data",
@@ -188,7 +188,8 @@ router.put("/product/:id", upload.array("images", 4), async (req, res) => {
   try {
     const filePaths = req.files.map((file) => file.path);
     const updatedProduct = req.body;
-    const productFound = await Product.findById({ _id: req.params.id });
+    const productid = req.params.id;
+    const productFound = await Product.findById({ _id: productid });
     productFound.images.map((image) => {
       fs.unlink(`${path.join(__dirname, "../" + image)}`, (err) => {
         if (err) throw err;
@@ -197,7 +198,7 @@ router.put("/product/:id", upload.array("images", 4), async (req, res) => {
     });
 
     const productUpdate = await Product.findByIdAndUpdate(
-      req.params.id,
+      productid,
       {
         name: updatedProduct.name,
         images: filePaths,
@@ -208,6 +209,7 @@ router.put("/product/:id", upload.array("images", 4), async (req, res) => {
       { new: true }
     );
     if (productUpdate) {
+      await redis.setex(productid, 86400, JSON.stringify(productUpdate));
       res.status(201).json({
         success: true,
         updatedProduct: productUpdate,
