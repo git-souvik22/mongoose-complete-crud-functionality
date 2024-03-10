@@ -84,9 +84,9 @@
             </nav>
             <div class="edit-div">
                 <strong class="user-details">Created Products</strong>
-                {{!-- <button onclick="editProfile()" id="editProfile">
-                    <i class="far fa-edit fa-lg" style="color: #000000"></i>
-                </button> --}}
+                <button id="refresh">
+                    <i class="fas fa-sync-alt fa-lg" style="color: #B197FC;"></i>
+                </button>
             </div>
             <div class="created-products-container">
                 {{!-- product cards appear here --}}
@@ -426,6 +426,40 @@
                     console.log(err)
                 })
         });
+        const refreshBtn = document.getElementById("refresh");
+        const refreshIcon = document.querySelector(".fa-sync-alt");
+        refreshBtn.addEventListener("click", () => {
+            refreshIcon.classList.add("rotate-animation");
+            setTimeout(() => {
+                refreshIcon.classList.remove('rotate-animation');
+                const sellerLog = localStorage.getItem("TCD");
+                fetch(`${window.location.origin}/api/v1/clear-cache`, {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `${sellerLog}`,
+                    },
+                })
+                    .then(res => res.json())
+                    .then(cacheResponse => {
+                        if (cacheResponse.success === true) {
+                            if (cacheResponse.message === "Refresh the Page?") {
+                                const refreshAction = confirm(`${cacheResponse.message}`);
+                                if (refreshAction === true) {
+                                    window.location.reload();
+                                }
+                            }
+                            if (cacheResponse.message === "Already Viewing Latest Products") {
+                                alert(`${cacheResponse.message}`)
+                            }
+                        }
+                    })
+                    .catch(err => {
+                        alert("Something went wrong " + err)
+                    });
+            }, 3000)
+        })
+
         const gobackbtn = document.querySelector(".fa-arrow-alt-circle-left");
         gobackbtn.addEventListener("click", () => {
             history.go(-1);

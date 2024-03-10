@@ -116,6 +116,40 @@ router.get("/product", async (req, res) => {
     });
   }
 });
+// redis clear cached data
+router.get("/clear-cache", requireLogin, async (req, res) => {
+  try {
+    const sellerLoggedin = req.user.id;
+    const cachedSellerProducts = await redis.get(sellerLoggedin);
+    if (cachedSellerProducts) {
+      const mongodbSellerproducts = await Product.find({ sid: sellerLoggedin });
+      const dbProduct = JSON.stringify(mongodbSellerproducts);
+      if (cachedSellerProducts === dbProduct) {
+        res.status(200).json({
+          success: true,
+          message: "Already Viewing Latest Products",
+        });
+      } else {
+        const updatedCache = await redis.setex(
+          sellerLoggedin,
+          86400,
+          dbProduct
+        );
+        if (updatedCache === "OK") {
+          res.status(200).json({
+            success: true,
+            message: "Refresh the Page?",
+          });
+        }
+      }
+    }
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      message: "Something went wrong",
+    });
+  }
+});
 
 // get products for specific seller
 router.get("/thisSellerProducts", requireLogin, async (req, res) => {

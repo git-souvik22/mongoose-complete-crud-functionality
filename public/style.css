@@ -3524,7 +3524,8 @@ p {
   left: 50%;
   transform: translate(-50%, -50%);
 }
-#editProfile {
+#editProfile,
+#refresh {
   background-color: #ffffff;
   margin: 0;
   width: 50px;
@@ -3534,6 +3535,19 @@ p {
   align-items: center;
   box-shadow: rgba(255, 255, 255, 0.337) 0px 4px 10px;
   border-radius: 50%;
+}
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Apply the animation to the icon */
+.rotate-animation {
+  animation: rotate 1.5s linear infinite;
 }
 .closeform {
   background-color: #dbd4d4;
@@ -4588,7 +4602,8 @@ small.sellerProductCode,
   .edit-div .user-details {
     font-size: 20px;
   }
-  #editProfile {
+  #editProfile,
+  #refresh {
     height: 25px;
     width: 25px;
     padding: 5px;
@@ -5052,7 +5067,8 @@ small.sellerProductCode,
   .edit-div .user-details {
     font-size: 30px;
   }
-  #editProfile {
+  #editProfile,
+  #refresh {
     height: 40px;
     width: 40px;
     padding: 10px;
