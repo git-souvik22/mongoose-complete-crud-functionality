@@ -242,7 +242,9 @@
                                     const currentTime = new Date().getTime();
                                     const differenceMilisec = currentTime - milisec;
                                     const differenceDays = Math.round(differenceMilisec / (1000 * 60 * 60 * 24));
-                                    const orderdate = new Date(order.time).toLocaleString();
+                                    const orderdate = new Date(order.time);
+                                    const options = { year: 'numeric', month: 'short', day: 'numeric' };
+                                    const formattedDate = orderdate.toLocaleDateString('en-us', options)
                                     const odrhtml = `
                             <div class="orderImgDiv">
                         <img src="../${product.images[0]}" class="orderImg" alt="Product Image">
@@ -253,7 +255,7 @@
                         </div>
                         <div style="display: flex; align-items: center; justify-content: space-between;">
                         <div class="orderQS">${"quan - " + order.quantity} ${order.size !== "" ? "size - " + order.size : ""}</div>
-                        <div title="Order Placed Date" class="orderDate">${orderdate}</div>
+                        <div title="Order Placed Date" class="orderDate">${formattedDate}</div>
                         </div>
                         <div style="display: flex; justify-content: space-between;">
                             <div class="orderPriceDiv">
